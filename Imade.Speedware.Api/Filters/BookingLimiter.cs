@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Imade.Speedadmin.Api.Filters
 {
@@ -40,10 +38,12 @@ namespace Imade.Speedadmin.Api.Filters
         /// <summary>
         /// Range: inclusive between 0 and 500, default 10
         /// </summary>
+        [Range(0, 500)]
         public int Take { get; set; } = 10;
         /// <summary>
         /// Range: inclusive between 0 and 2147483647, default 0
         /// </summary>
+        [Range(0, int.MaxValue)]
         public int Skip { get; set; } = 0;
         /// <summary>
         /// Available fields StartDate, TeacherName, BookingTypeId, School

@@ -1,9 +1,7 @@
 ﻿using Imade.Speedadmin.Api.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Imade.Speedadmin.Api.Filters
 {
@@ -27,15 +25,17 @@ namespace Imade.Speedadmin.Api.Filters
         /// <summary>
         /// Range: inclusive between 0 and 200, default 10
         /// </summary>
+        [Range(0, 200)]
         public int Take { get; set; } = 10;
         /// <summary>
         /// Range: inclusive between 0 and 2147483647, default 0
         /// </summary>
+        [Range(0, int.MaxValue)]
         public int Skip { get; set; } = 0;
         /// <summary>
         /// Available fields CreatedDate, Title, Firstname, Lastname, default CreatedDate
         /// </summary>
         public string Sort { get; set; } = Core.Sorting.NewsBy.CreatedDate.ToString();
-        public IEnumerable<string> GetFormattetAndMappedSortString { get; set; } = null;
+        public IEnumerable<string> GetFormattedAndMappedSortString { get; set; } = null;
     }
 }
