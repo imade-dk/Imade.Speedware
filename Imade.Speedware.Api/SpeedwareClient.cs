@@ -1,16 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Imade.Speedadmin.Api.Core;
 using Imade.Speedadmin.Api.Interfaces;
 using Microsoft.Extensions.Options;
-
 
 namespace Imade.Speedadmin.Api
 {
@@ -19,115 +17,165 @@ namespace Imade.Speedadmin.Api
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions _options;
         private readonly SpeedwareConfig _speedwareConfig;
+
         public SpeedwareClient(HttpClient client, IOptions<SpeedwareConfig> config)
         {
+            if (config?.Value == null) throw new ArgumentNullException(nameof(config));
+
             _speedwareConfig = config.Value;
+
+            if (string.IsNullOrWhiteSpace(_speedwareConfig.ApiKey))
+                throw new InvalidOperationException("Speedware ApiKey is not configured.");
+            if (string.IsNullOrWhiteSpace(_speedwareConfig.BaseUrl))
+                throw new InvalidOperationException("Speedware BaseUrl is not configured.");
 
             _client = client;
             _client.BaseAddress = new Uri(_speedwareConfig.BaseUrl);
-            _client.Timeout = new TimeSpan(0, 10, 0);
+            _client.Timeout = TimeSpan.FromMinutes(10);
             _client.DefaultRequestHeaders.Clear();
             _client.DefaultRequestHeaders.Add("Authorization", _speedwareConfig.ApiKey);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
+
         #region Gets
 
-        public async Task<List<T>> GetListAsync<T>(ApiEndpoint endpoint)
+        public async Task<List<T>> GetListAsync<T>(ApiEndpoint endpoint, CancellationToken cancellationToken = default)
         {
-
-            using var response = await _client.GetAsync(endpoint.ToDescriptionString());
-            response.EnsureSuccessStatusCode();
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var stream = await response.Content.ReadAsStreamAsync();
-                var output = await JsonSerializer.DeserializeAsync<List<T>>(stream, _options);
-                return output;
+                using var response = await _client.GetAsync(endpoint.ToDescriptionString(), cancellationToken);
+                response.EnsureSuccessStatusCode();
+                var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+                return await JsonSerializer.DeserializeAsync<List<T>>(stream, _options, cancellationToken)
+                    ?? throw new SpeedwareApiException($"Deserialization returned null for endpoint {endpoint}.");
             }
-            return default;
-
+            catch (HttpRequestException ex)
+            {
+                throw new SpeedwareApiException($"HTTP request failed for endpoint {endpoint}.", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new SpeedwareApiException($"Failed to deserialize response for endpoint {endpoint}.", ex);
+            }
         }
 
-        public async Task<List<T>> GetListAsync<T>(ApiEndpoint endpoint, string id)
+        public async Task<List<T>> GetListAsync<T>(ApiEndpoint endpoint, string id, CancellationToken cancellationToken = default)
         {
             var uri = endpoint.ToDescriptionString().Replace("{id}", id);
-            using var response = await _client.GetAsync(uri);
-            response.EnsureSuccessStatusCode();
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var stream = await response.Content.ReadAsStreamAsync();
-                var output = await JsonSerializer.DeserializeAsync<List<T>>(stream, _options);
-                return output;
+                using var response = await _client.GetAsync(uri, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+                return await JsonSerializer.DeserializeAsync<List<T>>(stream, _options, cancellationToken)
+                    ?? throw new SpeedwareApiException($"Deserialization returned null for {uri}.");
             }
-            return default;
-
+            catch (HttpRequestException ex)
+            {
+                throw new SpeedwareApiException($"HTTP request failed for {uri}.", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new SpeedwareApiException($"Failed to deserialize response for {uri}.", ex);
+            }
         }
-        public async Task<List<T>> GetListAsync<T>(ApiEndpoint endpoint, int id)
+
+        public async Task<List<T>> GetListAsync<T>(ApiEndpoint endpoint, int id, CancellationToken cancellationToken = default)
         {
-            return await GetListAsync<T>(endpoint, id.ToString());
+            return await GetListAsync<T>(endpoint, id.ToString(), cancellationToken);
         }
 
-        public async Task<T> GetAsync<T>(ApiEndpoint endpoint, string id)
+        public async Task<T> GetAsync<T>(ApiEndpoint endpoint, string id, CancellationToken cancellationToken = default)
         {
             var uri = endpoint.ToDescriptionString().Replace("{id}", id);
-
-            using var response = await _client.GetAsync(uri);
-            //response.EnsureSuccessStatusCode();
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var stream = await response.Content.ReadAsStreamAsync();
-                var output = await JsonSerializer.DeserializeAsync<T>(stream, _options);
-                return output;
+                using var response = await _client.GetAsync(uri, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+                return await JsonSerializer.DeserializeAsync<T>(stream, _options, cancellationToken)
+                    ?? throw new SpeedwareApiException($"Deserialization returned null for {uri}.");
             }
-            return default;
+            catch (HttpRequestException ex)
+            {
+                throw new SpeedwareApiException($"HTTP request failed for {uri}.", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new SpeedwareApiException($"Failed to deserialize response for {uri}.", ex);
+            }
         }
 
-        public async Task<T> GetAsync<T>(ApiEndpoint endpoint, int id)
+        public async Task<T> GetAsync<T>(ApiEndpoint endpoint, int id, CancellationToken cancellationToken = default)
         {
-            return await GetAsync<T>(endpoint, id.ToString());
+            return await GetAsync<T>(endpoint, id.ToString(), cancellationToken);
         }
+
         #endregion
 
         #region Posts
-        public async Task<Models.PagedResult<T>> PostAsync<T, L>(ApiEndpoint endpoint, Interfaces.ILimiter limiter)
+
+        public async Task<Models.PagedResult<T>> PostAsync<T, L>(ApiEndpoint endpoint, ILimiter limiter, CancellationToken cancellationToken = default)
         {
-            using var response = await _client.PostAsync(endpoint.ToDescriptionString(), new StringContent(JsonSerializer.Serialize((L)limiter, _options), Encoding.UTF8, "application/json"));
-            //response.EnsureSuccessStatusCode();
-            if (response.IsSuccessStatusCode)
+            var content = new StringContent(JsonSerializer.Serialize((L)limiter, _options), Encoding.UTF8, "application/json");
+            try
             {
-                var stream = await response.Content.ReadAsStreamAsync();
-                var output = await JsonSerializer.DeserializeAsync<Models.PagedResult<T>>(stream, _options);
-                return output;
+                using var response = await _client.PostAsync(endpoint.ToDescriptionString(), content, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+                return await JsonSerializer.DeserializeAsync<Models.PagedResult<T>>(stream, _options, cancellationToken)
+                    ?? throw new SpeedwareApiException($"Deserialization returned null for endpoint {endpoint}.");
             }
-            return default;
+            catch (HttpRequestException ex)
+            {
+                throw new SpeedwareApiException($"HTTP request failed for endpoint {endpoint}.", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new SpeedwareApiException($"Failed to deserialize response for endpoint {endpoint}.", ex);
+            }
         }
-		public async Task<List<T>> PostAsyncList<T, L>(ApiEndpoint endpoint, Interfaces.ILimiter limiter)
-		{
-			using var response = await _client.PostAsync(endpoint.ToDescriptionString(), new StringContent(JsonSerializer.Serialize((L)limiter, _options), Encoding.UTF8, "application/json"));
-			//response.EnsureSuccessStatusCode();
-			if (response.IsSuccessStatusCode)
-			{
-				var stream = await response.Content.ReadAsStreamAsync();
-				var output = await JsonSerializer.DeserializeAsync<List<T>>(stream, _options);
-				return output;
-			}
-			return default;
-		}
-		#endregion
 
-		#region Blob
+        public async Task<List<T>> PostAsyncList<T, L>(ApiEndpoint endpoint, ILimiter limiter, CancellationToken cancellationToken = default)
+        {
+            var content = new StringContent(JsonSerializer.Serialize((L)limiter, _options), Encoding.UTF8, "application/json");
+            try
+            {
+                using var response = await _client.PostAsync(endpoint.ToDescriptionString(), content, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+                return await JsonSerializer.DeserializeAsync<List<T>>(stream, _options, cancellationToken)
+                    ?? throw new SpeedwareApiException($"Deserialization returned null for endpoint {endpoint}.");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new SpeedwareApiException($"HTTP request failed for endpoint {endpoint}.", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new SpeedwareApiException($"Failed to deserialize response for endpoint {endpoint}.", ex);
+            }
+        }
 
-		public async Task<byte[]> GetBlobBytesAsync(ApiEndpoint endpoint, string id)
+        #endregion
+
+        #region Blob
+
+        public async Task<byte[]> GetBlobBytesAsync(ApiEndpoint endpoint, string id, CancellationToken cancellationToken = default)
         {
             var uri = endpoint.ToDescriptionString().Replace("{id}", id);
-            using var response = await _client.GetAsync(uri);
-            //response.EnsureSuccessStatusCode();
-            if (response.IsSuccessStatusCode)
+            try
             {
-                return await response.Content.ReadAsByteArrayAsync();
+                using var response = await _client.GetAsync(uri, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsByteArrayAsync(cancellationToken);
             }
-            return default;
+            catch (HttpRequestException ex)
+            {
+                throw new SpeedwareApiException($"HTTP request failed for blob {uri}.", ex);
+            }
         }
 
         #endregion
