@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Imade.Speedadmin.Api.Core;
 using Imade.Speedadmin.Api.Interfaces;
 using Imade.Speedadmin.Api.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Imade.Speedadmin.Api
@@ -16,12 +17,14 @@ namespace Imade.Speedadmin.Api
     {
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions _options;
+        private readonly ILogger<SpeedwareClient> _logger;
 
-        public SpeedwareClient(HttpClient client, IOptions<SpeedwareConfig> config)
+        public SpeedwareClient(HttpClient client, IOptions<SpeedwareConfig> config, ILogger<SpeedwareClient> logger)
         {
             if (config?.Value == null) throw new ArgumentNullException(nameof(config));
 
             _client = client;
+            _logger = logger;
             _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
@@ -40,14 +43,17 @@ namespace Imade.Speedadmin.Api
             }
             catch (TaskCanceledException ex) when (!cancellationToken.IsCancellationRequested)
             {
+                _logger.LogError(ex, "Request timed out for {Uri}", uri);
                 throw new SpeedwareApiException($"Request timed out for {uri}.", ex);
             }
             catch (HttpRequestException ex)
             {
+                _logger.LogError(ex, "HTTP request failed for {Uri} — {StatusCode}", uri, ex.StatusCode);
                 throw new SpeedwareApiException($"HTTP request failed for {uri}.", ex);
             }
             catch (JsonException ex)
             {
+                _logger.LogError(ex, "Failed to deserialize response for {Uri}", uri);
                 throw new SpeedwareApiException($"Failed to deserialize response for {uri}.", ex);
             }
         }
@@ -65,14 +71,17 @@ namespace Imade.Speedadmin.Api
             }
             catch (TaskCanceledException ex) when (!cancellationToken.IsCancellationRequested)
             {
+                _logger.LogError(ex, "Request timed out for {Uri}", uri);
                 throw new SpeedwareApiException($"Request timed out for {uri}.", ex);
             }
             catch (HttpRequestException ex)
             {
+                _logger.LogError(ex, "HTTP request failed for {Uri} — {StatusCode}", uri, ex.StatusCode);
                 throw new SpeedwareApiException($"HTTP request failed for {uri}.", ex);
             }
             catch (JsonException ex)
             {
+                _logger.LogError(ex, "Failed to deserialize response for {Uri}", uri);
                 throw new SpeedwareApiException($"Failed to deserialize response for {uri}.", ex);
             }
         }
@@ -95,14 +104,17 @@ namespace Imade.Speedadmin.Api
             }
             catch (TaskCanceledException ex) when (!cancellationToken.IsCancellationRequested)
             {
+                _logger.LogError(ex, "Request timed out for {Uri}", uri);
                 throw new SpeedwareApiException($"Request timed out for {uri}.", ex);
             }
             catch (HttpRequestException ex)
             {
+                _logger.LogError(ex, "HTTP request failed for {Uri} — {StatusCode}", uri, ex.StatusCode);
                 throw new SpeedwareApiException($"HTTP request failed for {uri}.", ex);
             }
             catch (JsonException ex)
             {
+                _logger.LogError(ex, "Failed to deserialize response for {Uri}", uri);
                 throw new SpeedwareApiException($"Failed to deserialize response for {uri}.", ex);
             }
         }
@@ -130,14 +142,17 @@ namespace Imade.Speedadmin.Api
             }
             catch (TaskCanceledException ex) when (!cancellationToken.IsCancellationRequested)
             {
+                _logger.LogError(ex, "Request timed out for {Uri}", uri);
                 throw new SpeedwareApiException($"Request timed out for {uri}.", ex);
             }
             catch (HttpRequestException ex)
             {
+                _logger.LogError(ex, "HTTP request failed for {Uri} — {StatusCode}", uri, ex.StatusCode);
                 throw new SpeedwareApiException($"HTTP request failed for {uri}.", ex);
             }
             catch (JsonException ex)
             {
+                _logger.LogError(ex, "Failed to deserialize response for {Uri}", uri);
                 throw new SpeedwareApiException($"Failed to deserialize response for {uri}.", ex);
             }
         }
@@ -156,14 +171,17 @@ namespace Imade.Speedadmin.Api
             }
             catch (TaskCanceledException ex) when (!cancellationToken.IsCancellationRequested)
             {
+                _logger.LogError(ex, "Request timed out for {Uri}", uri);
                 throw new SpeedwareApiException($"Request timed out for {uri}.", ex);
             }
             catch (HttpRequestException ex)
             {
+                _logger.LogError(ex, "HTTP request failed for {Uri} — {StatusCode}", uri, ex.StatusCode);
                 throw new SpeedwareApiException($"HTTP request failed for {uri}.", ex);
             }
             catch (JsonException ex)
             {
+                _logger.LogError(ex, "Failed to deserialize response for {Uri}", uri);
                 throw new SpeedwareApiException($"Failed to deserialize response for {uri}.", ex);
             }
         }
@@ -183,10 +201,12 @@ namespace Imade.Speedadmin.Api
             }
             catch (TaskCanceledException ex) when (!cancellationToken.IsCancellationRequested)
             {
+                _logger.LogError(ex, "Request timed out for blob {Uri}", uri);
                 throw new SpeedwareApiException($"Request timed out for blob {uri}.", ex);
             }
             catch (HttpRequestException ex)
             {
+                _logger.LogError(ex, "HTTP request failed for blob {Uri} — {StatusCode}", uri, ex.StatusCode);
                 throw new SpeedwareApiException($"HTTP request failed for blob {uri}.", ex);
             }
         }

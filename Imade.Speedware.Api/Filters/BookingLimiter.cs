@@ -52,27 +52,18 @@ namespace Imade.Speedadmin.Api.Filters
 
         public override int GetHashCode()
         {
-            // Overflow is fine, just wrap
             unchecked
             {
-                int hash = (int)2166136261;
-                if (BookingTypeIds is not null)
-                    hash = (hash * 16777619) ^ string.Join(",", BookingTypeIds.Select(x => x.ToString()).ToArray()).GetHashCode();
-                if (PublishTypeIds is not null)
-                    hash = (hash * 16777619) ^ string.Join(",", PublishTypeIds.Select(x => x.ToString()).ToArray()).GetHashCode();
-                if (RoomIds is not null)
-                    hash = (hash * 16777619) ^ string.Join(",", RoomIds.Select(x => x.ToString()).ToArray()).GetHashCode();
-                if (BookingId.HasValue)
-                    hash = (hash * 16777619) ^ BookingId.Value.GetHashCode();
-                if (DateFrom.HasValue)
-                    hash = (hash * 16777619) ^ DateFrom.Value.GetHashCode();
-                if (!string.IsNullOrWhiteSpace(TeacherName))
-                    hash = (hash * 16777619) ^ TeacherName.GetHashCode();
-
+                int hash = Core.HashHelper.FnvSeed;
+                hash = Core.HashHelper.HashCollection(hash, BookingTypeIds);
+                hash = Core.HashHelper.HashCollection(hash, PublishTypeIds);
+                hash = Core.HashHelper.HashCollection(hash, RoomIds);
+                hash = Core.HashHelper.HashValue(hash, BookingId);
+                hash = Core.HashHelper.HashValue(hash, DateFrom);
+                hash = Core.HashHelper.HashString(hash, TeacherName);
                 hash = (hash * 16777619) ^ Take.GetHashCode();
                 hash = (hash * 16777619) ^ Skip.GetHashCode();
                 hash = (hash * 16777619) ^ Sort.GetHashCode();
-
                 return hash;
             }
         }

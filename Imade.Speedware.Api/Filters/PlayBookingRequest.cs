@@ -17,22 +17,15 @@ namespace Imade.Speedadmin.Api.Filters
 
 		public override int GetHashCode()
 		{
-			// Overflow is fine, just wrap
 			unchecked
 			{
-				int hash = (int)2166136261;
-				if (BookingTypeIds is not null)
-					hash = (hash * 16777619) ^ string.Join(",", BookingTypeIds.Select(x => x.ToString()).ToArray()).GetHashCode();
-				if (TeacherIds is not null)
-					hash = (hash * 16777619) ^ string.Join(",", TeacherIds.Select(x => x.ToString()).ToArray()).GetHashCode();
-				if (RoomIds is not null)
-					hash = (hash * 16777619) ^ string.Join(",", RoomIds.Select(x => x.ToString()).ToArray()).GetHashCode();
-				if (CourseSchoolIds is not null)
-					hash = (hash * 16777619) ^ string.Join(",", CourseSchoolIds.Select(x => x.ToString()).ToArray()).GetHashCode();
-				if (BookingId.HasValue)
-					hash = (hash * 16777619) ^ BookingId.Value.GetHashCode();
-				if (DateFrom.HasValue)
-					hash = (hash * 16777619) ^ DateFrom.Value.GetHashCode();
+				int hash = Core.HashHelper.FnvSeed;
+				hash = Core.HashHelper.HashCollection(hash, BookingTypeIds);
+				hash = Core.HashHelper.HashCollection(hash, TeacherIds);
+				hash = Core.HashHelper.HashCollection(hash, RoomIds);
+				hash = Core.HashHelper.HashCollection(hash, CourseSchoolIds);
+				hash = Core.HashHelper.HashValue(hash, BookingId);
+				hash = Core.HashHelper.HashValue(hash, DateFrom);
 				return hash;
 			}
 		}
