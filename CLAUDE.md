@@ -2,17 +2,38 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Projects
+
+| Project | Type | Purpose |
+|---|---|---|
+| `Imade.Speedware.Api` | .NET 10 class library | Speedadmin REST API client |
+| `Imade.Speedware.Web` | Umbraco backoffice extension | Backoffice UI for Speedadmin data |
+| `Umbraco17.4.0` | Umbraco 17.3.5 web app (test site) | Local dev host for the extension |
+
 ## Build
 
 ```bash
+# API client
 dotnet build Imade.Speedware.Api/Imade.Speedware.Api.csproj
+
+# Extension (C#)
+dotnet build Imade.Speedware.Web/Imade.Speedware.Web.csproj
+
+# Extension (TypeScript)
+cd Imade.Speedware.Web/Client && npm run build
+
+# Run Umbraco test site (includes extension via ProjectReference)
+dotnet run --project Umbraco17.4.0/Umbraco17.4.0.csproj
 ```
+
+Umbraco runs on **https://localhost:44300** / **http://localhost:51437**.
+Backoffice login: `kenneth@imade.dk` / `umbracoadmin`.
 
 There are no tests yet. There is no lint step — the `.editorconfig` at the repo root enforces formatting rules that IDEs and Roslyn enforce at edit time.
 
 ## Architecture
 
-This repo is a single .NET 10 class library (`Imade.Speedware.Api`) that wraps the Speedadmin REST API. The namespace throughout is `Imade.Speedadmin.Api` (note: *Speedadmin*, not *Speedware*).
+This repo contains a .NET 10 class library (`Imade.Speedware.Api`) that wraps the Speedadmin REST API, and an Umbraco backoffice extension (`Imade.Speedware.Web`) that surfaces Speedadmin data in the Umbraco backoffice. The namespace throughout the API client is `Imade.Speedadmin.Api` (note: *Speedadmin*, not *Speedware*).
 
 ### Request flow
 
@@ -63,3 +84,30 @@ Classes in `Filters/` implement `ILimiter` and are serialised to JSON as the POS
 ### Exceptions
 
 `Core/SpeedwareApiException` is the single exception type thrown by `SpeedwareClient`. It optionally carries an `HttpStatusCode`. Catch this type in consuming code; do not catch `HttpRequestException` or `JsonException` directly — the client wraps both.
+
+## Imade.Speedware.Web (backoffice extension)
+
+`Imade.Speedware.Web` is an Umbraco backoffice extension built with the official `umbraco-extension` .NET template. It is referenced as a `<ProjectReference>` in `Umbraco17.4.0` so it loads automatically when the test site runs.
+
+### Structure
+
+```
+Imade.Speedware.Web/
+├── Imade.Speedware.Web.csproj
+├── Constants.cs
+├── Composers/          # C# composers (DI wiring, Swagger)
+├── Controllers/        # C# API controllers exposed to the backoffice
+└── Client/             # TypeScript/Vite source
+    ├── package.json
+    ├── vite.config.ts
+    └── src/
+        ├── api/        # Generated OpenAPI client
+        ├── entrypoints/
+        └── bundle.manifests.ts
+```
+
+### Extension development workflow
+
+1. Run `dotnet run --project Umbraco17.4.0/Umbraco17.4.0.csproj` to start the host.
+2. In a separate terminal: `cd Imade.Speedware.Web/Client && npm run watch` for hot-reload during development.
+3. Run `npm run build` before committing to produce the production bundle.
