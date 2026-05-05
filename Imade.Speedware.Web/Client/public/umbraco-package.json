@@ -1,0 +1,14 @@
+{
+  "id": "Imade.Speedware.Web",
+  "name": "Imade.Speedware.Web",
+  "version": "0.0.0",
+  "allowTelemetry": true,
+  "extensions": [
+    {
+      "name": "Imade Speedware Web Bundle",
+      "alias": "Imade.Speedware.Web.Bundle",
+      "type": "bundle",
+      "js": "/App_Plugins/ImadeSpeedwareWeb/imade-speedware-web.js"
+    }
+  ]
+}
