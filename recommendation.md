@@ -14,103 +14,91 @@
 
 ---
 
-## Priority: High
+## Priority: High (Fixed)
 
 ### No CancellationToken Support
 - **File**: `SpeedwareClient.cs`
 - **Issue**: All async methods lacked a `CancellationToken` parameter, making it impossible to cancel in-flight requests.
-- **Fix**: Add `CancellationToken cancellationToken = default` to all async method signatures and pass to all underlying `HttpClient` calls. *(Included in critical fix above.)*
+- **Fix applied**: `CancellationToken cancellationToken = default` added to all async method signatures and passed to all underlying `HttpClient` calls. *(Included in critical fix.)*
 
 ### Empty ISpeedwareClient Interface
 - **File**: `Interfaces/ISpeedwareClient.cs`
-- **Issue**: The interface is completely empty. `SpeedwareClient` claims to implement it, but no method signatures are declared, making it useless for DI and mocking.
-- **Fix**: Populate with the actual method signatures from `SpeedwareClient`.
+- **Issue**: The interface was completely empty. `SpeedwareClient` claimed to implement it, but no method signatures were declared, making it useless for DI and mocking.
+- **Fix applied**: Populated with the full method signatures from `SpeedwareClient`, including all overloads and `CancellationToken` parameters.
 
 ### HttpClient Mutated in Constructor
 - **File**: `SpeedwareClient.cs`
-- **Issue**: `BaseAddress`, `DefaultRequestHeaders`, and `Timeout` are set directly on the injected `HttpClient` instance. This pattern breaks when the same `HttpClient` instance is reused across multiple scopes.
-- **Fix**: Configure a named or typed `HttpClient` via `IHttpClientFactory` in the DI registration instead of mutating the injected instance in the constructor.
+- **Issue**: `BaseAddress`, `DefaultRequestHeaders`, and `Timeout` were set directly on the injected `HttpClient` instance, which breaks when the instance is reused across scopes.
+- **Fix applied**: Configuration moved to `Extensions/ServiceCollectionExtensions.cs`. The `AddSpeedwareApiClient()` extension method configures the typed `HttpClient` via `IHttpClientFactory`. The constructor no longer mutates the client.
 
 ### Missing Exception Handling for TaskCanceledException
 - **File**: `SpeedwareClient.cs`
-- **Issue**: `TaskCanceledException` (timeouts) is not caught and will surface as an unhandled exception with no context.
-- **Fix**: Add a `catch (TaskCanceledException ex)` block that throws a `SpeedwareApiException` with a descriptive timeout message.
+- **Issue**: `TaskCanceledException` (timeouts) was not caught and would surface with no context.
+- **Fix applied**: All methods now catch `TaskCanceledException when (!cancellationToken.IsCancellationRequested)` to distinguish timeouts from deliberate cancellations and wrap them in `SpeedwareApiException`.
 
 ---
 
-## Priority: Medium
+## Priority: Medium (Fixed)
 
 ### No Logging
 - **File**: `SpeedwareClient.cs`
-- **Issue**: No `ILogger` is used anywhere. Failures, durations, and retry attempts are invisible.
-- **Fix**: Inject `ILogger<SpeedwareClient>` and log request start/end with endpoint and duration, all HTTP errors with status code and response body, and deserialization failures.
+- **Issue**: No `ILogger` was used anywhere. Failures were invisible.
+- **Fix applied**: `ILogger<SpeedwareClient>` injected. Every catch block logs the error with structured properties (URI, HTTP status code) before re-throwing.
 
 ### HttpClientFactoryService is a Pointless Wrapper
 - **File**: `HttpClientFactoryService.cs`
-- **Issue**: This class injects `IHttpClientFactory` but never uses it. It only delegates all calls to `SpeedwareClient` with no added value.
-- **Fix**: Delete the class and have consumers depend on `ISpeedwareClient` directly. Alternatively, move retry logic, caching, or circuit-breaking here to give it a real purpose.
+- **Issue**: This class injects `IHttpClientFactory` but never uses it, only delegating calls to `SpeedwareClient` with no added value.
+- **Status**: Kept intentionally — may be consumed by a separate project not yet in this repository.
 
 ### Missing Null Guards on Model Computed Properties
-- **Files**: `Models/News.cs`, `Models/Booking.cs`
-- **Issue**: Computed properties (e.g. `Images`, `Files`, `Audio`, `Video` in `News.cs`) call `.Where()` directly on `Blobs` without a null check. Will throw `NullReferenceException` if `Blobs` is null.
-- **Fix**: Add null coalescing: `(Blobs ?? []).Where(...)`.
+- **Files**: `Models/News.cs`
+- **Issue**: Computed properties (`Images`, `Files`, `Audio`, `Video`) called `.Where()` directly on `Blobs` without a null check, throwing `NullReferenceException` if `Blobs` is null.
+- **Fix applied**: All four properties now use `(Blobs ?? []).Where(...)`.
 
 ### Duplicate GetHashCode Logic
 - **Files**: `Filters/BookingLimiter.cs`, `Filters/PlayBookingRequest.cs`
-- **Issue**: Identical FNV-1a hash implementation duplicated across both classes. A bug fix must be applied in multiple places.
-- **Fix**: Extract to a shared utility or use the built-in `HashCode.Combine()` available since .NET 6.
+- **Issue**: Identical FNV-1a hash implementation duplicated across both classes.
+- **Fix applied**: Extracted to `Core/HashHelper.cs` with `HashCollection`, `HashValue<T>`, and `HashString` methods. Both filter classes now delegate to it.
 
 ### No DI Registration Extension Method
-- **Issue**: No `AddSpeedwareApiClient()` extension method exists. Consumers must wire up all dependencies manually with no guidance.
-- **Fix**: Add a single extension method:
-  ```csharp
-  public static IServiceCollection AddSpeedwareApiClient(this IServiceCollection services, IConfiguration config)
-  {
-      services.Configure<SpeedwareConfig>(config.GetSection(SpeedwareConfig.SpeedwareSection));
-      services.AddHttpClient<ISpeedwareClient, SpeedwareClient>();
-      return services;
-  }
-  ```
+- **Issue**: No `AddSpeedwareApiClient()` extension method existed. Consumers had to wire up dependencies manually.
+- **Fix applied**: `Extensions/ServiceCollectionExtensions.cs` added with `AddSpeedwareApiClient(IConfiguration)` that registers the typed `HttpClient`, configures headers/timeout, and binds `SpeedwareConfig` from the `speedware` config section.
 
 ### Missing NuGet Package References
 - **File**: `Imade.Speedware.Api.csproj`
-- **Issue**: `IOptions<SpeedwareConfig>` is used from `Microsoft.Extensions.Options`, but only `Microsoft.Extensions.Http` is declared as a dependency.
-- **Fix**: Add explicit references:
-  ```xml
-  <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.x" />
-  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.x" />
-  ```
+- **Issue**: `IOptions<SpeedwareConfig>` and `ILogger` were used but only `Microsoft.Extensions.Http` was declared.
+- **Fix applied**: Added explicit references to `Microsoft.Extensions.Options.ConfigurationExtensions` and `Microsoft.Extensions.Logging.Abstractions`.
 
 ---
 
-## Priority: Low
+## Priority: Low (Fixed)
 
 ### Typo in Property Name
-- **Files**: `Filters/ListLimiter.cs`, `Filters/NewsLimiter.cs`, `Filters/SchoolClassGradeLimiter.cs`
-- **Issue**: Property is named `GetFormattetAndMappedSortString` — "Formattet" should be "Formatted".
-- **Fix**: Rename to `GetFormattedAndMappedSortString`.
+- **Files**: `Filters/ListLimiter.cs`, `Filters/NewsLimiter.cs`, `Filters/SchoolClassGradeLimiter.cs`, `Filters/SeasonLimiter.cs`
+- **Issue**: Property named `GetFormattetAndMappedSortString` — "Formattet" should be "Formatted".
+- **Fix applied**: Renamed to `GetFormattedAndMappedSortString` across all four files.
 
 ### Commented-Out BinaryFormatter Code
 - **File**: `Core/ObjectCloner.cs`
-- **Issue**: Dead code referencing the deprecated and removed `BinaryFormatter` is commented out but still present.
-- **Fix**: Delete the commented-out block entirely.
+- **Issue**: Dead code referencing the deprecated `BinaryFormatter` was commented out but still present, along with several unused `using` directives.
+- **Fix applied**: Removed all commented-out code and unused imports. File reduced from 47 lines to 13.
 
 ### Unnecessary ToArray() Inside string.Join()
 - **Files**: `Filters/BookingLimiter.cs`, `Filters/PlayBookingRequest.cs`
-- **Issue**: `string.Join(",", collection.Select(...).ToArray())` — `ToArray()` is redundant; `string.Join` accepts `IEnumerable<T>` directly.
-- **Fix**: Remove `.ToArray()`.
+- **Issue**: `string.Join(",", collection.Select(...).ToArray())` — `ToArray()` is redundant.
+- **Fix applied**: Eliminated as part of the `HashHelper` refactor — filter `GetHashCode` implementations no longer call `string.Join` directly.
 
 ### Mixed Indentation
-- **File**: `SpeedwareClient.cs`
-- **Issue**: File mixes tabs and spaces across method blocks.
-- **Fix**: Add an `.editorconfig` file at the solution root to enforce consistent indentation across the project.
+- **File**: `SpeedwareClient.cs` and others
+- **Issue**: Files mixed tabs and spaces across method blocks.
+- **Fix applied**: `.editorconfig` added at the solution root enforcing 4-space indentation, CRLF line endings, and sorted `using` directives for all C# files.
 
 ### Inconsistent Filter Defaults and No Range Validation
 - **Files**: Various filter classes
-- **Issue**: Some filters default `Take=10`, others don't set a default. The API supports 0–500 but no validation enforces this.
-- **Fix**: Standardise defaults and add `[Range(0, 500)]` data annotations where applicable.
+- **Issue**: No validation enforced the documented `Take`/`Skip` ranges.
+- **Fix applied**: `[Range]` attributes added to `Take` and `Skip` in all filter classes, matching limits documented in the XML comments (0–500 for booking filters, 0–200 for list/news/school filters).
 
 ### Unused Imports
-- **Files**: `SpeedwareClient.cs` and others
-- **Issue**: Several `using` directives are unused (e.g. `System.Linq` in `SpeedwareClient.cs`).
-- **Fix**: Run IDE code cleanup or enable the `IDE0005` analyser rule to flag unused usings as errors.
+- **Files**: `SpeedwareClient.cs` and filter classes
+- **Issue**: Several `using` directives were unused.
+- **Fix applied**: Cleaned up in `ObjectCloner.cs`, filter classes, and `SpeedwareClient.cs` as part of the respective fixes. `.editorconfig` now enforces `dotnet_sort_system_directives_first` going forward.
