@@ -1,8 +1,8 @@
-﻿using Imade.Speedadmin.Api.Interfaces;
+﻿using Imade.Speedware.Api.Interfaces;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Imade.Speedadmin.Api.Filters
+namespace Imade.Speedware.Api.Filters
 {
     public class CancellationsLimiter : ILimiter
     {

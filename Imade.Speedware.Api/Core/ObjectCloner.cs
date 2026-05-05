@@ -1,6 +1,6 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 
-namespace Imade.Speedadmin.Api.Core
+namespace Imade.Speedware.Api.Core
 {
     public static class ObjectCloner
     {

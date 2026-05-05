@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Imade.Speedadmin.Api.Filters
+namespace Imade.Speedware.Api.Filters
 {
     public class BookingLimiter : Interfaces.ILimiter
     {        /// <summary>

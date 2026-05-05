@@ -1,6 +1,6 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Imade.Speedadmin.Api.Core
+namespace Imade.Speedware.Api.Core
 {
     internal static class HashHelper
     {

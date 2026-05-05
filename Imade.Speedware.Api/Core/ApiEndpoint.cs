@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.ComponentModel;
 
-namespace Imade.Speedadmin.Api.Core
+namespace Imade.Speedware.Api.Core
 {
 	public enum ApiEndpoint
 	{

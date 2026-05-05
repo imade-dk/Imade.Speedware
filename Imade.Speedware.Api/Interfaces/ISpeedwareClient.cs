@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Imade.Speedadmin.Api.Core;
-using Imade.Speedadmin.Api.Models;
+using Imade.Speedware.Api.Core;
+using Imade.Speedware.Api.Models;
 
-namespace Imade.Speedadmin.Api.Interfaces
+namespace Imade.Speedware.Api.Interfaces
 {
     public interface ISpeedwareClient
     {

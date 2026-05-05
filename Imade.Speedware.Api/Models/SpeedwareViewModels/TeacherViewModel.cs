@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Imade.Speedadmin.Api.Models.SpeedwareViewModels
+namespace Imade.Speedware.Api.Models.SpeedwareViewModels
 {
     public abstract class TeacherViewModel
     {

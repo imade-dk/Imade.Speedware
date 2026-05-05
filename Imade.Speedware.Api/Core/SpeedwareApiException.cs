@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Net;
 
-namespace Imade.Speedadmin.Api.Core
+namespace Imade.Speedware.Api.Core
 {
     public class SpeedwareApiException : Exception
     {

@@ -1,17 +1,17 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Imade.Speedadmin.Api.Core;
-using Imade.Speedadmin.Api.Interfaces;
-using Imade.Speedadmin.Api.Models;
+using Imade.Speedware.Api.Core;
+using Imade.Speedware.Api.Interfaces;
+using Imade.Speedware.Api.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Imade.Speedadmin.Api
+namespace Imade.Speedware.Api
 {
     public class SpeedwareClient : ISpeedwareClient
     {

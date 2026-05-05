@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Imade.Speedadmin.Api.Core
+namespace Imade.Speedware.Api.Core
 {
     public static class EnumHelpers
     {

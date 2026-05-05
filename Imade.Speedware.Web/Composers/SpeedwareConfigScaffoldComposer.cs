@@ -1,7 +1,7 @@
-using System.Text.Encodings.Web;
+﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using Imade.Speedadmin.Api.Core;
+using Imade.Speedware.Api.Core;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
 

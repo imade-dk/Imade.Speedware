@@ -1,12 +1,12 @@
-using System;
+﻿using System;
 using System.Net.Http.Headers;
-using Imade.Speedadmin.Api.Core;
-using Imade.Speedadmin.Api.Interfaces;
+using Imade.Speedware.Api.Core;
+using Imade.Speedware.Api.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Imade.Speedadmin.Api.Extensions
+namespace Imade.Speedware.Api.Extensions
 {
     public static class ServiceCollectionExtensions
     {

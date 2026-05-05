@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Imade.Speedadmin.Api.Models
+namespace Imade.Speedware.Api.Models
 {
     public class SchoolClassGrade: SpeedwareViewModels.SchoolClassGradeViewModel
     {

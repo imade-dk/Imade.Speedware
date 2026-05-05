@@ -1,4 +1,4 @@
-﻿namespace Imade.Speedadmin.Api.Core
+﻿namespace Imade.Speedware.Api.Core
 {
     public class SpeedwareConfig
     {
