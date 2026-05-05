@@ -23,6 +23,10 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="../Imade.Speedware.Api/Imade.Speedware.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- Don't include the client folder as part of packaging nuget build -->
     <Content Remove="Client\**" />
 
