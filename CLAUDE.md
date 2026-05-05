@@ -33,7 +33,7 @@ There are no tests yet. There is no lint step — the `.editorconfig` at the rep
 
 ## Architecture
 
-This repo contains a .NET 10 class library (`Imade.Speedware.Api`) that wraps the Speedadmin REST API, and an Umbraco backoffice extension (`Imade.Speedware.Web`) that surfaces Speedadmin data in the Umbraco backoffice. The namespace throughout the API client is `Imade.Speedadmin.Api` (note: *Speedadmin*, not *Speedware*).
+This repo contains a .NET 10 class library (`Imade.Speedware.Api`) that wraps the Speedadmin REST API, and an Umbraco backoffice extension (`Imade.Speedware.Web`) that surfaces Speedadmin data in the Umbraco backoffice. The namespace throughout the API client is `Imade.Speedware.Api`.
 
 ### Request flow
 
