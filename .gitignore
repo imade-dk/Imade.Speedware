@@ -1,0 +1,83 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build output
+dist/
+build/
+out/
+.next/
+.nuxt/
+.output/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE / editors
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# .NET / C#
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+[Pp]ackages/
+TestResults/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Umbraco
+umbraco/Data/
+umbraco/Logs/
+umbraco/mediacache/
+App_Data/
+App_Data/Logs/
+App_Data/Models/
+App_Data/NuGetBackup/
+App_Data/packages/
+App_Data/TEMP/
+App_Data/umbraco.config
+wwwroot/media/
+wwwroot/umbraco/
+umbraco-heartcore.json
+
+# Umbraco Examine / Lucene index
+App_Data/InternalIndex/
+App_Data/ExternalIndex/
+App_Data/MemberIndex/
+
+# Claude
+.claude/
