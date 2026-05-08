@@ -1,13 +1,7 @@
-﻿using Imade.Speedware.Api.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Imade.Speedware.Api.Interfaces;
 
-namespace Imade.Speedware.Api.Models
+namespace Imade.Speedware.Api.Models;
+
+public partial class Node:  ISpeedwareModel
 {
-   public  class Node: SpeedwareViewModels.NodeViewModel, ISpeedwareModel
-    {
-    }
 }

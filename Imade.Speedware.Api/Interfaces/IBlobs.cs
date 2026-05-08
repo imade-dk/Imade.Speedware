@@ -1,19 +1,8 @@
-﻿using Imade.Speedware.Api.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Imade.Speedware.Api.Models;
 
-namespace Imade.Speedware.Api.Interfaces
+namespace Imade.Speedware.Api.Interfaces;
+
+public interface IBlobs
 {
-    public interface IBlobs
-    {
-        public IEnumerable<Blob> Blobs { get; set; }
-    }
-
-    public interface IBlob
-    {
-        public Blob Blob { get; set; }
-    }
+    public IEnumerable<Blob> Blobs { get; set; }
 }

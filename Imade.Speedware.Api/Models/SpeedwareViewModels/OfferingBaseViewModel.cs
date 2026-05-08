@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +27,7 @@ namespace Imade.Speedware.Api.Models.SpeedwareViewModels
 		public Blob Blob { get; set; }
 		public IEnumerable<Offering> Offerings { get; set; } = new List<Offering>();
 		public IEnumerable<Attribute> Attributes { get; set; } = new List<Attribute>();
+        public string CatalogueUrl { get; set; }
 
-	}
+    }
 }

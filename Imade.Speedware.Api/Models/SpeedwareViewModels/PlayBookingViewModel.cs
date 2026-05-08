@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,5 +23,9 @@ namespace Imade.Speedware.Api.Models.SpeedwareViewModels
 		public IEnumerable<PlayBookingTimeSlot> TeacherAndRoomOnNextTimeSlot { get; set; } = new List<PlayBookingTimeSlot>();
 		public IEnumerable<PlayBookingDate> TimeSlots { get; set; } = new List<PlayBookingDate>();
 
-	}
+        public string ImageUniqueBlobId { get; set; }
+        public string CatalogueUrl { get; set; }
+
+
+    }
 }

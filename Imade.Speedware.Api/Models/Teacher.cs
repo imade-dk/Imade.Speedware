@@ -1,24 +1,12 @@
-﻿using Imade.Speedware.Api.Interfaces;
-using Imade.Speedware.Api.Models.SpeedwareViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using Imade.Speedware.Api.Interfaces;
 
-namespace Imade.Speedware.Api.Models
+namespace Imade.Speedware.Api.Models;
+
+public partial class Teacher : ISpeedwareModel, IBlob
 {
-    [Serializable]
-    public class Teacher : TeacherViewModel, ISpeedwareModel, IBlob
+    public string FullName
     {
-
-        //[JsonPropertyName("Name")]
-        //public string Wind { get; set; }
-        public string FullName
-        {
-            get { return $"{Name} {Surname}"; }
-        }
-        public List<Course> Courses { get; set; } = new List<Course>();
+        get { return $"{Name} {Surname}"; }
     }
+    public List<Course> Courses { get; set; } = [];
 }

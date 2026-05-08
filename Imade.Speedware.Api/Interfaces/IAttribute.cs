@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +8,10 @@ namespace Imade.Speedware.Api.Interfaces
 {
     public interface IAttribute
     {
-        string Name { get; set; }
-        string Value { get; set; }
-        object ValueAsObject { get; set; }
-        string AttributeType { get; set; }
+        string? Name { get; set; }
+        string? Value { get; set; }
+        object? ValueAsObject { get; set; }
+        string? AttributeType { get; set; }
         int Sequence { get; set; }
     }
 }

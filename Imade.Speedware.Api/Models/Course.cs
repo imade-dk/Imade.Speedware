@@ -1,26 +1,20 @@
-﻿using Imade.Speedware.Api.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Imade.Speedware.Api.Interfaces;
 
-namespace Imade.Speedware.Api.Models
+namespace Imade.Speedware.Api.Models;
+
+public partial class Course : ISpeedwareModel, IBlobs
 {
-    public class Course : SpeedwareViewModels.CourseViewModel, ISpeedwareModel, IBlobs
+    public int TreeId { get; set; }
+
+    public string? Title { get { return Name; } }
+
+    public Blob? Blob
     {
-        public int TreeId { get; set; }
-
-        public string Title { get { return Course; } }
-
-        public Blob Blob
+        get
         {
-            get
-            {
-                return Blobs.FirstOrDefault();
-            }
+            return Blobs.FirstOrDefault();
         }
-        public List<Teacher> Teachers { get; set; } = new();
-        public List<School> Schools { get; set; } = new();
     }
+    public List<Teacher> Teachers { get; set; } = [];
+    public List<School> Schools { get; set; } = [];
 }

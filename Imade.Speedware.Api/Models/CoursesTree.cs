@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Imade.Speedware.Api.Models;
 
-namespace Imade.Speedware.Api.Models
+public class CoursesTree
 {
-    public class CoursesTree
-    {
-        public IEnumerable<Node> Nodes { get; set; }
-    }
+    public IEnumerable<Node> Nodes { get; set; } = [];
 }

@@ -1,19 +1,7 @@
-﻿using Imade.Speedware.Api.Models.SpeedwareViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Imade.Speedware.Api.Models;
 
-namespace Imade.Speedware.Api.Models
+
+public partial class Department
 {
 
-    [Serializable]
-    public class Department: DepartmentViewModel
-    {
-        public Department()
-        {
-
-        }
-    }
 }

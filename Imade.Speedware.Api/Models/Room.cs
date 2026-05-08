@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Imade.Speedware.Api.Models;
 
-namespace Imade.Speedware.Api.Models
+public partial class Room 
 {
-    public class Room : SpeedwareViewModels.RoomViewModel
+    public string NameAndSchool
     {
-        public string NameAndSchool
-        {
-            get { return string.Format("{0} ({1})", Room, School); }
-        }
+        get { return string.Format("{0} ({1})", Name, School); }
+    }
 
-        public string SchoolAndName
-        {
-            get { return string.Format("{0} ({1})", School, Room); }
-        }
+    public string SchoolAndName
+    {
+        get { return string.Format("{0} ({1})", School, Name); }
     }
 }

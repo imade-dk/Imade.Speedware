@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +13,7 @@ namespace Imade.Speedware.Api.Models.SpeedwareViewModels
 		public DateTime BookingDate { get; set; }
 		public TimeOnly StartTime { get; set; }
 		public TimeOnly EndTime { get; set; }
-	}
+
+        public IEnumerable<PlayBookingTimeSlot> Resources { get; set; }
+    }
 }

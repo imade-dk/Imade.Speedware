@@ -1,29 +1,23 @@
-﻿using Imade.Speedware.Api.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Imade.Speedware.Api.Interfaces;
 
-namespace Imade.Speedware.Api.Models
+namespace Imade.Speedware.Api.Models;
+
+
+public partial class Booking :  ISpeedwareModel, IBlobs
 {
-    [Serializable]
-    public class Booking : SpeedwareViewModels.BookingViewModel, ISpeedwareModel, IBlobs
+    public Blob? Blob
     {
-        public Blob Blob
+        get
         {
-            get
-            {
-                return Blobs?.FirstOrDefault() ?? null;
-            }
+            return Blobs?.FirstOrDefault() ?? null;
         }
-        public DateTime? StartTime { get; set; }
-        public DateTime? EndTime { get; set; }
-        public bool IsAllDayEvent { get; set; } = false;
-        public string Location { get; set; }
-        public string LinkName { get; set; }
-        public string LinkTarget { get; set; }
-        public string LinkUrl { get; set; }
-        public string Text { get; set; }
     }
+    public DateTime? StartTime { get; set; }
+    public DateTime? EndTime { get; set; }
+    public bool IsAllDayEvent { get; set; } = false;
+    public string? Location { get; set; }
+    public string? LinkName { get; set; }
+    public string? LinkTarget { get; set; }
+    public string? LinkUrl { get; set; }
+    public string? Text { get; set; }
 }

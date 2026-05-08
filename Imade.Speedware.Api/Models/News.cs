@@ -1,25 +1,19 @@
-﻿using Imade.Speedware.Api.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Imade.Speedware.Api.Interfaces;
 
-namespace Imade.Speedware.Api.Models
+namespace Imade.Speedware.Api.Models;
+
+public partial class News:  ISpeedwareModel, IBlob, IBlobs
 {
-    public class News: SpeedwareViewModels.NewsViewModel, ISpeedwareModel, IBlob, IBlobs
-    {
 
-        public List<Blob> Images =>
-            (Blobs ?? []).Where(x => Core.FilesAndPath.FileTypeName(x.MimeType) == "Images" && x.Size > 0).ToList();
+    public List<Blob> Images =>
+        [.. (Blobs ?? []).Where(x => Core.FilesAndPath.FileTypeName(x.MimeType ?? string.Empty) == "Images" && x.Size > 0)];
 
-        public List<Blob> Files =>
-            (Blobs ?? []).Where(x => Core.FilesAndPath.FileTypeName(x.MimeType) == "Files" && x.Size > 0).ToList();
+    public List<Blob> Files =>
+        [.. (Blobs ?? []).Where(x => Core.FilesAndPath.FileTypeName(x.MimeType ?? string.Empty) == "Files" && x.Size > 0)];
 
-        public List<Blob> Audio =>
-            (Blobs ?? []).Where(x => Core.FilesAndPath.FileTypeName(x.MimeType) == "Audio" && x.Size > 0).ToList();
+    public List<Blob> Audio =>
+        [.. (Blobs ?? []).Where(static x => Core.FilesAndPath.FileTypeName(x.MimeType ?? string.Empty) == "Audio" && x.Size > 0)];
 
-        public List<Blob> Video =>
-            (Blobs ?? []).Where(x => Core.FilesAndPath.FileTypeName(x.MimeType) == "Video" && x.Size > 0).ToList();
-    }
+    public List<Blob> Video =>
+        [.. (Blobs ?? []).Where(x => Core.FilesAndPath.FileTypeName(x.MimeType ?? string.Empty) == "Video" && x.Size > 0)];
 }
