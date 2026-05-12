@@ -1,7 +1,7 @@
 namespace Imade.Speedware.Api.Models;
 
 
-public partial class PlayBookingDates
+public partial class PlayBookingDate
 {
     public DateTime BookingDate { get; set; }
     public TimeOnly StartTime { get; set; }

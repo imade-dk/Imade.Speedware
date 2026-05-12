@@ -1,3 +1,6 @@
+# Local secrets
+appsettings.Development.json
+
 # Dependencies
 node_modules/
 .pnp

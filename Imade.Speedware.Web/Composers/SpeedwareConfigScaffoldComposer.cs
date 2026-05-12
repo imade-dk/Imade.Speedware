@@ -28,7 +28,14 @@ namespace Imade.Speedware.Web.Composers
                 var defaults = new SpeedwareConfig();
                 rootObject[SpeedwareConfig.SpeedwareSection] = new JsonObject
                 {
-                    [nameof(SpeedwareConfig.ApiKey)]           = defaults.ApiKey,
+                    [nameof(SpeedwareConfig.ApiKeys)] = new JsonArray
+                    {
+                        new JsonObject
+                        {
+                            [nameof(SpeedwareApiKey.Name)]   = string.Empty,
+                            [nameof(SpeedwareApiKey.ApiKey)] = string.Empty,
+                        }
+                    },
                     [nameof(SpeedwareConfig.BaseUrl)]          = defaults.BaseUrl,
                     [nameof(SpeedwareConfig.SchoolIdentifier)] = defaults.SchoolIdentifier,
                     [nameof(SpeedwareConfig.RootUploadFolder)] = defaults.RootUploadFolder,

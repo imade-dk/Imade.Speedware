@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Imade.Speedware.Api.Core
 {
-    internal static class FilesAndPath
+    public static class FilesAndPath
     {
         public static string FileTypeName(string mimetype)
         {

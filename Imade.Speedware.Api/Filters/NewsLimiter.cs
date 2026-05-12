@@ -1,4 +1,5 @@
-﻿using Imade.Speedware.Api.Interfaces;
+using System.Text.Json.Serialization;
+using Imade.Speedware.Api.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,6 +37,7 @@ namespace Imade.Speedware.Api.Filters
         /// Available fields CreatedDate, Title, Firstname, Lastname, default CreatedDate
         /// </summary>
         public string Sort { get; set; } = Core.Sorting.NewsBy.CreatedDate.ToString();
-        public IEnumerable<string> GetFormattedAndMappedSortString { get; set; } = null;
+        [JsonIgnore]
+        public IEnumerable<string>? GetFormattedAndMappedSortString { get; set; } = null;
     }
 }

@@ -18,14 +18,15 @@ namespace Imade.Speedware.Api.Extensions
             {
                 var speedwareConfig = provider.GetRequiredService<IOptions<SpeedwareConfig>>().Value;
 
-                if (string.IsNullOrWhiteSpace(speedwareConfig.ApiKey))
-                    throw new InvalidOperationException("Speedware ApiKey is not configured.");
+                var apiKey = speedwareConfig.GetApiKey();
+                if (string.IsNullOrWhiteSpace(apiKey))
+                    throw new InvalidOperationException("Speedware API key is not configured. Set speedware.ApiKeys or speedware.ApiKey in appsettings.json.");
                 if (string.IsNullOrWhiteSpace(speedwareConfig.BaseUrl))
                     throw new InvalidOperationException("Speedware BaseUrl is not configured.");
 
                 client.BaseAddress = new Uri(speedwareConfig.BaseUrl);
                 client.Timeout = TimeSpan.FromMinutes(10);
-                client.DefaultRequestHeaders.Add("Authorization", speedwareConfig.ApiKey);
+                client.DefaultRequestHeaders.Add("Authorization", apiKey);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
 

@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Imade.Speedware.TestApi": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost:54698/swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:54698;http://localhost:54699"
+    }
+  }
+}

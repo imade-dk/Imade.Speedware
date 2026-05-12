@@ -1,4 +1,5 @@
-﻿using Imade.Speedware.Api.Interfaces;
+﻿using System.Text.Json.Serialization;
+using Imade.Speedware.Api.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,6 +19,7 @@ namespace Imade.Speedware.Api.Filters
 		public int Skip { get; set; } = 0;
         public string Sort { get; set; }
 
+        [JsonIgnore]
         public List<string> GetFormattedAndMappedSortString { get; set; } = null;
     }
 }

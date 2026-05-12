@@ -1,3 +1,3 @@
 namespace Imade.Speedware.Api.Models;
 
-public partial class Season { }
+public partial class Lesson { }

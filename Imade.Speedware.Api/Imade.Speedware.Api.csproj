@@ -7,9 +7,50 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\SpeedwareViewModels\BlobViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\BookingDatesViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\BookingTypeViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\BookingV2TypeType.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\BookingViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\CancellationViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\CategoryViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\CoursesSubCategoryViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\CourseViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\DepartmentViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\LessonViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\ListDataViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\NewsViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\NodeViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\OfferingBaseViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\OfferingViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\PlayBookingDatesViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\PlayBookingTimeSlotViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\PlayBookingTypeViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\PlayBookingViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\PublishTypeViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\QuerySubjectAreaModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\QuerySubjectModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\RoomViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\SchoolClassGradeViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\SchoolContactViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\SchoolViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\SeasonViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\SubjectAreaRegistrationLink.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\TeacherViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\TreeCourseViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\TreeViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\WaitingListCourseViewModel.cs" />
+    <Compile Remove="Models\SpeedwareViewModels\WaitingListViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.7" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.7" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\SpeedwareViewModels\" />
   </ItemGroup>
 
 </Project>

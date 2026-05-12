@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +8,10 @@ namespace Imade.Speedware.Api.Filters
 {
 	public class PlayBookingRequest: Interfaces.ILimiter
 	{
-		public IEnumerable<int> BookingTypeIds { get; set; }
-		public IEnumerable<int> TeacherIds { get; set; }
-		public IEnumerable<int> RoomIds { get; set; }
-		public IEnumerable<int> CourseSchoolIds { get; set; }
+		public IEnumerable<int>? BookingTypeIds { get; set; }
+		public IEnumerable<int>? TeacherIds { get; set; }
+		public IEnumerable<int>? RoomIds { get; set; }
+		public IEnumerable<int>? CourseSchoolIds { get; set; }
 		public int? BookingId { get; set; }
 		public DateTime? DateFrom { get; set; }
 
