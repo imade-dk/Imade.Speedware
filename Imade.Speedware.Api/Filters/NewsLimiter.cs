@@ -11,7 +11,7 @@ namespace Imade.Speedware.Api.Filters
         /// <summary>
         /// Required
         /// </summary>
-        public IEnumerable<int> PublishTypeIds { get; set; }
+        public required IEnumerable<int> PublishTypeIds { get; set; }
         /// <summary>
         /// Data type: Date, defaults to current date at midnight
         /// This evaluates if the value of DateFrom is between start and end. 
@@ -38,6 +38,6 @@ namespace Imade.Speedware.Api.Filters
         /// </summary>
         public string Sort { get; set; } = Core.Sorting.NewsBy.CreatedDate.ToString();
         [JsonIgnore]
-        public IEnumerable<string>? GetFormattedAndMappedSortString { get; set; } = null;
+        public IEnumerable<string>? GetFormattedAndMappedSortString { get; set; }
     }
 }

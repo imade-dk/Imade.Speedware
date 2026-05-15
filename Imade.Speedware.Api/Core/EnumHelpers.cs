@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,25 +8,43 @@ using System.Threading.Tasks;
 
 namespace Imade.Speedware.Api.Core
 {
+    //public static class EnumHelpers
+    //{
+    //    public static string ToDescriptionString(this Enum This)
+    //    {
+    //        Type type = This.GetType();
+
+    //        string name = Enum.GetName(type, This);
+
+    //        MemberInfo member = type.GetMembers()
+    //            .Where(w => w.Name == name)
+    //            .FirstOrDefault();
+
+    //        DescriptionAttribute attribute = member != null
+    //            ? member.GetCustomAttributes(true)
+    //                .Where(w => w.GetType() == typeof(DescriptionAttribute))
+    //                .FirstOrDefault() as DescriptionAttribute
+    //            : null;
+
+    //        return attribute != null ? attribute.Description : name;
+    //    }
+    //}
     public static class EnumHelpers
     {
-        public static string ToDescriptionString(this Enum This)
+        public static string ToDescriptionString(this Enum @this)
         {
-            Type type = This.GetType();
+            Type type = @this.GetType();
 
-            string name = Enum.GetName(type, This);
+            string? name = Enum.GetName(type, @this);
+            if (name is null) return @this.ToString();
 
-            MemberInfo member = type.GetMembers()
-                .Where(w => w.Name == name)
+            MemberInfo? member = type.GetMember(name).FirstOrDefault();
+
+            DescriptionAttribute? attribute = member?
+                .GetCustomAttributes<DescriptionAttribute>(inherit: true)
                 .FirstOrDefault();
 
-            DescriptionAttribute attribute = member != null
-                ? member.GetCustomAttributes(true)
-                    .Where(w => w.GetType() == typeof(DescriptionAttribute))
-                    .FirstOrDefault() as DescriptionAttribute
-                : null;
-
-            return attribute != null ? attribute.Description : name;
+            return attribute?.Description ?? name;
         }
     }
 }

@@ -8,6 +8,9 @@ namespace Imade.Speedware.TestApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[ProducesResponseType(StatusCodes.Status403Forbidden)]
+[ProducesResponseType(StatusCodes.Status404NotFound)]
+[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 public class BookingsController(ISpeedwareClient client) : ControllerBase
 {
     [HttpPost]

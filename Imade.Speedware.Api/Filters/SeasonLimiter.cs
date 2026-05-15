@@ -1,4 +1,4 @@
-﻿using Imade.Speedware.Api.Interfaces;
+using Imade.Speedware.Api.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,9 +10,9 @@ namespace Imade.Speedware.Api.Filters
         public int Take { get; set; } = 10;
         [Range(0, int.MaxValue)]
         public int Skip { get; set; } = 0;
-        public string Sort { get; set; }
+        public string? Sort { get; set; }
 
-        public List<string> GetFormattedAndMappedSortString { get; set; } = null;
+        public List<string>? GetFormattedAndMappedSortString { get; set; }
 
     }
 }

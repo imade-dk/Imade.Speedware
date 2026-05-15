@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using Imade.Speedware.Api.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,9 +17,9 @@ namespace Imade.Speedware.Api.Filters
 		/// </summary>
 		[Range(0, int.MaxValue)]
 		public int Skip { get; set; } = 0;
-        public string Sort { get; set; }
+        public string? Sort { get; set; }
 
         [JsonIgnore]
-        public List<string> GetFormattedAndMappedSortString { get; set; } = null;
+        public List<string>? GetFormattedAndMappedSortString { get; set; }
     }
 }

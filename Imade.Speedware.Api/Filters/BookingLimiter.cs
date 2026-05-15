@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,15 +9,15 @@ namespace Imade.Speedware.Api.Filters
 			 /// Required
 			 /// Filter using of type
 			 /// </summary>
-		public IEnumerable<int> BookingTypeIds { get; set; }
+		public required IEnumerable<int> BookingTypeIds { get; set; }
 		/// <summary>
 		/// Filter using of type
 		/// </summary>
-		public IEnumerable<int> PublishTypeIds { get; set; }
+		public IEnumerable<int>? PublishTypeIds { get; set; }
 		/// <summary>
 		/// Filter using of type
 		/// </summary>
-		public IEnumerable<int> RoomIds { get; set; }
+		public IEnumerable<int>? RoomIds { get; set; }
 		/// <summary>
 		/// Filter using equals
 		/// </summary>
@@ -29,12 +29,12 @@ namespace Imade.Speedware.Api.Filters
 		/// <summary>
 		/// Filter using equals
 		/// </summary>
-		public string ExternalId { get; set; }
+		public string? ExternalId { get; set; }
 		/// <summary>
 		/// Filter using contains
 		/// String length: inclusive between 1 and 20
 		/// </summary>
-		public string TeacherName { get; set; }
+		public string? TeacherName { get; set; }
         /// <summary>
         /// Range: inclusive between 0 and 500, default 10
         /// </summary>
@@ -48,7 +48,7 @@ namespace Imade.Speedware.Api.Filters
         /// <summary>
         /// Available fields StartDate, TeacherName, BookingTypeId, School
         /// </summary>
-        public string Sort { get; set; } = Core.Sorting.BookingsBy.StartDate.ToString();
+        public string? Sort { get; set; } = Core.Sorting.BookingsBy.StartDate.ToString();
 
         public override int GetHashCode()
         {

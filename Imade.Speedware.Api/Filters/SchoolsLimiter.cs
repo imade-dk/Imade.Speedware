@@ -1,4 +1,4 @@
-﻿using Imade.Speedware.Api.Interfaces;
+using Imade.Speedware.Api.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace Imade.Speedware.Api.Filters
         /// <summary>
         /// Filter using contains
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
         /// <summary>
         /// Available fields: Name, default Name
         /// </summary>
