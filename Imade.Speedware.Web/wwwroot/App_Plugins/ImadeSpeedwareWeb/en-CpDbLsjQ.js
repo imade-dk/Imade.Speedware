@@ -24,9 +24,19 @@ var e = {
 		pleaseSelect: "Nothing selected",
 		selectedItems: "Selected publishing types",
 		search: "Search..."
+	},
+	speedwareBookingTypesPicker: {
+		pleaseSelect: "Nothing selected",
+		selectedItems: "Selected booking types",
+		search: "Search..."
+	},
+	speedwarePlayBookingTypesPicker: {
+		pleaseSelect: "Nothing selected",
+		selectedItems: "Selected play booking types",
+		search: "Search..."
 	}
 };
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=en-C9FzlI8z.js.map
+//# sourceMappingURL=en-CpDbLsjQ.js.map

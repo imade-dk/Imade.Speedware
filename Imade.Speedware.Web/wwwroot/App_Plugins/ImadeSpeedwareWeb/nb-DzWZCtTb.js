@@ -24,9 +24,19 @@ var e = {
 		pleaseSelect: "Ingenting valgt",
 		selectedItems: "Valgte publiseringstyper",
 		search: "Søk..."
+	},
+	speedwareBookingTypesPicker: {
+		pleaseSelect: "Ingenting valgt",
+		selectedItems: "Valgte bookingtyper",
+		search: "Søk..."
+	},
+	speedwarePlayBookingTypesPicker: {
+		pleaseSelect: "Ingenting valgt",
+		selectedItems: "Valgte play-bookingtyper",
+		search: "Søk..."
 	}
 };
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=nb-CeLIceL-.js.map
+//# sourceMappingURL=nb-DzWZCtTb.js.map

@@ -686,6 +686,26 @@ var C = async (e, t) => {
 			...e
 		});
 	}
+	static getPlayBookingTypes(e) {
+		return (e?.client ?? L).get({
+			security: [{
+				scheme: "bearer",
+				type: "http"
+			}],
+			url: "/umbraco/imadespeedwareweb/api/v1/play-booking-types",
+			...e
+		});
+	}
+	static getBookingTypes(e) {
+		return (e?.client ?? L).get({
+			security: [{
+				scheme: "bearer",
+				type: "http"
+			}],
+			url: "/umbraco/imadespeedwareweb/api/v1/booking-types",
+			...e
+		});
+	}
 	static getPublishingTypes(e) {
 		return (e?.client ?? L).get({
 			security: [{
@@ -720,4 +740,4 @@ var C = async (e, t) => {
 //#endregion
 export { u as n, l as r, R as t };
 
-//# sourceMappingURL=api-phEZtqpH.js.map
+//# sourceMappingURL=api-DQ8BC5Id.js.map

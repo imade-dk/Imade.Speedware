@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { GetPlayTeachersData, GetPlayTeachersErrors, GetPlayTeachersResponses, GetPublishingTypesData, GetPublishingTypesErrors, GetPublishingTypesResponses, GetRoomsData, GetRoomsErrors, GetRoomsResponses, GetSchoolsData, GetSchoolsErrors, GetSchoolsResponses, GetTeachersData, GetTeachersErrors, GetTeachersResponses, PingData, PingErrors, PingResponses, WhatsMyNameData, WhatsMyNameErrors, WhatsMyNameResponses, WhatsTheTimeMrWolfData, WhatsTheTimeMrWolfErrors, WhatsTheTimeMrWolfResponses, WhoAmIData, WhoAmIErrors, WhoAmIResponses } from './types.gen';
+import type { GetPlayBookingTypesData, GetPlayBookingTypesErrors, GetPlayBookingTypesResponses, GetBookingTypesData, GetBookingTypesErrors, GetBookingTypesResponses, GetPlayTeachersData, GetPlayTeachersErrors, GetPlayTeachersResponses, GetPublishingTypesData, GetPublishingTypesErrors, GetPublishingTypesResponses, GetRoomsData, GetRoomsErrors, GetRoomsResponses, GetSchoolsData, GetSchoolsErrors, GetSchoolsResponses, GetTeachersData, GetTeachersErrors, GetTeachersResponses, PingData, PingErrors, PingResponses, WhatsMyNameData, WhatsMyNameErrors, WhatsMyNameResponses, WhatsTheTimeMrWolfData, WhatsTheTimeMrWolfErrors, WhatsTheTimeMrWolfResponses, WhoAmIData, WhoAmIErrors, WhoAmIResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -93,6 +93,32 @@ export class ImadeSpeedwareWebService {
                 }
             ],
             url: '/umbraco/imadespeedwareweb/api/v1/play-teachers',
+            ...options
+        });
+    }
+
+    public static getPlayBookingTypes<ThrowOnError extends boolean = false>(options?: Options<GetPlayBookingTypesData, ThrowOnError>) {
+        return (options?.client ?? client).get<GetPlayBookingTypesResponses, GetPlayBookingTypesErrors, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/umbraco/imadespeedwareweb/api/v1/play-booking-types',
+            ...options
+        });
+    }
+
+    public static getBookingTypes<ThrowOnError extends boolean = false>(options?: Options<GetBookingTypesData, ThrowOnError>) {
+        return (options?.client ?? client).get<GetBookingTypesResponses, GetBookingTypesErrors, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/umbraco/imadespeedwareweb/api/v1/booking-types',
             ...options
         });
     }

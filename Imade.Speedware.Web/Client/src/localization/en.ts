@@ -26,4 +26,14 @@ export default {
 		selectedItems: 'Selected publishing types',
 		search: 'Search...'
 	},
+	speedwareBookingTypesPicker: {
+		pleaseSelect: 'Nothing selected',
+		selectedItems: 'Selected booking types',
+		search: 'Search...'
+	},
+	speedwarePlayBookingTypesPicker: {
+		pleaseSelect: 'Nothing selected',
+		selectedItems: 'Selected play booking types',
+		search: 'Search...'
+	},
 } satisfies UmbLocalizationDictionary;

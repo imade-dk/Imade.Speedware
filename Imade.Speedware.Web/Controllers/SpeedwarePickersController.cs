@@ -7,8 +7,31 @@ namespace Imade.Speedware.Web.Controllers
 {
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "Imade.Speedware.Web")]
-    public class SpeedwarePickersController(ITeachersService teachersService, IRoomsService roomsService, ISchoolsService schoolsService, IPublishingTypesService publishingTypesService) : ImadeSpeedwareWebApiControllerBase
+    public class SpeedwarePickersController(ITeachersService teachersService, IRoomsService roomsService, ISchoolsService schoolsService, IPublishingTypesService publishingTypesService, IBookingTypesService bookingTypesService, IPlayBookingTypesService playBookingTypesService) : ImadeSpeedwareWebApiControllerBase
     {
+        [HttpGet("play-booking-types")]
+        [ProducesResponseType<List<PlayBookingTypePickerItemDto>>(StatusCodes.Status200OK)]
+        public async Task<List<PlayBookingTypePickerItemDto>> GetPlayBookingTypes(CancellationToken cancellationToken)
+        {
+            var types = await playBookingTypesService.GetAllAsync(cancellationToken);
+            return types
+                .Where(t => t.IsActive)
+                .OrderBy(t => t.Name)
+                .Select(t => new PlayBookingTypePickerItemDto(t.BookingTypeId, t.Name ?? string.Empty))
+                .ToList();
+        }
+
+        [HttpGet("booking-types")]
+        [ProducesResponseType<List<BookingTypePickerItemDto>>(StatusCodes.Status200OK)]
+        public async Task<List<BookingTypePickerItemDto>> GetBookingTypes(CancellationToken cancellationToken)
+        {
+            var types = await bookingTypesService.GetAllAsync(cancellationToken);
+            return types
+                .OrderBy(t => t.Bookingtype)
+                .Select(t => new BookingTypePickerItemDto(t.BookingTypeID, t.Bookingtype ?? string.Empty))
+                .ToList();
+        }
+
         [HttpGet("publishing-types")]
         [ProducesResponseType<List<PublishingTypePickerItemDto>>(StatusCodes.Status200OK)]
         public async Task<List<PublishingTypePickerItemDto>> GetPublishingTypes(CancellationToken cancellationToken)
@@ -72,4 +95,6 @@ namespace Imade.Speedware.Web.Controllers
     public record RoomPickerItemDto(int Id, string Name);
     public record SchoolPickerItemDto(int Id, string Name);
     public record PublishingTypePickerItemDto(int Id, string Name);
+    public record BookingTypePickerItemDto(int Id, string Name);
+    public record PlayBookingTypePickerItemDto(int Id, string Name);
 }

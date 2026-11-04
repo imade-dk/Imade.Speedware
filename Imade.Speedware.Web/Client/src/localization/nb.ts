@@ -26,4 +26,14 @@ export default {
 		selectedItems: 'Valgte publiseringstyper',
 		search: 'Søk...'
 	},
+	speedwareBookingTypesPicker: {
+		pleaseSelect: 'Ingenting valgt',
+		selectedItems: 'Valgte bookingtyper',
+		search: 'Søk...'
+	},
+	speedwarePlayBookingTypesPicker: {
+		pleaseSelect: 'Ingenting valgt',
+		selectedItems: 'Valgte play-bookingtyper',
+		search: 'Søk...'
+	},
 } satisfies UmbLocalizationDictionary;

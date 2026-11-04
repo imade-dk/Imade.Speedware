@@ -10,27 +10,27 @@ var e = [{
 		alias: "Imade.Speedware.Web.En",
 		name: "English",
 		meta: { culture: "en" },
-		js: () => import("./en-C9FzlI8z.js")
+		js: () => import("./en-CpDbLsjQ.js")
 	},
 	{
 		type: "localization",
 		alias: "Imade.Speedware.Web.Da",
 		name: "Dansk",
 		meta: { culture: "da" },
-		js: () => import("./da-CPCorWPJ.js")
+		js: () => import("./da-CK0ZCtwm.js")
 	},
 	{
 		type: "localization",
 		alias: "Imade.Speedware.Web.Nb",
 		name: "Norsk",
 		meta: { culture: "nb" },
-		js: () => import("./nb-CeLIceL-.js")
+		js: () => import("./nb-DzWZCtTb.js")
 	}
 ], n = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.TeacherPicker",
 	name: "Speedware Teacher Picker",
-	element: () => import("./teachers-picker.element-BzvASlH-.js"),
+	element: () => import("./teachers-picker.element-BCzNH8lz.js"),
 	meta: {
 		label: "Speedware Teacher Picker",
 		icon: "icon-user",
@@ -41,7 +41,7 @@ var e = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.PlayTeacherPicker",
 	name: "Speedware Play Teacher Picker",
-	element: () => import("./play-teachers-picker.element-CBjJjlN_.js"),
+	element: () => import("./play-teachers-picker.element-DJuWpRzW.js"),
 	meta: {
 		label: "Speedware Play Teacher Picker",
 		icon: "icon-user",
@@ -52,7 +52,7 @@ var e = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.RoomPicker",
 	name: "Speedware Room Picker",
-	element: () => import("./rooms-picker.element-D2iY50uX.js"),
+	element: () => import("./rooms-picker.element-Cuk_EOmB.js"),
 	meta: {
 		label: "Speedware Room Picker",
 		icon: "icon-door-open-alt",
@@ -63,7 +63,7 @@ var e = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.SchoolPicker",
 	name: "Speedware School Picker",
-	element: () => import("./schools-picker.element-BYEdb_4e.js"),
+	element: () => import("./schools-picker.element-BqajfSE5.js"),
 	meta: {
 		label: "Speedware School Picker",
 		icon: "icon-school",
@@ -74,25 +74,49 @@ var e = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.PublishingTypePicker",
 	name: "Speedware Publishing Type Picker",
-	element: () => import("./publishing-types-picker.element-OucRS-Va.js"),
+	element: () => import("./publishing-types-picker.element-Du6D-_q3.js"),
 	meta: {
 		label: "Speedware Publishing Type Picker",
 		icon: "icon-globe",
 		group: "Pickers",
 		propertyEditorSchemaAlias: "Umbraco.Plain.String"
 	}
-}], s = [
+}], s = [{
+	type: "propertyEditorUi",
+	alias: "Imade.Speedware.Web.BookingTypePicker",
+	name: "Speedware Booking Type Picker",
+	element: () => import("./booking-types-picker.element-wucDavRg.js"),
+	meta: {
+		label: "Speedware Booking Type Picker",
+		icon: "icon-calendar",
+		group: "Pickers",
+		propertyEditorSchemaAlias: "Umbraco.Plain.String"
+	}
+}], c = [{
+	type: "propertyEditorUi",
+	alias: "Imade.Speedware.Web.PlayBookingTypePicker",
+	name: "Speedware Play Booking Type Picker",
+	element: () => import("./play-booking-types-picker.element-c5YBIiIT.js"),
+	meta: {
+		label: "Speedware Play Booking Type Picker",
+		icon: "icon-calendar",
+		group: "Pickers",
+		propertyEditorSchemaAlias: "Umbraco.Plain.String"
+	}
+}], l = [
 	...n,
 	...r,
 	...i,
 	...a,
-	...o
-], c = [
+	...o,
+	...s,
+	...c
+], u = [
 	...e,
 	...t,
-	...s
+	...l
 ];
 //#endregion
-export { c as manifests };
+export { u as manifests };
 
 //# sourceMappingURL=imade-speedware-web.js.map

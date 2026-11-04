@@ -404,3 +404,59 @@ export type GetPublishingTypesResponses = {
 };
 
 export type GetPublishingTypesResponse = GetPublishingTypesResponses[keyof GetPublishingTypesResponses];
+
+export type BookingTypePickerItemDto = {
+    id: number;
+    name: string;
+};
+
+export type GetBookingTypesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/umbraco/imadespeedwareweb/api/v1/booking-types';
+};
+
+export type GetBookingTypesErrors = {
+    /**
+     * The resource is protected and requires an authentication token
+     */
+    401: unknown;
+};
+
+export type GetBookingTypesResponses = {
+    /**
+     * OK
+     */
+    200: Array<BookingTypePickerItemDto>;
+};
+
+export type GetBookingTypesResponse = GetBookingTypesResponses[keyof GetBookingTypesResponses];
+
+export type PlayBookingTypePickerItemDto = {
+    id: number;
+    name: string;
+};
+
+export type GetPlayBookingTypesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/umbraco/imadespeedwareweb/api/v1/play-booking-types';
+};
+
+export type GetPlayBookingTypesErrors = {
+    /**
+     * The resource is protected and requires an authentication token
+     */
+    401: unknown;
+};
+
+export type GetPlayBookingTypesResponses = {
+    /**
+     * OK
+     */
+    200: Array<PlayBookingTypePickerItemDto>;
+};
+
+export type GetPlayBookingTypesResponse = GetPlayBookingTypesResponses[keyof GetPlayBookingTypesResponses];

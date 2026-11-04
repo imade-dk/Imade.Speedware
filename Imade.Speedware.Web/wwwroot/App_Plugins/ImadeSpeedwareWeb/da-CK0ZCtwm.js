@@ -24,9 +24,19 @@ var e = {
 		pleaseSelect: "Intet valgt",
 		selectedItems: "Valgte udgivelsestyper",
 		search: "Søg..."
+	},
+	speedwareBookingTypesPicker: {
+		pleaseSelect: "Intet valgt",
+		selectedItems: "Valgte bookingtyper",
+		search: "Søg..."
+	},
+	speedwarePlayBookingTypesPicker: {
+		pleaseSelect: "Intet valgt",
+		selectedItems: "Valgte play-bookingtyper",
+		search: "Søg..."
 	}
 };
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=da-CPCorWPJ.js.map
+//# sourceMappingURL=da-CK0ZCtwm.js.map

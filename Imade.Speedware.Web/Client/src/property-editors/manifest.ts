@@ -3,6 +3,8 @@ import { manifests as playTeachersPicker } from './play-teachers-picker/manifest
 import { manifests as roomsPicker } from './rooms-picker/manifest.js';
 import { manifests as schoolsPicker } from './schools-picker/manifest.js';
 import { manifests as publishingTypesPicker } from './publishing-types-picker/manifest.js';
+import { manifests as bookingTypesPicker } from './booking-types-picker/manifest.js';
+import { manifests as playBookingTypesPicker } from './play-booking-types-picker/manifest.js';
 
 export const manifests = [
 	...teachersPicker,
@@ -10,4 +12,6 @@ export const manifests = [
 	...roomsPicker,
 	...schoolsPicker,
 	...publishingTypesPicker,
+	...bookingTypesPicker,
+	...playBookingTypesPicker,
 ];
