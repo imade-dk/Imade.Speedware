@@ -2,7 +2,11 @@ import { css, html, nothing, property, repeat, state } from '@umbraco-cms/backof
 import type { UUIComboboxElement, UUIComboboxEvent } from '@umbraco-cms/backoffice/external/uui';
 import { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
-import type { UmbPropertyEditorUiElement } from '@umbraco-cms/backoffice/property-editor';
+import type {
+	UmbPropertyEditorConfigCollection,
+	UmbPropertyEditorUiElement,
+} from '@umbraco-cms/backoffice/property-editor';
+import { SHOW_DEBUG_SETTING_ALIAS } from './settings.js';
 import type { PickerItem } from './types.js';
 
 export abstract class SpeedwarePickerBaseElement
@@ -35,6 +39,13 @@ export abstract class SpeedwarePickerBaseElement
 	}
 	public get value(): string {
 		return this.#value;
+	}
+
+	@state() private _showDebug = false;
+
+	@property({ attribute: false })
+	public set config(config: UmbPropertyEditorConfigCollection | undefined) {
+		this._showDebug = config?.getValueByAlias<boolean>(SHOW_DEBUG_SETTING_ALIAS) === true;
 	}
 
 	static #parseIds(v: unknown): number[] {
@@ -172,7 +183,20 @@ export abstract class SpeedwarePickerBaseElement
 						</div>
 					`
 				: nothing}
+			${this._showDebug ? this.#renderDebug() : nothing}
 		`;
+	}
+
+	#renderDebug() {
+		const debug = {
+			storedValue: this.#value,
+			selectedIds: this._selectedIds,
+			selectedItems: this._selectedItems.map((item) => ({ id: item.id, label: item.label })),
+			unresolvedIds: this._selectedIds.filter((id) => !this._allItems.some((item) => item.id === id)),
+			availableItems: this._allItems.length,
+			localizationKey: this.localizationKey,
+		};
+		return html`<pre id="debug">${JSON.stringify(debug, null, 2)}</pre>`;
 	}
 
 	static override styles = css`
@@ -186,6 +210,16 @@ export abstract class SpeedwarePickerBaseElement
 		#selected-heading {
 			font-weight: bold;
 			color: var(--uui-color-text);
+		}
+
+		#debug {
+			margin: var(--uui-size-space-3) 0 0;
+			padding: var(--uui-size-space-3);
+			overflow: auto;
+			font-size: var(--uui-type-small-size);
+			background: var(--uui-color-surface-alt);
+			border: 1px dashed var(--uui-color-border);
+			border-radius: var(--uui-border-radius);
 		}
 
 		#pills {

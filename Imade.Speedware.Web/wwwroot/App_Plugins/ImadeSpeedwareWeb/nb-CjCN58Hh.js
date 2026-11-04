@@ -44,9 +44,13 @@ var e = {
 		pleaseSelect: "Ingenting valgt",
 		selectedItems: "Valgte kurs",
 		search: "Søk..."
+	},
+	speedwarePickerSettings: {
+		showDebugLabel: "Vis feilsøkingsinformasjon",
+		showDebugDescription: "Viser den lagrede verdien og de valgte elementene under de valgte taggene."
 	}
 };
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=nb-CAE2OrXL.js.map
+//# sourceMappingURL=nb-CjCN58Hh.js.map

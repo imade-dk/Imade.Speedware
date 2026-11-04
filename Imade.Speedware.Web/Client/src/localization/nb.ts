@@ -46,4 +46,8 @@ export default {
 		selectedItems: 'Valgte kurs',
 		search: 'Søk...'
 	},
+	speedwarePickerSettings: {
+		showDebugLabel: 'Vis feilsøkingsinformasjon',
+		showDebugDescription: 'Viser den lagrede verdien og de valgte elementene under de valgte taggene.'
+	},
 } satisfies UmbLocalizationDictionary;

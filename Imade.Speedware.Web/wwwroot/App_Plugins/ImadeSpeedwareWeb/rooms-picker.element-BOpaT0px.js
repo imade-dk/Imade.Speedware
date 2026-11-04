@@ -1,4 +1,4 @@
-import { n as e, r as t, t as n } from "./api-BT24CeaO.js";
+import { n as e, r as t, t as n } from "./api-DDDfsnpu.js";
 import { customElement as r } from "@umbraco-cms/backoffice/external/lit";
 //#region src/property-editors/rooms-picker/rooms-picker.element.ts
 var i = class extends e {
@@ -18,4 +18,4 @@ var a = i;
 //#endregion
 export { i as RoomsPickerElement, a as default };
 
-//# sourceMappingURL=rooms-picker.element-Dap-dPtl.js.map
+//# sourceMappingURL=rooms-picker.element-BOpaT0px.js.map

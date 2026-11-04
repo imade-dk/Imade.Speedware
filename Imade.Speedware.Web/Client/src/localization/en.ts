@@ -46,4 +46,8 @@ export default {
 		selectedItems: 'Selected courses',
 		search: 'Search...'
 	},
+	speedwarePickerSettings: {
+		showDebugLabel: 'Show debug information',
+		showDebugDescription: 'Displays the stored value and the selected items below the selected tags.'
+	},
 } satisfies UmbLocalizationDictionary;

@@ -1,3 +1,5 @@
+import { pickerSettings } from '../settings.js';
+
 export const manifests: Array<UmbExtensionManifest> = [
 	{
 		type: 'propertyEditorUi',
@@ -9,6 +11,7 @@ export const manifests: Array<UmbExtensionManifest> = [
 			icon: 'icon-door-open-alt',
 			group: 'Pickers',
 			propertyEditorSchemaAlias: 'Umbraco.Plain.String',
+			settings: pickerSettings,
 		},
 	},
 ];

@@ -44,9 +44,13 @@ var e = {
 		pleaseSelect: "Nothing selected",
 		selectedItems: "Selected courses",
 		search: "Search..."
+	},
+	speedwarePickerSettings: {
+		showDebugLabel: "Show debug information",
+		showDebugDescription: "Displays the stored value and the selected items below the selected tags."
 	}
 };
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=en-ChtVRBUd.js.map
+//# sourceMappingURL=en-Cq7UWLsd.js.map

@@ -46,4 +46,8 @@ export default {
 		selectedItems: 'Valgte kurser',
 		search: 'Søg...'
 	},
+	speedwarePickerSettings: {
+		showDebugLabel: 'Vis debuginformation',
+		showDebugDescription: 'Viser den gemte værdi og de valgte elementer under de valgte tags.'
+	},
 } satisfies UmbLocalizationDictionary;

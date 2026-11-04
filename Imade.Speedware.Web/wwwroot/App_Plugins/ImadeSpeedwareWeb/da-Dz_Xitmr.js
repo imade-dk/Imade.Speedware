@@ -44,9 +44,13 @@ var e = {
 		pleaseSelect: "Intet valgt",
 		selectedItems: "Valgte kurser",
 		search: "Søg..."
+	},
+	speedwarePickerSettings: {
+		showDebugLabel: "Vis debuginformation",
+		showDebugDescription: "Viser den gemte værdi og de valgte elementer under de valgte tags."
 	}
 };
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=da-pkLQI3-A.js.map
+//# sourceMappingURL=da-Dz_Xitmr.js.map
