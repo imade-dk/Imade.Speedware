@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Imade.Speedware.Api.Core;
 using Imade.Speedware.Api.Interfaces;
 using Imade.Speedware.Api.Models;
+using Imade.Speedware.Web.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -29,19 +30,26 @@ namespace Imade.Speedware.Web.Services
             _logger = logger;
         }
 
-        public async Task<string> EnsureDownloadedAsync(Blob blob, CancellationToken cancellationToken = default)
+        public async Task<string> EnsureDownloadedAsync(Blob blob, FileFolder subFolder, int parentId, CancellationToken cancellationToken = default)
         {
-            var subfolder = FilesAndPath.FileTypeName(blob.MimeType);
-            var relativePath = Path.Combine(_config.RootUploadFolder, subfolder, blob.Name);
+
+
+            var relativePath = Helpers.Paths.ClientFilePath(blob, subFolder, parentId, _config.RootUploadFolder);
+            if (relativePath.StartsWith("/")) { 
+                relativePath = relativePath.Substring(1);
+            }
             var physicalPath = Path.Combine(_webRootPath, relativePath);
 
             if (File.Exists(physicalPath))
+            {
+                //_logger.LogInformation("Blob {BlobId} ({BlobName}) already exists at {PhysicalPath}.", blob.BlobId, blob.Name, physicalPath);
                 return ToVirtualPath(relativePath);
+            }
 
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(physicalPath)!);
-                var bytes = await _client.GetBlobBytesAsync(ApiEndpoint.BlobById, blob.BlobId, cancellationToken);
+                var bytes = await _client.GetBlobBytesAsync(ApiEndpoint.BlobById, blob.BlobId!, cancellationToken);
                 await File.WriteAllBytesAsync(physicalPath, bytes, cancellationToken);
                 return ToVirtualPath(relativePath);
             }

@@ -3,6 +3,7 @@ using Imade.Speedware.Web.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
+using Markdig;
 
 namespace Imade.Speedware.Web.Composers
 {
@@ -16,7 +17,15 @@ namespace Imade.Speedware.Web.Composers
             builder.Services.AddScoped<ISchoolsService, SchoolsService>();
             builder.Services.AddScoped<IDepartmentsService, DepartmentsService>();
             builder.Services.AddScoped<IRoomsService, RoomsService>();
+            builder.Services.AddScoped<IPublishingTypesService, PublishingTypesService>();
             builder.Services.AddScoped<IBlobService, BlobService>();
+
+            builder.Services.AddSingleton<Helpers.Utilities>();
+            builder.Services.AddSingleton<MarkdownPipeline>(sp => {
+                return new MarkdownPipelineBuilder()
+                    .UseAdvancedExtensions()
+                    .Build();
+            });
         }
     }
 }

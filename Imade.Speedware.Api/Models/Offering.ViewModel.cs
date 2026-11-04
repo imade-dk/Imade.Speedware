@@ -8,5 +8,5 @@ public partial class Offering
     public string? PublicName { get; set; }
     public bool IsOngoing { get; set; }
     public bool IsEnsemble { get; set; }
-
+    public IEnumerable<int> SchoolIds { get; set; } = [];
 }

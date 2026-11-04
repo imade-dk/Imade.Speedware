@@ -14,8 +14,9 @@ namespace Imade.Speedware.Api.Filters
 		public IEnumerable<int>? CourseSchoolIds { get; set; }
 		public int? BookingId { get; set; }
 		public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
 
-		public override int GetHashCode()
+        public override int GetHashCode()
 		{
 			unchecked
 			{
@@ -26,6 +27,7 @@ namespace Imade.Speedware.Api.Filters
 				hash = Core.HashHelper.HashCollection(hash, CourseSchoolIds);
 				hash = Core.HashHelper.HashValue(hash, BookingId);
 				hash = Core.HashHelper.HashValue(hash, DateFrom);
+				hash = Core.HashHelper.HashValue(hash, DateTo);
 				return hash;
 			}
 		}

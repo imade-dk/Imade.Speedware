@@ -24,6 +24,7 @@ public partial class Teacher
     public DateTime HireDate { get; set; }
     public bool CanBeBookingOwner { get; set; }
     public IEnumerable<string> AvailableClasses { get; set; } = [];
+    public IEnumerable<int> OfferingBaseIds { get; set; } = [];
     public IEnumerable<Department> Departments { get; set; } = [];
     public IEnumerable<Attribute> Attributes { get; set; } = [];
     public Blob? Blob { get; set; }

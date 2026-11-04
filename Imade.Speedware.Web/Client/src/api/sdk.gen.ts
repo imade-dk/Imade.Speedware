@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { PingData, PingErrors, PingResponses, WhatsMyNameData, WhatsMyNameErrors, WhatsMyNameResponses, WhatsTheTimeMrWolfData, WhatsTheTimeMrWolfErrors, WhatsTheTimeMrWolfResponses, WhoAmIData, WhoAmIErrors, WhoAmIResponses } from './types.gen';
+import type { GetPlayTeachersData, GetPlayTeachersErrors, GetPlayTeachersResponses, GetPublishingTypesData, GetPublishingTypesErrors, GetPublishingTypesResponses, GetRoomsData, GetRoomsErrors, GetRoomsResponses, GetSchoolsData, GetSchoolsErrors, GetSchoolsResponses, GetTeachersData, GetTeachersErrors, GetTeachersResponses, PingData, PingErrors, PingResponses, WhatsMyNameData, WhatsMyNameErrors, WhatsMyNameResponses, WhatsTheTimeMrWolfData, WhatsTheTimeMrWolfErrors, WhatsTheTimeMrWolfResponses, WhoAmIData, WhoAmIErrors, WhoAmIResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -67,6 +67,71 @@ export class ImadeSpeedwareWebService {
                 }
             ],
             url: '/umbraco/imadespeedwareweb/api/v1/whoAmI',
+            ...options
+        });
+    }
+
+    public static getTeachers<ThrowOnError extends boolean = false>(options?: Options<GetTeachersData, ThrowOnError>) {
+        return (options?.client ?? client).get<GetTeachersResponses, GetTeachersErrors, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/umbraco/imadespeedwareweb/api/v1/teachers',
+            ...options
+        });
+    }
+
+    public static getPlayTeachers<ThrowOnError extends boolean = false>(options?: Options<GetPlayTeachersData, ThrowOnError>) {
+        return (options?.client ?? client).get<GetPlayTeachersResponses, GetPlayTeachersErrors, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/umbraco/imadespeedwareweb/api/v1/play-teachers',
+            ...options
+        });
+    }
+
+    public static getPublishingTypes<ThrowOnError extends boolean = false>(options?: Options<GetPublishingTypesData, ThrowOnError>) {
+        return (options?.client ?? client).get<GetPublishingTypesResponses, GetPublishingTypesErrors, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/umbraco/imadespeedwareweb/api/v1/publishing-types',
+            ...options
+        });
+    }
+
+    public static getSchools<ThrowOnError extends boolean = false>(options?: Options<GetSchoolsData, ThrowOnError>) {
+        return (options?.client ?? client).get<GetSchoolsResponses, GetSchoolsErrors, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/umbraco/imadespeedwareweb/api/v1/schools',
+            ...options
+        });
+    }
+
+    public static getRooms<ThrowOnError extends boolean = false>(options?: Options<GetRoomsData, ThrowOnError>) {
+        return (options?.client ?? client).get<GetRoomsResponses, GetRoomsErrors, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/umbraco/imadespeedwareweb/api/v1/rooms',
             ...options
         });
     }

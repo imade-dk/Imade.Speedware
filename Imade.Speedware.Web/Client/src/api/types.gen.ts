@@ -264,3 +264,143 @@ export type WhoAmIResponses = {
 };
 
 export type WhoAmIResponse = WhoAmIResponses[keyof WhoAmIResponses];
+
+export type TeacherPickerItemDto = {
+    id: number;
+    name: string;
+};
+
+export type GetTeachersData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/umbraco/imadespeedwareweb/api/v1/teachers';
+};
+
+export type GetTeachersErrors = {
+    /**
+     * The resource is protected and requires an authentication token
+     */
+    401: unknown;
+};
+
+export type GetTeachersResponses = {
+    /**
+     * OK
+     */
+    200: Array<TeacherPickerItemDto>;
+};
+
+export type GetTeachersResponse = GetTeachersResponses[keyof GetTeachersResponses];
+
+export type PlayTeacherPickerItemDto = {
+    id: number;
+    name: string;
+};
+
+export type GetPlayTeachersData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/umbraco/imadespeedwareweb/api/v1/play-teachers';
+};
+
+export type GetPlayTeachersErrors = {
+    /**
+     * The resource is protected and requires an authentication token
+     */
+    401: unknown;
+};
+
+export type GetPlayTeachersResponses = {
+    /**
+     * OK
+     */
+    200: Array<PlayTeacherPickerItemDto>;
+};
+
+export type GetPlayTeachersResponse = GetPlayTeachersResponses[keyof GetPlayTeachersResponses];
+
+export type RoomPickerItemDto = {
+    id: number;
+    name: string;
+};
+
+export type GetRoomsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/umbraco/imadespeedwareweb/api/v1/rooms';
+};
+
+export type GetRoomsErrors = {
+    /**
+     * The resource is protected and requires an authentication token
+     */
+    401: unknown;
+};
+
+export type GetRoomsResponses = {
+    /**
+     * OK
+     */
+    200: Array<RoomPickerItemDto>;
+};
+
+export type GetRoomsResponse = GetRoomsResponses[keyof GetRoomsResponses];
+
+export type SchoolPickerItemDto = {
+    id: number;
+    name: string;
+};
+
+export type GetSchoolsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/umbraco/imadespeedwareweb/api/v1/schools';
+};
+
+export type GetSchoolsErrors = {
+    /**
+     * The resource is protected and requires an authentication token
+     */
+    401: unknown;
+};
+
+export type GetSchoolsResponses = {
+    /**
+     * OK
+     */
+    200: Array<SchoolPickerItemDto>;
+};
+
+export type GetSchoolsResponse = GetSchoolsResponses[keyof GetSchoolsResponses];
+
+export type PublishingTypePickerItemDto = {
+    id: number;
+    name: string;
+};
+
+export type GetPublishingTypesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/umbraco/imadespeedwareweb/api/v1/publishing-types';
+};
+
+export type GetPublishingTypesErrors = {
+    /**
+     * The resource is protected and requires an authentication token
+     */
+    401: unknown;
+};
+
+export type GetPublishingTypesResponses = {
+    /**
+     * OK
+     */
+    200: Array<PublishingTypePickerItemDto>;
+};
+
+export type GetPublishingTypesResponse = GetPublishingTypesResponses[keyof GetPublishingTypesResponses];

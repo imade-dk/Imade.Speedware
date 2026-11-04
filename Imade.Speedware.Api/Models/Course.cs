@@ -12,7 +12,7 @@ public partial class Course : ISpeedwareModel, IBlobs
     {
         get
         {
-            return Blobs.FirstOrDefault();
+            return Blobs.FirstOrDefault() ?? null;
         }
     }
     public List<Teacher> Teachers { get; set; } = [];

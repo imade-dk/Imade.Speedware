@@ -15,6 +15,6 @@ public partial class PlayBooking
     public IEnumerable<Attribute> Attributes { get; set; } = [];
     public IEnumerable<PlayBookingTimeSlot> TeacherAndRoomOnNextTimeSlot { get; set; } = [];
     public IEnumerable<PlayBookingDate> TimeSlots { get; set; } = [];
-    public string? ImageUniqueBlobId { get; set; }
+    public Blob Blob { get; set; }
     public string? CatalogueUrl { get; set; }
 }

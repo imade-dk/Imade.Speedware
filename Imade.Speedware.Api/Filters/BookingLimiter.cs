@@ -63,7 +63,7 @@ namespace Imade.Speedware.Api.Filters
                 hash = Core.HashHelper.HashString(hash, TeacherName);
                 hash = (hash * 16777619) ^ Take.GetHashCode();
                 hash = (hash * 16777619) ^ Skip.GetHashCode();
-                hash = (hash * 16777619) ^ Sort.GetHashCode();
+                hash = (hash * 16777619) ^ Sort?.GetHashCode() ?? "".GetHashCode();
                 return hash;
             }
         }

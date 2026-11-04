@@ -23,12 +23,18 @@ namespace Imade.Speedware.Web.Services
             _logger = logger;
         }
 
-        public async Task<List<Teacher>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Teacher>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                return await GetCachedListAsync("speedware:teachers:all",
+                var retval = await GetCachedListAsync("speedware:teachers:all",
                     async () => await _client.GetListAsync<Teacher>(ApiEndpoint.Teachers, cancellationToken));
+                foreach (var item in retval)
+                {
+                    await EnsureBlobAsync(item, cancellationToken);
+                }
+
+                return retval;
             }
             catch (Exception ex)
             {
@@ -52,7 +58,7 @@ namespace Imade.Speedware.Web.Services
             }
         }
 
-        public async Task<List<Teacher>> GetByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Teacher>> GetByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -66,7 +72,7 @@ namespace Imade.Speedware.Web.Services
             }
         }
 
-        public async Task<List<Course>> GetCoursesByTeacherAsync(int teacherId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Course>> GetCoursesByTeacherAsync(int teacherId, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -87,7 +93,7 @@ namespace Imade.Speedware.Web.Services
 
             try
             {
-                return await _blobService.EnsureDownloadedAsync(teacher.Blob, cancellationToken);
+                return await _blobService.EnsureDownloadedAsync(teacher.Blob, Core.FileFolder.Teacher, teacher.TeacherId, cancellationToken);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,4 @@
-﻿using System.Text.Encodings.Web;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Imade.Speedware.Api.Core;
@@ -34,6 +34,7 @@ namespace Imade.Speedware.Web.Composers
                         {
                             [nameof(SpeedwareApiKey.Name)]   = string.Empty,
                             [nameof(SpeedwareApiKey.ApiKey)] = string.Empty,
+                            [nameof(SpeedwareApiKey.SchoolIdentifier)] = string.Empty,
                         }
                     },
                     [nameof(SpeedwareConfig.BaseUrl)]          = defaults.BaseUrl,

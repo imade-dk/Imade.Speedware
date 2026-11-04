@@ -4,5 +4,6 @@ namespace Imade.Speedware.Api.Core
     {
         public string Name { get; set; } = string.Empty;
         public string ApiKey { get; set; } = string.Empty;
+        public string SchoolIdentifier { get; set; } = string.Empty;
     }
 }

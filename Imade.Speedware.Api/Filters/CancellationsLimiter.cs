@@ -1,4 +1,4 @@
-﻿using Imade.Speedware.Api.Interfaces;
+using Imade.Speedware.Api.Interfaces;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,12 +10,12 @@ namespace Imade.Speedware.Api.Filters
         /// Filter using gt and eq
         /// Deafaults to today
         /// </summary>
-        public DateTime DateFrom { get; set; } = DateTime.Today;
+        public required DateTime DateFrom { get; set; } = DateTime.Today;
         /// <summary>
         /// Filter using lt and eq
         /// defaults to today + 1
         /// </summary>
-        public DateTime DateTo { get; set; } = DateTime.Today.AddDays(1);
+        public required DateTime DateTo { get; set; } = DateTime.Today.AddDays(1);
         /// <summary>
         /// Filter using equals
         /// </summary>

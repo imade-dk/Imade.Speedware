@@ -1,5 +1,5 @@
 namespace Imade.Speedware.Api.Models;
 
-	public partial class Category 
-	{
-	}
+public partial class Category
+{
+}

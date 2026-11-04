@@ -9,7 +9,9 @@
   <Folder Name="/TestSites/">
     <Project Path="Umbraco17.4.0/Umbraco17.4.0.csproj" />
     <Project Path="Imade.Speedware.TestApi/Imade.Speedware.TestApi.csproj" />
+    <Project Path="USN.7.0/USN.7.0.csproj" />
   </Folder>
   <Project Path="Imade.Speedware.Api/Imade.Speedware.Api.csproj" />
   <Project Path="Imade.Speedware.Web/Imade.Speedware.Web.csproj" />
+  
 </Solution>
