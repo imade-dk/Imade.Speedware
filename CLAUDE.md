@@ -57,10 +57,13 @@ services.AddSpeedwareApiClient(configuration);
 This wires `ISpeedwareClient → SpeedwareClient` as a typed `HttpClient`, configures base address, timeout (10 min), and the `Authorization` header, and binds `SpeedwareConfig` from the `speedware` section of `appsettings.json`.
 
 Required config keys under `speedware`:
-- `ApiKey` — the Speedadmin API key (no default; throws on startup if missing)
+- `ApiKeys` — list of `{ Name, ApiKey }` Speedadmin keys (the first is used unless a name is requested via `GetApiKey(name)`); the legacy single `ApiKey` is used only when `ApiKeys` is empty (no default; throws on startup if no key is configured)
 - `BaseUrl` — defaults to `https://api.speedadmin.dk/v1/`
 - `SchoolIdentifier` — tenant identifier (no default)
+- `RootUploadFolder` — folder for downloaded blobs (default `speedware`)
 - `CacheDuration` — integer, minutes (default 10)
+
+Never commit real API keys: keep them in `appsettings.Development.json` (gitignored) or user secrets, not in `Umbraco17.4.0/appsettings.json`.
 
 ### Model layers
 
@@ -97,14 +100,41 @@ Imade.Speedware.Web/
 ├── Constants.cs
 ├── Composers/          # C# composers (DI wiring, Swagger)
 ├── Controllers/        # C# API controllers exposed to the backoffice
+├── Services/           # Cached services over ISpeedwareClient (one per entity)
+├── Core/, Helpers/, Models/
 └── Client/             # TypeScript/Vite source
     ├── package.json
     ├── vite.config.ts
     └── src/
-        ├── api/        # Generated OpenAPI client
+        ├── api/        # OpenAPI client (generated, with hand-added picker entries)
         ├── entrypoints/
+        ├── localization/      # en.ts, da.ts, nb.ts + manifest.ts
+        ├── property-editors/  # Speedware pickers (see below)
         └── bundle.manifests.ts
 ```
+
+The built bundle in `wwwroot/App_Plugins/ImadeSpeedwareWeb` is tracked in git; run `npm run build` before committing.
+
+### Services
+
+Each entity has an `I<Name>Service` / `<Name>Service` pair in `Services/`, registered as scoped in `Composers/SpeedwareServicesComposer.cs`. Services extend `SpeedwareServiceBase` and use `GetCachedListAsync` / `GetCachedAsync` (runtime cache, duration from `CacheDuration`) with keys like `speedware:<entity>:all` and `speedware:<entity>:{id}`. They log failures and rethrow, and throw `SpeedwareApiException` when an id is not found. Copy an existing service (e.g. `SchoolsService`) when adding one.
+
+Existing services: Teachers, Schools, Departments, Rooms, PublishingTypes, BookingTypes, PlayBookingTypes, OfferingBase, Courses (uses `courses/all`), Blob.
+
+### Pickers (property editors)
+
+Pickers are multi-select property editor UIs (`propertyEditorUi`, schema `Umbraco.Plain.String`) that store the selected ids as a JSON array string, e.g. `[1,2,3]`. All share `property-editors/speedware-picker.element.ts` (`SpeedwarePickerBaseElement`); each picker is a folder with `manifest.ts` and `<name>-picker.element.ts` that only sets `localizationKey` and implements `fetchItems()` returning `{ id, label }[]`.
+
+Pickers: teachers, play teachers, rooms, schools, publishing types, booking types, play booking types, offering base, courses.
+
+Adding a picker:
+1. Add (or reuse) the service and register it in `SpeedwareServicesComposer`.
+2. Add an endpoint to `Controllers/SpeedwarePickersController.cs` returning `{ Id, Name }` items (filter inactive items where the model has an active flag) and its `...PickerItemDto` record.
+3. Add the matching function and types to `Client/src/api/sdk.gen.ts` / `types.gen.ts` (or regenerate the client; entries so far were added by hand).
+4. Create `property-editors/<name>-picker/` with the manifest (include `settings: pickerSettings`) and element, and register the manifest in `property-editors/manifest.ts`.
+5. Add a localization section named after `localizationKey` (`speedware<Name>Picker`) with `pleaseSelect`, `selectedItems` and `search` to `en.ts`, `da.ts` and `nb.ts`.
+
+All pickers share a "Show debug information" data type setting (`showDebug`, default false, defined in `property-editors/settings.ts`) that renders the stored value and selected items under the tags.
 
 ### Extension development workflow
 
