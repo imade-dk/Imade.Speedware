@@ -1,4 +1,4 @@
-import { n as e, r as t, t as n } from "./api-DQ8BC5Id.js";
+import { n as e, r as t, t as n } from "./api-BT24CeaO.js";
 import { customElement as r } from "@umbraco-cms/backoffice/external/lit";
 //#region src/property-editors/play-teachers-picker/play-teachers-picker.element.ts
 var i = class extends e {
@@ -18,4 +18,4 @@ var a = i;
 //#endregion
 export { i as PlayTeachersPickerElement, a as default };
 
-//# sourceMappingURL=play-teachers-picker.element-DJuWpRzW.js.map
+//# sourceMappingURL=play-teachers-picker.element-DP06QT5R.js.map

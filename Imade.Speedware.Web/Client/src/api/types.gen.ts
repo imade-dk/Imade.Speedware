@@ -460,3 +460,59 @@ export type GetPlayBookingTypesResponses = {
 };
 
 export type GetPlayBookingTypesResponse = GetPlayBookingTypesResponses[keyof GetPlayBookingTypesResponses];
+
+export type OfferingBasePickerItemDto = {
+    id: number;
+    name: string;
+};
+
+export type GetOfferingBasesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/umbraco/imadespeedwareweb/api/v1/offering-bases';
+};
+
+export type GetOfferingBasesErrors = {
+    /**
+     * The resource is protected and requires an authentication token
+     */
+    401: unknown;
+};
+
+export type GetOfferingBasesResponses = {
+    /**
+     * OK
+     */
+    200: Array<OfferingBasePickerItemDto>;
+};
+
+export type GetOfferingBasesResponse = GetOfferingBasesResponses[keyof GetOfferingBasesResponses];
+
+export type CoursePickerItemDto = {
+    id: number;
+    name: string;
+};
+
+export type GetCoursesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/umbraco/imadespeedwareweb/api/v1/courses';
+};
+
+export type GetCoursesErrors = {
+    /**
+     * The resource is protected and requires an authentication token
+     */
+    401: unknown;
+};
+
+export type GetCoursesResponses = {
+    /**
+     * OK
+     */
+    200: Array<CoursePickerItemDto>;
+};
+
+export type GetCoursesResponse = GetCoursesResponses[keyof GetCoursesResponses];

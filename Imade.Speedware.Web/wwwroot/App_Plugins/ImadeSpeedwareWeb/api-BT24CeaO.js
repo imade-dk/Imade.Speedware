@@ -686,6 +686,26 @@ var C = async (e, t) => {
 			...e
 		});
 	}
+	static getCourses(e) {
+		return (e?.client ?? L).get({
+			security: [{
+				scheme: "bearer",
+				type: "http"
+			}],
+			url: "/umbraco/imadespeedwareweb/api/v1/courses",
+			...e
+		});
+	}
+	static getOfferingBases(e) {
+		return (e?.client ?? L).get({
+			security: [{
+				scheme: "bearer",
+				type: "http"
+			}],
+			url: "/umbraco/imadespeedwareweb/api/v1/offering-bases",
+			...e
+		});
+	}
 	static getPlayBookingTypes(e) {
 		return (e?.client ?? L).get({
 			security: [{
@@ -740,4 +760,4 @@ var C = async (e, t) => {
 //#endregion
 export { u as n, l as r, R as t };
 
-//# sourceMappingURL=api-DQ8BC5Id.js.map
+//# sourceMappingURL=api-BT24CeaO.js.map

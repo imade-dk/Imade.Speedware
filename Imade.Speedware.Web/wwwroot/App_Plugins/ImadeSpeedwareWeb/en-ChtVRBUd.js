@@ -34,9 +34,19 @@ var e = {
 		pleaseSelect: "Nothing selected",
 		selectedItems: "Selected play booking types",
 		search: "Search..."
+	},
+	speedwareOfferingBasePicker: {
+		pleaseSelect: "Nothing selected",
+		selectedItems: "Selected offering bases",
+		search: "Search..."
+	},
+	speedwareCoursesPicker: {
+		pleaseSelect: "Nothing selected",
+		selectedItems: "Selected courses",
+		search: "Search..."
 	}
 };
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=en-CpDbLsjQ.js.map
+//# sourceMappingURL=en-ChtVRBUd.js.map

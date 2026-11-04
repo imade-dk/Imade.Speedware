@@ -34,9 +34,19 @@ var e = {
 		pleaseSelect: "Intet valgt",
 		selectedItems: "Valgte play-bookingtyper",
 		search: "Søg..."
+	},
+	speedwareOfferingBasePicker: {
+		pleaseSelect: "Intet valgt",
+		selectedItems: "Valgte kursusskabeloner",
+		search: "Søg..."
+	},
+	speedwareCoursesPicker: {
+		pleaseSelect: "Intet valgt",
+		selectedItems: "Valgte kurser",
+		search: "Søg..."
 	}
 };
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=da-CK0ZCtwm.js.map
+//# sourceMappingURL=da-pkLQI3-A.js.map

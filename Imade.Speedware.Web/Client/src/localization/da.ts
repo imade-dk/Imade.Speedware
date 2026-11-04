@@ -36,4 +36,14 @@ export default {
 		selectedItems: 'Valgte play-bookingtyper',
 		search: 'Søg...'
 	},
+	speedwareOfferingBasePicker: {
+		pleaseSelect: 'Intet valgt',
+		selectedItems: 'Valgte kursusskabeloner',
+		search: 'Søg...'
+	},
+	speedwareCoursesPicker: {
+		pleaseSelect: 'Intet valgt',
+		selectedItems: 'Valgte kurser',
+		search: 'Søg...'
+	},
 } satisfies UmbLocalizationDictionary;

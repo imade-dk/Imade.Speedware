@@ -7,8 +7,31 @@ namespace Imade.Speedware.Web.Controllers
 {
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "Imade.Speedware.Web")]
-    public class SpeedwarePickersController(ITeachersService teachersService, IRoomsService roomsService, ISchoolsService schoolsService, IPublishingTypesService publishingTypesService, IBookingTypesService bookingTypesService, IPlayBookingTypesService playBookingTypesService) : ImadeSpeedwareWebApiControllerBase
+    public class SpeedwarePickersController(ITeachersService teachersService, IRoomsService roomsService, ISchoolsService schoolsService, IPublishingTypesService publishingTypesService, IBookingTypesService bookingTypesService, IPlayBookingTypesService playBookingTypesService, IOfferingBaseService offeringBaseService, ICoursesService coursesService) : ImadeSpeedwareWebApiControllerBase
     {
+        [HttpGet("courses")]
+        [ProducesResponseType<List<CoursePickerItemDto>>(StatusCodes.Status200OK)]
+        public async Task<List<CoursePickerItemDto>> GetCourses(CancellationToken cancellationToken)
+        {
+            var courses = await coursesService.GetAllAsync(cancellationToken);
+            return courses
+                .Where(c => c.Active)
+                .OrderBy(c => c.Name)
+                .Select(c => new CoursePickerItemDto(c.CouseId, c.Name ?? string.Empty))
+                .ToList();
+        }
+
+        [HttpGet("offering-bases")]
+        [ProducesResponseType<List<OfferingBasePickerItemDto>>(StatusCodes.Status200OK)]
+        public async Task<List<OfferingBasePickerItemDto>> GetOfferingBases(CancellationToken cancellationToken)
+        {
+            var offeringBases = await offeringBaseService.GetAllAsync(cancellationToken);
+            return offeringBases
+                .OrderBy(o => o.Name)
+                .Select(o => new OfferingBasePickerItemDto(o.OfferingBaseId, o.Name ?? string.Empty))
+                .ToList();
+        }
+
         [HttpGet("play-booking-types")]
         [ProducesResponseType<List<PlayBookingTypePickerItemDto>>(StatusCodes.Status200OK)]
         public async Task<List<PlayBookingTypePickerItemDto>> GetPlayBookingTypes(CancellationToken cancellationToken)
@@ -97,4 +120,6 @@ namespace Imade.Speedware.Web.Controllers
     public record PublishingTypePickerItemDto(int Id, string Name);
     public record BookingTypePickerItemDto(int Id, string Name);
     public record PlayBookingTypePickerItemDto(int Id, string Name);
+    public record OfferingBasePickerItemDto(int Id, string Name);
+    public record CoursePickerItemDto(int Id, string Name);
 }

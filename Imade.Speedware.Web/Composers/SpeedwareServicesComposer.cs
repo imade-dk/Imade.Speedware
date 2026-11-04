@@ -20,6 +20,8 @@ namespace Imade.Speedware.Web.Composers
             builder.Services.AddScoped<IPublishingTypesService, PublishingTypesService>();
             builder.Services.AddScoped<IBookingTypesService, BookingTypesService>();
             builder.Services.AddScoped<IPlayBookingTypesService, PlayBookingTypesService>();
+            builder.Services.AddScoped<IOfferingBaseService, OfferingBaseService>();
+            builder.Services.AddScoped<ICoursesService, CoursesService>();
             builder.Services.AddScoped<IBlobService, BlobService>();
 
             builder.Services.AddSingleton<Helpers.Utilities>();
