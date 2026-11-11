@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 |---|---|---|
 | `Imade.Speedware.Api` | .NET 10 class library | Speedadmin REST API client |
 | `Imade.Speedware.Web` | Umbraco backoffice extension | Backoffice UI for Speedadmin data |
+| `Imade.Speedware.Usn` | .NET 10 class library | USN SiteBuilder integration shared by downstream projects (e.g. `SpwiBlock<T>`); the only project that references `USNSiteBuilder.Core` |
 | `Umbraco17.4.0` | Umbraco 17.3.5 web app (test site) | Local dev host for the extension |
 
 ## Build

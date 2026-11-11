@@ -10,6 +10,5 @@
     <PackageVersion Include="Umbraco.Cms.Api.Management" Version="17.7.1" />
     <PackageVersion Include="Umbraco.Cms.Web.Common" Version="17.7.1" />
     <PackageVersion Include="Umbraco.Cms.Web.Website" Version="17.7.1" />
-    <PackageVersion Include="USNSiteBuilder.Core" Version="7.2.1" />
   </ItemGroup>
 </Project>

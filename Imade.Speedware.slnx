@@ -13,5 +13,6 @@
   </Folder>
   <Project Path="Imade.Speedware.Api/Imade.Speedware.Api.csproj" />
   <Project Path="Imade.Speedware.Web/Imade.Speedware.Web.csproj" />
+  <Project Path="Imade.Speedware.Usn/Imade.Speedware.Usn.csproj" />
   
 </Solution>

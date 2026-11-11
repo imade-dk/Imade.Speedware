@@ -5,7 +5,7 @@ using Umbraco.Cms.Core.Models.Blocks;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using USNSiteBuilder.Core.Models;
 
-namespace Imade.Speedware.Web.Models
+namespace Imade.Speedware.Usn.Models
 {
     public class SpwiBlock<T> where T : class
     {
