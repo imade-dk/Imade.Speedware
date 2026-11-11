@@ -127,13 +127,13 @@ export class CoursesTreePickerElement extends SpeedwarePickerBaseElement {
 					placeholder="${this._term('search')}"
 					.value=${this._treeSearch}
 					@input=${(e: Event) => (this._treeSearch = (e.target as HTMLInputElement).value)}></uui-input>
-				${this.renderClearAll()}
 				<uui-button compact look="secondary" label="${this._term('expandAll')}" @click=${this.#expandAll}>
 					${this._term('expandAll')}
 				</uui-button>
 				<uui-button compact look="secondary" label="${this._term('collapseAll')}" @click=${this.#collapseAll}>
 					${this._term('collapseAll')}
 				</uui-button>
+				${this.renderClearAll()}
 			</div>
 			<div id="tree" role="tree">${this.#renderNodes(roots, search)}</div>
 		`;

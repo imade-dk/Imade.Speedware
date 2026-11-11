@@ -1,4 +1,4 @@
-import { n as e, r as t, t as n } from "./api-BGVzrnin.js";
+import { n as e, r as t, t as n } from "./api-BfM7j7ti.js";
 import { css as r, customElement as i, html as a, nothing as o, repeat as s, state as c } from "@umbraco-cms/backoffice/external/lit";
 //#region src/property-editors/courses-tree-picker/courses-tree-picker.element.ts
 var l = 0, u = class extends e {
@@ -82,13 +82,13 @@ var l = 0, u = class extends e {
 					placeholder="${this._term("search")}"
 					.value=${this._treeSearch}
 					@input=${(e) => this._treeSearch = e.target.value}></uui-input>
-				${this.renderClearAll()}
 				<uui-button compact look="secondary" label="${this._term("expandAll")}" @click=${this.#s}>
 					${this._term("expandAll")}
 				</uui-button>
 				<uui-button compact look="secondary" label="${this._term("collapseAll")}" @click=${this.#c}>
 					${this._term("collapseAll")}
 				</uui-button>
+				${this.renderClearAll()}
 			</div>
 			<div id="tree" role="tree">${this.#u(t, e)}</div>
 		`;
@@ -199,4 +199,4 @@ var d = u;
 //#endregion
 export { u as CoursesTreePickerElement, d as default };
 
-//# sourceMappingURL=courses-tree-picker.element-CR8k63na.js.map
+//# sourceMappingURL=courses-tree-picker.element-DScpatRj.js.map

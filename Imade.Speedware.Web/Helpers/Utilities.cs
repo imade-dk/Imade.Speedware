@@ -505,6 +505,26 @@ namespace Imade.Speedware.Web.Helpers
             return string.Empty;
         }
 
+        /// <summary>
+        /// Converts the stored value of a Speedware picker (a JSON array string such as "[1,2,3]") to a list of ids.
+        /// Returns an empty list for null/empty/invalid values.
+        /// </summary>
+        public static List<int> ParsePickerIds(string? json)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return [];
+            }
+            try
+            {
+                return JsonConvert.DeserializeObject<List<int>>(json) ?? [];
+            }
+            catch (JsonException)
+            {
+                return [];
+            }
+        }
+
         public static string ParseVideoUrl(string url)
         {
             if (url.IndexOf("youtube.com") > -1 || url.IndexOf("youtu.be") > -1 || url.IndexOf("vimeo.com") > -1)

@@ -98,7 +98,8 @@ var m = class o extends d(u, "") {
 		return i`
 			<uui-button
 				class="clear-all"
-				look="secondary"
+				look="primary"
+				color="warning"
 				compact
 				label="${e}"
 				?disabled=${this._loading || this._selectedIds.length === 0}
@@ -135,7 +136,7 @@ var m = class o extends d(u, "") {
 							${s(this._selectedItems, (e) => e.id, (e) => i`
 									<uui-tag>
 										<div class="tag-content">
-											<span>${e.label}</span>
+											<span title="ID:${e.id}">${e.label}</span>
 											<uui-button
 												label="Remove ${e.label}"
 												compact
@@ -854,4 +855,4 @@ var D = async (e, t) => {
 //#endregion
 export { m as n, p as r, H as t };
 
-//# sourceMappingURL=api-BGVzrnin.js.map
+//# sourceMappingURL=api-BfM7j7ti.js.map

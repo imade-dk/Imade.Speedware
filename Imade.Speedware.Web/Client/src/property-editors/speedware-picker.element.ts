@@ -188,7 +188,8 @@ export abstract class SpeedwarePickerBaseElement
 		return html`
 			<uui-button
 				class="clear-all"
-				look="secondary"
+				look="primary"
+				color="warning"
 				compact
 				label="${label}"
 				?disabled=${this._loading || this._selectedIds.length === 0}
@@ -242,7 +243,7 @@ export abstract class SpeedwarePickerBaseElement
 								(item) => html`
 									<uui-tag>
 										<div class="tag-content">
-											<span>${item.label}</span>
+											<span title="ID:${item.id}">${item.label}</span>
 											<uui-button
 												label="Remove ${item.label}"
 												compact
