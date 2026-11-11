@@ -45,12 +45,26 @@ var e = {
 		selectedItems: "Valgte kurser",
 		search: "Søg..."
 	},
+	speedwareCoursesTreePicker: {
+		pleaseSelect: "Intet valgt",
+		selectedItems: "Valgte noder",
+		search: "Søg...",
+		expandAll: "Fold alle ud",
+		collapseAll: "Fold alle sammen",
+		selectChildren: "Vælg alle underordnede",
+		deselectChildren: "Fravælg alle underordnede"
+	},
+	speedwarePickerCommon: { clearAll: "Ryd alle" },
 	speedwarePickerSettings: {
 		showDebugLabel: "Vis debuginformation",
-		showDebugDescription: "Viser den gemte værdi og de valgte elementer under de valgte tags."
+		showDebugDescription: "Viser den gemte værdi og de valgte elementer under de valgte tags.",
+		amountLabel: "Antal",
+		amountDescription: "Angiv det mindste og største antal elementer, der kan vælges. Lad begge stå på 0 for ingen begrænsning.",
+		showSelectedLabel: "Vis valgte noder",
+		showSelectedDescription: "Viser de valgte noder som tags under træet."
 	}
 };
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=da-Dz_Xitmr.js.map
+//# sourceMappingURL=da-CqTEtLfJ.js.map

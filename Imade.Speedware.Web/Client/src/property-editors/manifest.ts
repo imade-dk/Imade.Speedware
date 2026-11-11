@@ -7,6 +7,7 @@ import { manifests as bookingTypesPicker } from './booking-types-picker/manifest
 import { manifests as playBookingTypesPicker } from './play-booking-types-picker/manifest.js';
 import { manifests as offeringBasePicker } from './offering-base-picker/manifest.js';
 import { manifests as coursesPicker } from './courses-picker/manifest.js';
+import { manifests as coursesTreePicker } from './courses-tree-picker/manifest.js';
 
 export const manifests = [
 	...teachersPicker,
@@ -18,4 +19,5 @@ export const manifests = [
 	...playBookingTypesPicker,
 	...offeringBasePicker,
 	...coursesPicker,
+	...coursesTreePicker,
 ];

@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { GetCoursesData, GetCoursesErrors, GetCoursesResponses, GetOfferingBasesData, GetOfferingBasesErrors, GetOfferingBasesResponses, GetPlayBookingTypesData, GetPlayBookingTypesErrors, GetPlayBookingTypesResponses, GetBookingTypesData, GetBookingTypesErrors, GetBookingTypesResponses, GetPlayTeachersData, GetPlayTeachersErrors, GetPlayTeachersResponses, GetPublishingTypesData, GetPublishingTypesErrors, GetPublishingTypesResponses, GetRoomsData, GetRoomsErrors, GetRoomsResponses, GetSchoolsData, GetSchoolsErrors, GetSchoolsResponses, GetTeachersData, GetTeachersErrors, GetTeachersResponses, PingData, PingErrors, PingResponses, WhatsMyNameData, WhatsMyNameErrors, WhatsMyNameResponses, WhatsTheTimeMrWolfData, WhatsTheTimeMrWolfErrors, WhatsTheTimeMrWolfResponses, WhoAmIData, WhoAmIErrors, WhoAmIResponses } from './types.gen';
+import type { GetCoursesTreeData, GetCoursesTreeErrors, GetCoursesTreeResponses, GetCoursesData, GetCoursesErrors, GetCoursesResponses, GetOfferingBasesData, GetOfferingBasesErrors, GetOfferingBasesResponses, GetPlayBookingTypesData, GetPlayBookingTypesErrors, GetPlayBookingTypesResponses, GetBookingTypesData, GetBookingTypesErrors, GetBookingTypesResponses, GetPlayTeachersData, GetPlayTeachersErrors, GetPlayTeachersResponses, GetPublishingTypesData, GetPublishingTypesErrors, GetPublishingTypesResponses, GetRoomsData, GetRoomsErrors, GetRoomsResponses, GetSchoolsData, GetSchoolsErrors, GetSchoolsResponses, GetTeachersData, GetTeachersErrors, GetTeachersResponses, PingData, PingErrors, PingResponses, WhatsMyNameData, WhatsMyNameErrors, WhatsMyNameResponses, WhatsTheTimeMrWolfData, WhatsTheTimeMrWolfErrors, WhatsTheTimeMrWolfResponses, WhoAmIData, WhoAmIErrors, WhoAmIResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -93,6 +93,19 @@ export class ImadeSpeedwareWebService {
                 }
             ],
             url: '/umbraco/imadespeedwareweb/api/v1/play-teachers',
+            ...options
+        });
+    }
+
+    public static getCoursesTree<ThrowOnError extends boolean = false>(options?: Options<GetCoursesTreeData, ThrowOnError>) {
+        return (options?.client ?? client).get<GetCoursesTreeResponses, GetCoursesTreeErrors, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/umbraco/imadespeedwareweb/api/v1/courses-tree',
             ...options
         });
     }

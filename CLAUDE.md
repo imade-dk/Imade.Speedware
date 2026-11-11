@@ -119,13 +119,17 @@ The built bundle in `wwwroot/App_Plugins/ImadeSpeedwareWeb` is tracked in git; r
 
 Each entity has an `I<Name>Service` / `<Name>Service` pair in `Services/`, registered as scoped in `Composers/SpeedwareServicesComposer.cs`. Services extend `SpeedwareServiceBase` and use `GetCachedListAsync` / `GetCachedAsync` (runtime cache, duration from `CacheDuration`) with keys like `speedware:<entity>:all` and `speedware:<entity>:{id}`. They log failures and rethrow, and throw `SpeedwareApiException` when an id is not found. Copy an existing service (e.g. `SchoolsService`) when adding one.
 
-Existing services: Teachers, Schools, Departments, Rooms, PublishingTypes, BookingTypes, PlayBookingTypes, OfferingBase, Courses (uses `courses/all`), Blob.
+Existing services: Teachers, Schools, Departments, Rooms, PublishingTypes, BookingTypes, PlayBookingTypes, OfferingBase, Courses (uses `courses/all`), CoursesTree (uses `courses/tree`), Blob.
 
 ### Pickers (property editors)
 
 Pickers are multi-select property editor UIs (`propertyEditorUi`, schema `Umbraco.Plain.String`) that store the selected ids as a JSON array string, e.g. `[1,2,3]`. All share `property-editors/speedware-picker.element.ts` (`SpeedwarePickerBaseElement`); each picker is a folder with `manifest.ts` and `<name>-picker.element.ts` that only sets `localizationKey` and implements `fetchItems()` returning `{ id, label }[]`.
 
-Pickers: teachers, play teachers, rooms, schools, publishing types, booking types, play booking types, offering base, courses.
+Pickers: teachers, play teachers, rooms, schools, publishing types, booking types, play booking types, offering base, courses, courses tree.
+
+The courses tree picker stores node `TreeID`s (not course ids). Its endpoint (`courses-tree`) returns a flat depth-first list `{ id, name, parentId, courseCount, active }` (only the subtree below the node with `TreeID` 1 is returned, that node itself omitted, so its children are the roots with `parentId` 0; inactive nodes included but disabled); the client builds the tree. It extends the base element by overriding `renderSelector()` and calling `setSelectedIds()`; the tags show `Parent › Child` paths and can be hidden with the tree picker's "Show selected nodes" setting (`showSelected`, default on; hides the tags and the "nothing selected" text).
+
+The offering base and courses pickers use `limitedPickerSettings`, which adds an "Amount" min/max setting (`validationLimit`, `Umb.PropertyEditorUi.NumberRange`, like the Block List). 0 or empty means no limit. The base element mixes in `UmbFormControlMixin` and registers `rangeUnderflow`/`rangeOverflow` validators; at the maximum the combobox is disabled. Pickers without the setting are unrestricted.
 
 Adding a picker:
 1. Add (or reuse) the service and register it in `SpeedwareServicesComposer`.

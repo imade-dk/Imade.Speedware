@@ -45,12 +45,26 @@ var e = {
 		selectedItems: "Selected courses",
 		search: "Search..."
 	},
+	speedwareCoursesTreePicker: {
+		pleaseSelect: "Nothing selected",
+		selectedItems: "Selected nodes",
+		search: "Search...",
+		expandAll: "Expand all",
+		collapseAll: "Collapse all",
+		selectChildren: "Select all children",
+		deselectChildren: "Deselect all children"
+	},
+	speedwarePickerCommon: { clearAll: "Clear all" },
 	speedwarePickerSettings: {
 		showDebugLabel: "Show debug information",
-		showDebugDescription: "Displays the stored value and the selected items below the selected tags."
+		showDebugDescription: "Displays the stored value and the selected items below the selected tags.",
+		amountLabel: "Amount",
+		amountDescription: "Set the minimum and maximum number of items that can be selected. Leave both at 0 for no restriction.",
+		showSelectedLabel: "Show selected nodes",
+		showSelectedDescription: "Displays the selected nodes as tags below the tree."
 	}
 };
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=en-Cq7UWLsd.js.map
+//# sourceMappingURL=en-9_AoLdJZ.js.map

@@ -1,4 +1,4 @@
-import { n as e, r as t, t as n } from "./api-DDDfsnpu.js";
+import { n as e, r as t, t as n } from "./api-BGVzrnin.js";
 import { customElement as r } from "@umbraco-cms/backoffice/external/lit";
 //#region src/property-editors/schools-picker/schools-picker.element.ts
 var i = class extends e {
@@ -18,4 +18,4 @@ var a = i;
 //#endregion
 export { i as SchoolsPickerElement, a as default };
 
-//# sourceMappingURL=schools-picker.element-sAbgekUF.js.map
+//# sourceMappingURL=schools-picker.element-C9ZRHFtc.js.map

@@ -1,20 +1,28 @@
 import { css, html, nothing, property, repeat, state } from '@umbraco-cms/backoffice/external/lit';
+import type { CSSResultGroup } from '@umbraco-cms/backoffice/external/lit';
 import type { UUIComboboxElement, UUIComboboxEvent } from '@umbraco-cms/backoffice/external/uui';
 import { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
+import { UmbFormControlMixin } from '@umbraco-cms/backoffice/validation';
 import type {
 	UmbPropertyEditorConfigCollection,
 	UmbPropertyEditorUiElement,
 } from '@umbraco-cms/backoffice/property-editor';
-import { SHOW_DEBUG_SETTING_ALIAS } from './settings.js';
+import {
+	SHOW_DEBUG_SETTING_ALIAS,
+	SHOW_SELECTED_SETTING_ALIAS,
+	VALIDATION_LIMIT_SETTING_ALIAS,
+} from './settings.js';
 import type { PickerItem } from './types.js';
 
 export abstract class SpeedwarePickerBaseElement
-	extends UmbLitElement
+	extends UmbFormControlMixin<string, typeof UmbLitElement, string>(UmbLitElement, '')
 	implements UmbPropertyEditorUiElement
 {
 	#value = '';
-	@state() private _selectedIds: number[] = [];
+	#limitMin = 0;
+	#limitMax = 0;
+	@state() protected _selectedIds: number[] = [];
 
 	@property({ attribute: false })
 	public set value(v: unknown) {
@@ -35,17 +43,47 @@ export abstract class SpeedwarePickerBaseElement
 			return;
 		}
 		this.#value = normalized;
+		super.value = normalized;
 		this._selectedIds = ids;
+		// Re-validate the amount limits once validation is active (after the first save/submit attempt).
+		if (!this.pristine) this._runValidators();
 	}
 	public get value(): string {
 		return this.#value;
 	}
 
 	@state() private _showDebug = false;
+	@state() private _showSelected = true;
 
 	@property({ attribute: false })
 	public set config(config: UmbPropertyEditorConfigCollection | undefined) {
 		this._showDebug = config?.getValueByAlias<boolean>(SHOW_DEBUG_SETTING_ALIAS) === true;
+		// Pickers without this setting (or with it unset) keep showing their tags.
+		this._showSelected = config?.getValueByAlias<boolean>(SHOW_SELECTED_SETTING_ALIAS) !== false;
+		// Range editor value; 0 / empty means "no limit" (both 0 = unrestricted). Pickers without the setting are unrestricted.
+		const limit = config?.getValueByAlias<{ min?: number; max?: number }>(VALIDATION_LIMIT_SETTING_ALIAS);
+		this.#limitMin = limit?.min ?? 0;
+		this.#limitMax = limit?.max ?? 0;
+		this.requestUpdate();
+	}
+
+	constructor() {
+		super();
+		this.addValidator(
+			'rangeUnderflow',
+			() => this.localize.term('validation_entriesShort', this.#limitMin, this.#limitMin - this._selectedIds.length),
+			() => this.#limitMin > 0 && this._selectedIds.length < this.#limitMin,
+		);
+		this.addValidator(
+			'rangeOverflow',
+			() => this.localize.term('validation_entriesExceed', this.#limitMax, this._selectedIds.length - this.#limitMax),
+			() => this.#limitMax > 0 && this._selectedIds.length > this.#limitMax,
+		);
+	}
+
+	/** True when a maximum is configured and already reached, so nothing more can be added. */
+	protected get _limitReached(): boolean {
+		return this.#limitMax > 0 && this._selectedIds.length >= this.#limitMax;
 	}
 
 	static #parseIds(v: unknown): number[] {
@@ -62,10 +100,10 @@ export abstract class SpeedwarePickerBaseElement
 		return [];
 	}
 
-	@state() private _allItems: PickerItem[] = [];
+	@state() protected _allItems: PickerItem[] = [];
 	@state() private _searchTerm = '';
 	@state() private _comboboxValue = '';
-	@state() private _loading = false;
+	@state() protected _loading = false;
 	@state() private _error = false;
 
 	protected abstract fetchItems(): Promise<PickerItem[]>;
@@ -76,7 +114,7 @@ export abstract class SpeedwarePickerBaseElement
 	 */
 	protected abstract readonly localizationKey: string;
 
-	private _term(name: 'pleaseSelect' | 'selectedItems' | 'search'): string {
+	protected _term(name: string): string {
 		return this.localize.term(`${this.localizationKey}_${name}`);
 	}
 
@@ -105,7 +143,7 @@ export abstract class SpeedwarePickerBaseElement
 		);
 	}
 
-	private get _selectedItems(): PickerItem[] {
+	protected get _selectedItems(): PickerItem[] {
 		return this._selectedIds
 			.map((id) => this._allItems.find((item) => item.id === id))
 			.filter((item): item is PickerItem => item !== undefined);
@@ -119,7 +157,7 @@ export abstract class SpeedwarePickerBaseElement
 		const raw = (e.target as UUIComboboxElement).value?.toString();
 		if (!raw) return;
 		const newId = Number(raw);
-		if (Number.isNaN(newId) || this._selectedIds.includes(newId)) return;
+		if (Number.isNaN(newId) || this._selectedIds.includes(newId) || this._limitReached) return;
 		this.value = JSON.stringify([...this._selectedIds, newId]);
 		this._comboboxValue = '';
 		this._searchTerm = '';
@@ -131,15 +169,41 @@ export abstract class SpeedwarePickerBaseElement
 		this.dispatchEvent(new UmbChangeEvent());
 	}
 
-	override render() {
-		if (this._error) {
-			return html`<uui-tag color="danger">Failed to load options</uui-tag>`;
-		}
+	/** Replaces the whole selection and notifies Umbraco. For use by subclasses with custom selectors. */
+	protected setSelectedIds(ids: number[]) {
+		this.value = JSON.stringify(ids);
+		this.dispatchEvent(new UmbChangeEvent());
+	}
+
+	/** The control used to pick items. Subclasses may override (e.g. a tree instead of a combobox). */
+	protected renderSelector() {
+		return html`
+			<div class="selector-row">${this.#renderCombobox()} ${this.renderClearAll()}</div>
+		`;
+	}
+
+	/** Button that clears the whole selection; sits to the right of the search field. */
+	protected renderClearAll() {
+		const label = this.localize.term('speedwarePickerCommon_clearAll');
+		return html`
+			<uui-button
+				class="clear-all"
+				look="secondary"
+				compact
+				label="${label}"
+				?disabled=${this._loading || this._selectedIds.length === 0}
+				@click=${() => this.setSelectedIds([])}>
+				${label}
+			</uui-button>
+		`;
+	}
+
+	#renderCombobox() {
 		return html`
 			<uui-combobox
 				.value=${this._comboboxValue}
 				placeholder="${this._term('search')}"
-				?disabled=${this._loading}
+				?disabled=${this._loading || this._limitReached}
 				@search=${this.#onSearch}
 				@change=${this.#onSelect}>
 				<uui-combobox-list>
@@ -156,10 +220,19 @@ export abstract class SpeedwarePickerBaseElement
 							)}
 				</uui-combobox-list>
 			</uui-combobox>
-			${this._selectedIds.length === 0 && !this._loading
+		`;
+	}
+
+	override render() {
+		if (this._error) {
+			return html`<uui-tag color="danger">Failed to load options</uui-tag>`;
+		}
+		return html`
+			${this.renderSelector()}
+			${this._showSelected && this._selectedIds.length === 0 && !this._loading
 				? html`<p id="placeholder">${this._term('pleaseSelect')}</p>`
 				: nothing}
-			${this._selectedItems.length > 0
+			${this._showSelected && this._selectedItems.length > 0
 				? html`
 						<p id="selected-heading">${this._term('selectedItems')}</p>
 						<div id="pills">
@@ -199,7 +272,27 @@ export abstract class SpeedwarePickerBaseElement
 		return html`<pre id="debug">${JSON.stringify(debug, null, 2)}</pre>`;
 	}
 
-	static override styles = css`
+	static override styles: CSSResultGroup = css`
+		:host {
+			display: block;
+			width: 100%;
+		}
+
+		.selector-row {
+			display: flex;
+			align-items: center;
+			gap: var(--uui-size-space-2);
+		}
+
+		uui-combobox {
+			flex: 1;
+			min-width: 0;
+		}
+
+		.clear-all {
+			flex: none;
+		}
+
 		#placeholder,
 		#selected-heading {
 			margin: var(--uui-size-space-3) 0 0;

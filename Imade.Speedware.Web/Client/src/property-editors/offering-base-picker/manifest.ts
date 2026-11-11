@@ -1,4 +1,4 @@
-import { pickerSettings } from '../settings.js';
+import { limitedPickerSettings } from '../settings.js';
 
 export const manifests: Array<UmbExtensionManifest> = [
 	{
@@ -11,7 +11,7 @@ export const manifests: Array<UmbExtensionManifest> = [
 			icon: 'icon-books',
 			group: 'Pickers',
 			propertyEditorSchemaAlias: 'Umbraco.Plain.String',
-			settings: pickerSettings,
+			settings: limitedPickerSettings,
 		},
 	},
 ];

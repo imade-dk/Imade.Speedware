@@ -7,8 +7,52 @@ namespace Imade.Speedware.Web.Controllers
 {
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "Imade.Speedware.Web")]
-    public class SpeedwarePickersController(ITeachersService teachersService, IRoomsService roomsService, ISchoolsService schoolsService, IPublishingTypesService publishingTypesService, IBookingTypesService bookingTypesService, IPlayBookingTypesService playBookingTypesService, IOfferingBaseService offeringBaseService, ICoursesService coursesService) : ImadeSpeedwareWebApiControllerBase
+    public class SpeedwarePickersController(ITeachersService teachersService, IRoomsService roomsService, ISchoolsService schoolsService, IPublishingTypesService publishingTypesService, IBookingTypesService bookingTypesService, IPlayBookingTypesService playBookingTypesService, IOfferingBaseService offeringBaseService, ICoursesService coursesService, ICoursesTreeService coursesTreeService) : ImadeSpeedwareWebApiControllerBase
     {
+        [HttpGet("courses-tree")]
+        [ProducesResponseType<List<CoursesTreePickerItemDto>>(StatusCodes.Status200OK)]
+        public async Task<List<CoursesTreePickerItemDto>> GetCoursesTree(CancellationToken cancellationToken)
+        {
+            var tree = await coursesTreeService.GetTreeAsync(cancellationToken);
+            var items = new List<CoursesTreePickerItemDto>();
+            // Only the subtree below the node with TreeID 1 is offered; that node itself is omitted,
+            // so its children become the roots (parentId 0).
+            var top = FindNode(tree.Nodes, CoursesTreeRootId);
+            if (top is not null)
+            {
+                Flatten(top.ChildNodes, 0, items);
+            }
+            return items;
+        }
+
+        private const int CoursesTreeRootId = 1;
+
+        private static Imade.Speedware.Api.Models.Node? FindNode(IEnumerable<Imade.Speedware.Api.Models.Node> nodes, int treeId)
+        {
+            foreach (var node in nodes)
+            {
+                if (node.TreeID == treeId) return node;
+                var found = FindNode(node.ChildNodes, treeId);
+                if (found is not null) return found;
+            }
+            return null;
+        }
+
+        // Depth-first walk keeping the API's sibling order; the nesting (not ParentID) defines the parent.
+        private static void Flatten(IEnumerable<Imade.Speedware.Api.Models.Node> nodes, int parentId, List<CoursesTreePickerItemDto> items)
+        {
+            foreach (var node in nodes)
+            {
+                items.Add(new CoursesTreePickerItemDto(
+                    node.TreeID,
+                    node.NodeName ?? string.Empty,
+                    parentId,
+                    node.Courses.Count(),
+                    node.Active));
+                Flatten(node.ChildNodes, node.TreeID, items);
+            }
+        }
+
         [HttpGet("courses")]
         [ProducesResponseType<List<CoursePickerItemDto>>(StatusCodes.Status200OK)]
         public async Task<List<CoursePickerItemDto>> GetCourses(CancellationToken cancellationToken)
@@ -122,4 +166,5 @@ namespace Imade.Speedware.Web.Controllers
     public record PlayBookingTypePickerItemDto(int Id, string Name);
     public record OfferingBasePickerItemDto(int Id, string Name);
     public record CoursePickerItemDto(int Id, string Name);
+    public record CoursesTreePickerItemDto(int Id, string Name, int ParentId, int CourseCount, bool Active);
 }

@@ -1,10 +1,11 @@
-import { t as e } from "./settings-BUTm8EbK.js";
-import { css as t, html as n, nothing as r, property as i, repeat as a, state as o } from "@umbraco-cms/backoffice/external/lit";
-import { UmbChangeEvent as s } from "@umbraco-cms/backoffice/event";
-import { UmbLitElement as c } from "@umbraco-cms/backoffice/lit-element";
-import { umbHttpClient as l } from "@umbraco-cms/backoffice/http-client";
+import { n as e, r as t, t as n } from "./settings-C7KJQuqq.js";
+import { css as r, html as i, nothing as a, property as o, repeat as s, state as c } from "@umbraco-cms/backoffice/external/lit";
+import { UmbChangeEvent as l } from "@umbraco-cms/backoffice/event";
+import { UmbLitElement as u } from "@umbraco-cms/backoffice/lit-element";
+import { UmbFormControlMixin as d } from "@umbraco-cms/backoffice/validation";
+import { umbHttpClient as f } from "@umbraco-cms/backoffice/http-client";
 //#region \0@oxc-project+runtime@0.127.0/helpers/decorate.js
-function u(e, t, n, r) {
+function p(e, t, n, r) {
 	var i = arguments.length, a = i < 3 ? t : r === null ? r = Object.getOwnPropertyDescriptor(t, n) : r, o;
 	if (typeof Reflect == "object" && typeof Reflect.decorate == "function") a = Reflect.decorate(e, t, n, r);
 	else for (var s = e.length - 1; s >= 0; s--) (o = e[s]) && (a = (i < 3 ? o(a) : i > 3 ? o(t, n, a) : o(t, n)) || a);
@@ -12,26 +13,33 @@ function u(e, t, n, r) {
 }
 //#endregion
 //#region src/property-editors/speedware-picker.element.ts
-var d = class i extends c {
-	constructor(...e) {
-		super(...e), this.#e = "", this._selectedIds = [], this._showDebug = !1, this._allItems = [], this._searchTerm = "", this._comboboxValue = "", this._loading = !1, this._error = !1;
-	}
+var m = class o extends d(u, "") {
 	#e;
+	#t;
+	#n;
 	set value(e) {
 		if (e == null) {
 			this.#e === "" && (this._selectedIds = []);
 			return;
 		}
-		let t = Array.isArray(e) ? JSON.stringify(e) : e ?? "", n = i.#t(e);
-		t !== "" && n.length === 0 && t !== "[]" || (this.#e = t, this._selectedIds = n);
+		let t = Array.isArray(e) ? JSON.stringify(e) : e ?? "", n = o.#r(e);
+		t !== "" && n.length === 0 && t !== "[]" || (this.#e = t, super.value = t, this._selectedIds = n, this.pristine || this._runValidators());
 	}
 	get value() {
 		return this.#e;
 	}
-	set config(t) {
-		this._showDebug = t?.getValueByAlias(e) === !0;
+	set config(r) {
+		this._showDebug = r?.getValueByAlias(n) === !0, this._showSelected = r?.getValueByAlias(e) !== !1;
+		let i = r?.getValueByAlias(t);
+		this.#t = i?.min ?? 0, this.#n = i?.max ?? 0, this.requestUpdate();
 	}
-	static #t(e) {
+	constructor() {
+		super(), this.#e = "", this.#t = 0, this.#n = 0, this._selectedIds = [], this._showDebug = !1, this._showSelected = !0, this._allItems = [], this._searchTerm = "", this._comboboxValue = "", this._loading = !1, this._error = !1, this.addValidator("rangeUnderflow", () => this.localize.term("validation_entriesShort", this.#t, this.#t - this._selectedIds.length), () => this.#t > 0 && this._selectedIds.length < this.#t), this.addValidator("rangeOverflow", () => this.localize.term("validation_entriesExceed", this.#n, this._selectedIds.length - this.#n), () => this.#n > 0 && this._selectedIds.length > this.#n);
+	}
+	get _limitReached() {
+		return this.#n > 0 && this._selectedIds.length >= this.#n;
+	}
+	static #r(e) {
 		if (!e) return [];
 		if (Array.isArray(e)) return e.filter((e) => typeof e == "number");
 		if (typeof e == "string") try {
@@ -46,9 +54,9 @@ var d = class i extends c {
 		return this.localize.term(`${this.localizationKey}_${e}`);
 	}
 	connectedCallback() {
-		super.connectedCallback(), this.#n();
+		super.connectedCallback(), this.#i();
 	}
-	async #n() {
+	async #i() {
 		this._loading = !0, this._error = !1;
 		try {
 			this._allItems = await this.fetchItems();
@@ -65,57 +73,84 @@ var d = class i extends c {
 	get _selectedItems() {
 		return this._selectedIds.map((e) => this._allItems.find((t) => t.id === e)).filter((e) => e !== void 0);
 	}
-	#r(e) {
+	#a(e) {
 		this._searchTerm = e.target.search ?? "";
 	}
-	#i(e) {
+	#o(e) {
 		let t = e.target.value?.toString();
 		if (!t) return;
 		let n = Number(t);
-		Number.isNaN(n) || this._selectedIds.includes(n) || (this.value = JSON.stringify([...this._selectedIds, n]), this._comboboxValue = "", this._searchTerm = "", this.dispatchEvent(new s()));
+		Number.isNaN(n) || this._selectedIds.includes(n) || this._limitReached || (this.value = JSON.stringify([...this._selectedIds, n]), this._comboboxValue = "", this._searchTerm = "", this.dispatchEvent(new l()));
 	}
-	#a(e) {
-		this.value = JSON.stringify(this._selectedIds.filter((t) => t !== e)), this.dispatchEvent(new s());
+	#s(e) {
+		this.value = JSON.stringify(this._selectedIds.filter((t) => t !== e)), this.dispatchEvent(new l());
 	}
-	render() {
-		return this._error ? n`<uui-tag color="danger">Failed to load options</uui-tag>` : n`
+	setSelectedIds(e) {
+		this.value = JSON.stringify(e), this.dispatchEvent(new l());
+	}
+	renderSelector() {
+		return i`
+			<div class="selector-row">${this.#c()} ${this.renderClearAll()}</div>
+		`;
+	}
+	renderClearAll() {
+		let e = this.localize.term("speedwarePickerCommon_clearAll");
+		return i`
+			<uui-button
+				class="clear-all"
+				look="secondary"
+				compact
+				label="${e}"
+				?disabled=${this._loading || this._selectedIds.length === 0}
+				@click=${() => this.setSelectedIds([])}>
+				${e}
+			</uui-button>
+		`;
+	}
+	#c() {
+		return i`
 			<uui-combobox
 				.value=${this._comboboxValue}
 				placeholder="${this._term("search")}"
-				?disabled=${this._loading}
-				@search=${this.#r}
-				@change=${this.#i}>
+				?disabled=${this._loading || this._limitReached}
+				@search=${this.#a}
+				@change=${this.#o}>
 				<uui-combobox-list>
-					${this._loading ? n`<uui-combobox-list-option disabled>Loading…</uui-combobox-list-option>` : a(this._filteredItems, (e) => e.id, (e) => n`
+					${this._loading ? i`<uui-combobox-list-option disabled>Loading…</uui-combobox-list-option>` : s(this._filteredItems, (e) => e.id, (e) => i`
 									<uui-combobox-list-option .value=${String(e.id)}>
 										${e.label}
 									</uui-combobox-list-option>
 								`)}
 				</uui-combobox-list>
 			</uui-combobox>
-			${this._selectedIds.length === 0 && !this._loading ? n`<p id="placeholder">${this._term("pleaseSelect")}</p>` : r}
-			${this._selectedItems.length > 0 ? n`
+		`;
+	}
+	render() {
+		return this._error ? i`<uui-tag color="danger">Failed to load options</uui-tag>` : i`
+			${this.renderSelector()}
+			${this._showSelected && this._selectedIds.length === 0 && !this._loading ? i`<p id="placeholder">${this._term("pleaseSelect")}</p>` : a}
+			${this._showSelected && this._selectedItems.length > 0 ? i`
 						<p id="selected-heading">${this._term("selectedItems")}</p>
 						<div id="pills">
-							${a(this._selectedItems, (e) => e.id, (e) => n`
+							${s(this._selectedItems, (e) => e.id, (e) => i`
 									<uui-tag>
 										<div class="tag-content">
 											<span>${e.label}</span>
 											<uui-button
 												label="Remove ${e.label}"
 												compact
-												@click=${() => this.#a(e.id)}>
+												@click=${() => this.#s(e.id)}>
 												<uui-icon name="icon-wrong"></uui-icon>
 											</uui-button>
 										</div>
 									</uui-tag>
 								`)}
 						</div>
-					` : r}
-			${this._showDebug ? this.#o() : r}
+					` : a}
+			${this._showDebug ? this.#l() : a}
 		`;
 	}
-	#o() {
+	#l() {
 		let e = {
 			storedValue: this.#e,
 			selectedIds: this._selectedIds,
@@ -127,10 +162,30 @@ var d = class i extends c {
 			availableItems: this._allItems.length,
 			localizationKey: this.localizationKey
 		};
-		return n`<pre id="debug">${JSON.stringify(e, null, 2)}</pre>`;
+		return i`<pre id="debug">${JSON.stringify(e, null, 2)}</pre>`;
 	}
 	static {
-		this.styles = t`
+		this.styles = r`
+		:host {
+			display: block;
+			width: 100%;
+		}
+
+		.selector-row {
+			display: flex;
+			align-items: center;
+			gap: var(--uui-size-space-2);
+		}
+
+		uui-combobox {
+			flex: 1;
+			min-width: 0;
+		}
+
+		.clear-all {
+			flex: none;
+		}
+
 		#placeholder,
 		#selected-heading {
 			margin: var(--uui-size-space-3) 0 0;
@@ -181,10 +236,10 @@ var d = class i extends c {
 	`;
 	}
 };
-u([o()], d.prototype, "_selectedIds", void 0), u([i({ attribute: !1 })], d.prototype, "value", null), u([o()], d.prototype, "_showDebug", void 0), u([i({ attribute: !1 })], d.prototype, "config", null), u([o()], d.prototype, "_allItems", void 0), u([o()], d.prototype, "_searchTerm", void 0), u([o()], d.prototype, "_comboboxValue", void 0), u([o()], d.prototype, "_loading", void 0), u([o()], d.prototype, "_error", void 0);
+p([c()], m.prototype, "_selectedIds", void 0), p([o({ attribute: !1 })], m.prototype, "value", null), p([c()], m.prototype, "_showDebug", void 0), p([c()], m.prototype, "_showSelected", void 0), p([o({ attribute: !1 })], m.prototype, "config", null), p([c()], m.prototype, "_allItems", void 0), p([c()], m.prototype, "_searchTerm", void 0), p([c()], m.prototype, "_comboboxValue", void 0), p([c()], m.prototype, "_loading", void 0), p([c()], m.prototype, "_error", void 0);
 //#endregion
 //#region src/api/core/bodySerializer.gen.ts
-var f = { bodySerializer: (e) => JSON.stringify(e, (e, t) => typeof t == "bigint" ? t.toString() : t) };
+var h = { bodySerializer: (e) => JSON.stringify(e, (e, t) => typeof t == "bigint" ? t.toString() : t) };
 Object.entries({
 	$body_: "body",
 	$headers_: "headers",
@@ -193,7 +248,7 @@ Object.entries({
 });
 //#endregion
 //#region src/api/core/serverSentEvents.gen.ts
-var p = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, responseValidator: i, sseDefaultRetryDelay: a, sseMaxRetryAttempts: o, sseMaxRetryDelay: s, sseSleepFn: c, url: l, ...u }) => {
+var g = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, responseValidator: i, sseDefaultRetryDelay: a, sseMaxRetryAttempts: o, sseMaxRetryDelay: s, sseSleepFn: c, url: l, ...u }) => {
 	let d, f = c ?? ((e) => new Promise((t) => setTimeout(t, e)));
 	return { stream: async function* () {
 		let c = a ?? 3e3, p = 0, m = u.signal ?? new AbortController().signal;
@@ -262,30 +317,30 @@ var p = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, r
 			}
 		}
 	}() };
-}, m = (e) => {
+}, _ = (e) => {
 	switch (e) {
 		case "label": return ".";
 		case "matrix": return ";";
 		case "simple": return ",";
 		default: return "&";
 	}
-}, h = (e) => {
+}, v = (e) => {
 	switch (e) {
 		case "form": return ",";
 		case "pipeDelimited": return "|";
 		case "spaceDelimited": return "%20";
 		default: return ",";
 	}
-}, g = (e) => {
+}, y = (e) => {
 	switch (e) {
 		case "label": return ".";
 		case "matrix": return ";";
 		case "simple": return ",";
 		default: return "&";
 	}
-}, _ = ({ allowReserved: e, explode: t, name: n, style: r, value: i }) => {
+}, b = ({ allowReserved: e, explode: t, name: n, style: r, value: i }) => {
 	if (!t) {
-		let t = (e ? i : i.map((e) => encodeURIComponent(e))).join(h(r));
+		let t = (e ? i : i.map((e) => encodeURIComponent(e))).join(v(r));
 		switch (r) {
 			case "label": return `.${t}`;
 			case "matrix": return `;${n}=${t}`;
@@ -293,17 +348,17 @@ var p = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, r
 			default: return `${n}=${t}`;
 		}
 	}
-	let a = m(r), o = i.map((t) => r === "label" || r === "simple" ? e ? t : encodeURIComponent(t) : v({
+	let a = _(r), o = i.map((t) => r === "label" || r === "simple" ? e ? t : encodeURIComponent(t) : x({
 		allowReserved: e,
 		name: n,
 		value: t
 	})).join(a);
 	return r === "label" || r === "matrix" ? a + o : o;
-}, v = ({ allowReserved: e, name: t, value: n }) => {
+}, x = ({ allowReserved: e, name: t, value: n }) => {
 	if (n == null) return "";
 	if (typeof n == "object") throw Error("Deeply-nested arrays/objects aren’t supported. Provide your own `querySerializer()` to handle these.");
 	return `${t}=${e ? n : encodeURIComponent(n)}`;
-}, y = ({ allowReserved: e, explode: t, name: n, style: r, value: i, valueOnly: a }) => {
+}, S = ({ allowReserved: e, explode: t, name: n, style: r, value: i, valueOnly: a }) => {
 	if (i instanceof Date) return a ? i.toISOString() : `${n}=${i.toISOString()}`;
 	if (r !== "deepObject" && !t) {
 		let t = [];
@@ -322,21 +377,21 @@ var p = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, r
 			default: return a;
 		}
 	}
-	let o = g(r), s = Object.entries(i).map(([t, i]) => v({
+	let o = y(r), s = Object.entries(i).map(([t, i]) => x({
 		allowReserved: e,
 		name: r === "deepObject" ? `${n}[${t}]` : t,
 		value: i
 	})).join(o);
 	return r === "label" || r === "matrix" ? o + s : s;
-}, b = /\{[^{}]+\}/g, x = ({ path: e, url: t }) => {
-	let n = t, r = t.match(b);
+}, C = /\{[^{}]+\}/g, w = ({ path: e, url: t }) => {
+	let n = t, r = t.match(C);
 	if (r) for (let t of r) {
 		let r = !1, i = t.substring(1, t.length - 1), a = "simple";
 		i.endsWith("*") && (r = !0, i = i.substring(0, i.length - 1)), i.startsWith(".") ? (i = i.substring(1), a = "label") : i.startsWith(";") && (i = i.substring(1), a = "matrix");
 		let o = e[i];
 		if (o == null) continue;
 		if (Array.isArray(o)) {
-			n = n.replace(t, _({
+			n = n.replace(t, b({
 				explode: r,
 				name: i,
 				style: a,
@@ -345,7 +400,7 @@ var p = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, r
 			continue;
 		}
 		if (typeof o == "object") {
-			n = n.replace(t, y({
+			n = n.replace(t, S({
 				explode: r,
 				name: i,
 				style: a,
@@ -355,7 +410,7 @@ var p = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, r
 			continue;
 		}
 		if (a === "matrix") {
-			n = n.replace(t, `;${v({
+			n = n.replace(t, `;${x({
 				name: i,
 				value: o
 			})}`);
@@ -365,31 +420,31 @@ var p = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, r
 		n = n.replace(t, s);
 	}
 	return n;
-}, S = ({ baseUrl: e, path: t, query: n, querySerializer: r, url: i }) => {
+}, T = ({ baseUrl: e, path: t, query: n, querySerializer: r, url: i }) => {
 	let a = i.startsWith("/") ? i : `/${i}`, o = (e ?? "") + a;
-	t && (o = x({
+	t && (o = w({
 		path: t,
 		url: o
 	}));
 	let s = n ? r(n) : "";
 	return s.startsWith("?") && (s = s.substring(1)), s && (o += `?${s}`), o;
 };
-function C(e) {
+function E(e) {
 	let t = e.body !== void 0;
 	if (t && e.bodySerializer) return "serializedBody" in e ? e.serializedBody !== void 0 && e.serializedBody !== "" ? e.serializedBody : null : e.body === "" ? null : e.body;
 	if (t) return e.body;
 }
 //#endregion
 //#region src/api/core/auth.gen.ts
-var w = async (e, t) => {
+var D = async (e, t) => {
 	let n = typeof t == "function" ? await t(e) : t;
 	if (n) return e.scheme === "bearer" ? `Bearer ${n}` : e.scheme === "basic" ? `Basic ${btoa(n)}` : n;
-}, T = ({ allowReserved: e, array: t, object: n } = {}) => (r) => {
+}, O = ({ allowReserved: e, array: t, object: n } = {}) => (r) => {
 	let i = [];
 	if (r && typeof r == "object") for (let a in r) {
 		let o = r[a];
 		if (o != null) if (Array.isArray(o)) {
-			let n = _({
+			let n = b({
 				allowReserved: e,
 				explode: !0,
 				name: a,
@@ -399,7 +454,7 @@ var w = async (e, t) => {
 			});
 			n && i.push(n);
 		} else if (typeof o == "object") {
-			let t = y({
+			let t = S({
 				allowReserved: e,
 				explode: !0,
 				name: a,
@@ -409,7 +464,7 @@ var w = async (e, t) => {
 			});
 			t && i.push(t);
 		} else {
-			let t = v({
+			let t = x({
 				allowReserved: e,
 				name: a,
 				value: o
@@ -418,7 +473,7 @@ var w = async (e, t) => {
 		}
 	}
 	return i.join("&");
-}, E = (e) => {
+}, k = (e) => {
 	if (!e) return "stream";
 	let t = e.split(";")[0]?.trim();
 	if (t) {
@@ -432,10 +487,10 @@ var w = async (e, t) => {
 		].some((e) => t.startsWith(e))) return "blob";
 		if (t.startsWith("text/")) return "text";
 	}
-}, D = (e, t) => t ? !!(e.headers.has(t) || e.query?.[t] || e.headers.get("Cookie")?.includes(`${t}=`)) : !1, O = async ({ security: e, ...t }) => {
+}, A = (e, t) => t ? !!(e.headers.has(t) || e.query?.[t] || e.headers.get("Cookie")?.includes(`${t}=`)) : !1, j = async ({ security: e, ...t }) => {
 	for (let n of e) {
-		if (D(t, n.name)) continue;
-		let e = await w(n, t.auth);
+		if (A(t, n.name)) continue;
+		let e = await D(n, t.auth);
 		if (!e) continue;
 		let r = n.name ?? "Authorization";
 		switch (n.in) {
@@ -450,34 +505,34 @@ var w = async (e, t) => {
 				break;
 		}
 	}
-}, k = (e) => S({
+}, M = (e) => T({
 	baseUrl: e.baseUrl,
 	path: e.path,
 	query: e.query,
-	querySerializer: typeof e.querySerializer == "function" ? e.querySerializer : T(e.querySerializer),
+	querySerializer: typeof e.querySerializer == "function" ? e.querySerializer : O(e.querySerializer),
 	url: e.url
-}), A = (e, t) => {
+}), N = (e, t) => {
 	let n = {
 		...e,
 		...t
 	};
-	return n.baseUrl?.endsWith("/") && (n.baseUrl = n.baseUrl.substring(0, n.baseUrl.length - 1)), n.headers = M(e.headers, t.headers), n;
-}, j = (e) => {
+	return n.baseUrl?.endsWith("/") && (n.baseUrl = n.baseUrl.substring(0, n.baseUrl.length - 1)), n.headers = F(e.headers, t.headers), n;
+}, P = (e) => {
 	let t = [];
 	return e.forEach((e, n) => {
 		t.push([n, e]);
 	}), t;
-}, M = (...e) => {
+}, F = (...e) => {
 	let t = new Headers();
 	for (let n of e) {
 		if (!n) continue;
-		let e = n instanceof Headers ? j(n) : Object.entries(n);
+		let e = n instanceof Headers ? P(n) : Object.entries(n);
 		for (let [n, r] of e) if (r === null) t.delete(n);
 		else if (Array.isArray(r)) for (let e of r) t.append(n, e);
 		else r !== void 0 && t.set(n, typeof r == "object" ? JSON.stringify(r) : r);
 	}
 	return t;
-}, N = class {
+}, I = class {
 	constructor() {
 		this.fns = [];
 	}
@@ -502,11 +557,11 @@ var w = async (e, t) => {
 	use(e) {
 		return this.fns.push(e), this.fns.length - 1;
 	}
-}, P = () => ({
-	error: new N(),
-	request: new N(),
-	response: new N()
-}), F = T({
+}, L = () => ({
+	error: new I(),
+	request: new I(),
+	response: new I()
+}), R = O({
 	allowReserved: !1,
 	array: {
 		explode: !0,
@@ -516,33 +571,33 @@ var w = async (e, t) => {
 		explode: !0,
 		style: "deepObject"
 	}
-}), I = { "Content-Type": "application/json" }, L = (e = {}) => ({
-	...f,
-	headers: I,
+}), z = { "Content-Type": "application/json" }, B = (e = {}) => ({
+	...h,
+	headers: z,
 	parseAs: "auto",
-	querySerializer: F,
+	querySerializer: R,
 	...e
-}), R = ((e = {}) => {
-	let t = A(L(), e), n = () => ({ ...t }), r = (e) => (t = A(t, e), n()), i = P(), a = async (e) => {
+}), V = ((e = {}) => {
+	let t = N(B(), e), n = () => ({ ...t }), r = (e) => (t = N(t, e), n()), i = L(), a = async (e) => {
 		let n = {
 			...t,
 			...e,
 			fetch: e.fetch ?? t.fetch ?? globalThis.fetch,
-			headers: M(t.headers, e.headers),
+			headers: F(t.headers, e.headers),
 			serializedBody: void 0
 		};
-		return n.security && await O({
+		return n.security && await j({
 			...n,
 			security: n.security
 		}), n.requestValidator && await n.requestValidator(n), n.body !== void 0 && n.bodySerializer && (n.serializedBody = n.bodySerializer(n.body)), (n.body === void 0 || n.serializedBody === "") && n.headers.delete("Content-Type"), {
 			opts: n,
-			url: k(n)
+			url: M(n)
 		};
 	}, o = async (e) => {
 		let { opts: t, url: n } = await a(e), r = {
 			redirect: "follow",
 			...t,
-			body: C(t)
+			body: E(t)
 		}, o = new Request(n, r);
 		for (let e of i.request.fns) e && (o = await e(o, t));
 		let s = t.fetch, c = await s(o);
@@ -552,7 +607,7 @@ var w = async (e, t) => {
 			response: c
 		};
 		if (c.ok) {
-			let e = (t.parseAs === "auto" ? E(c.headers.get("Content-Type")) : t.parseAs) ?? "json";
+			let e = (t.parseAs === "auto" ? k(c.headers.get("Content-Type")) : t.parseAs) ?? "json";
 			if (c.status === 204 || c.headers.get("Content-Length") === "0") {
 				let n;
 				switch (e) {
@@ -611,7 +666,7 @@ var w = async (e, t) => {
 		method: e
 	}), c = (e) => async (t) => {
 		let { opts: n, url: r } = await a(t);
-		return p({
+		return g({
 			...n,
 			body: n.body,
 			headers: n.headers,
@@ -625,7 +680,7 @@ var w = async (e, t) => {
 		});
 	};
 	return {
-		buildUrl: k,
+		buildUrl: M,
 		connect: s("CONNECT"),
 		delete: s("DELETE"),
 		get: s("GET"),
@@ -653,10 +708,10 @@ var w = async (e, t) => {
 	};
 })(((e) => ({
 	...e,
-	...l.getConfig()
-}))(L({ baseUrl: "https://localhost:5000" }))), z = class {
+	...f.getConfig()
+}))(B({ baseUrl: "https://localhost:5000" }))), H = class {
 	static ping(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -666,7 +721,7 @@ var w = async (e, t) => {
 		});
 	}
 	static whatsMyName(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -676,7 +731,7 @@ var w = async (e, t) => {
 		});
 	}
 	static whatsTheTimeMrWolf(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -686,7 +741,7 @@ var w = async (e, t) => {
 		});
 	}
 	static whoAmI(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -696,7 +751,7 @@ var w = async (e, t) => {
 		});
 	}
 	static getTeachers(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -706,7 +761,7 @@ var w = async (e, t) => {
 		});
 	}
 	static getPlayTeachers(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -715,8 +770,18 @@ var w = async (e, t) => {
 			...e
 		});
 	}
+	static getCoursesTree(e) {
+		return (e?.client ?? V).get({
+			security: [{
+				scheme: "bearer",
+				type: "http"
+			}],
+			url: "/umbraco/imadespeedwareweb/api/v1/courses-tree",
+			...e
+		});
+	}
 	static getCourses(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -726,7 +791,7 @@ var w = async (e, t) => {
 		});
 	}
 	static getOfferingBases(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -736,7 +801,7 @@ var w = async (e, t) => {
 		});
 	}
 	static getPlayBookingTypes(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -746,7 +811,7 @@ var w = async (e, t) => {
 		});
 	}
 	static getBookingTypes(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -756,7 +821,7 @@ var w = async (e, t) => {
 		});
 	}
 	static getPublishingTypes(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -766,7 +831,7 @@ var w = async (e, t) => {
 		});
 	}
 	static getSchools(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -776,7 +841,7 @@ var w = async (e, t) => {
 		});
 	}
 	static getRooms(e) {
-		return (e?.client ?? R).get({
+		return (e?.client ?? V).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -787,6 +852,6 @@ var w = async (e, t) => {
 	}
 };
 //#endregion
-export { d as n, u as r, z as t };
+export { m as n, p as r, H as t };
 
-//# sourceMappingURL=api-DDDfsnpu.js.map
+//# sourceMappingURL=api-BGVzrnin.js.map

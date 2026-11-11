@@ -489,6 +489,37 @@ export type GetOfferingBasesResponses = {
 
 export type GetOfferingBasesResponse = GetOfferingBasesResponses[keyof GetOfferingBasesResponses];
 
+export type CoursesTreePickerItemDto = {
+    id: number;
+    name: string;
+    parentId: number;
+    courseCount: number;
+    active: boolean;
+};
+
+export type GetCoursesTreeData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/umbraco/imadespeedwareweb/api/v1/courses-tree';
+};
+
+export type GetCoursesTreeErrors = {
+    /**
+     * The resource is protected and requires an authentication token
+     */
+    401: unknown;
+};
+
+export type GetCoursesTreeResponses = {
+    /**
+     * OK
+     */
+    200: Array<CoursesTreePickerItemDto>;
+};
+
+export type GetCoursesTreeResponse = GetCoursesTreeResponses[keyof GetCoursesTreeResponses];
+
 export type CoursePickerItemDto = {
     id: number;
     name: string;

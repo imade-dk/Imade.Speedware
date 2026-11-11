@@ -46,8 +46,24 @@ export default {
 		selectedItems: 'Valgte kurs',
 		search: 'Søk...'
 	},
+	speedwareCoursesTreePicker: {
+		pleaseSelect: 'Ingenting valgt',
+		selectedItems: 'Valgte noder',
+		search: 'Søk...',
+		expandAll: 'Utvid alle',
+		collapseAll: 'Skjul alle',
+		selectChildren: 'Velg alle underordnede',
+		deselectChildren: 'Fjern alle underordnede'
+	},
+	speedwarePickerCommon: {
+		clearAll: 'Fjern alle'
+	},
 	speedwarePickerSettings: {
 		showDebugLabel: 'Vis feilsøkingsinformasjon',
-		showDebugDescription: 'Viser den lagrede verdien og de valgte elementene under de valgte taggene.'
+		showDebugDescription: 'Viser den lagrede verdien og de valgte elementene under de valgte taggene.',
+		amountLabel: 'Antall',
+		amountDescription: 'Angi minste og største antall elementer som kan velges. La begge stå på 0 for ingen begrensning.',
+		showSelectedLabel: 'Vis valgte noder',
+		showSelectedDescription: 'Viser de valgte nodene som tagger under treet.'
 	},
 } satisfies UmbLocalizationDictionary;
