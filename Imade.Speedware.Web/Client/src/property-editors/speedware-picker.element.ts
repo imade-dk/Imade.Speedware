@@ -4,6 +4,7 @@ import type { UUIComboboxElement, UUIComboboxEvent } from '@umbraco-cms/backoffi
 import { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
 import { UmbFormControlMixin } from '@umbraco-cms/backoffice/validation';
+import { umbConfirmModal } from '@umbraco-cms/backoffice/modal';
 import type {
 	UmbPropertyEditorConfigCollection,
 	UmbPropertyEditorUiElement,
@@ -182,6 +183,28 @@ export abstract class SpeedwarePickerBaseElement
 		`;
 	}
 
+	/** From this many selected items, "Clear all" asks for confirmation first. */
+	static readonly CLEAR_ALL_CONFIRM_THRESHOLD = 4;
+
+	#clearAll = async () => {
+		const count = this._selectedIds.length;
+		if (count === 0) return;
+		if (count >= SpeedwarePickerBaseElement.CLEAR_ALL_CONFIRM_THRESHOLD) {
+			const label = this.localize.term('speedwarePickerCommon_clearAll');
+			try {
+				await umbConfirmModal(this, {
+					headline: label,
+					content: this.localize.term('speedwarePickerCommon_clearAllConfirm', count),
+					color: 'warning',
+					confirmLabel: label,
+				});
+			} catch {
+				return; // cancelled
+			}
+		}
+		this.setSelectedIds([]);
+	};
+
 	/** Button that clears the whole selection; sits to the right of the search field. */
 	protected renderClearAll() {
 		const label = this.localize.term('speedwarePickerCommon_clearAll');
@@ -193,7 +216,7 @@ export abstract class SpeedwarePickerBaseElement
 				compact
 				label="${label}"
 				?disabled=${this._loading || this._selectedIds.length === 0}
-				@click=${() => this.setSelectedIds([])}>
+				@click=${this.#clearAll}>
 				${label}
 			</uui-button>
 		`;

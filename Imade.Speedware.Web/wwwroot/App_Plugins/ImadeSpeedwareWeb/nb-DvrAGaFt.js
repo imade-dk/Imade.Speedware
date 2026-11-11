@@ -54,7 +54,10 @@ var e = {
 		selectChildren: "Velg alle underordnede",
 		deselectChildren: "Fjern alle underordnede"
 	},
-	speedwarePickerCommon: { clearAll: "Fjern alle" },
+	speedwarePickerCommon: {
+		clearAll: "Fjern alle",
+		clearAllConfirm: "Fjern alle %0% valgte elementer?"
+	},
 	speedwarePickerSettings: {
 		showDebugLabel: "Vis feilsøkingsinformasjon",
 		showDebugDescription: "Viser den lagrede verdien og de valgte elementene under de valgte taggene.",
@@ -67,4 +70,4 @@ var e = {
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=nb-DWV5CKym.js.map
+//# sourceMappingURL=nb-DvrAGaFt.js.map

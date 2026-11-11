@@ -56,7 +56,8 @@ export default {
 		deselectChildren: 'Fravælg alle underordnede'
 	},
 	speedwarePickerCommon: {
-		clearAll: 'Ryd alle'
+		clearAll: 'Ryd alle',
+		clearAllConfirm: 'Ryd alle %0% valgte elementer?'
 	},
 	speedwarePickerSettings: {
 		showDebugLabel: 'Vis debuginformation',

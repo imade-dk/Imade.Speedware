@@ -56,7 +56,8 @@ export default {
 		deselectChildren: 'Fjern alle underordnede'
 	},
 	speedwarePickerCommon: {
-		clearAll: 'Fjern alle'
+		clearAll: 'Fjern alle',
+		clearAllConfirm: 'Fjern alle %0% valgte elementer?'
 	},
 	speedwarePickerSettings: {
 		showDebugLabel: 'Vis feilsøkingsinformasjon',

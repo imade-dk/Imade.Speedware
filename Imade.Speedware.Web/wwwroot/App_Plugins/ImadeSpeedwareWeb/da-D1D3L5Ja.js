@@ -54,7 +54,10 @@ var e = {
 		selectChildren: "Vælg alle underordnede",
 		deselectChildren: "Fravælg alle underordnede"
 	},
-	speedwarePickerCommon: { clearAll: "Ryd alle" },
+	speedwarePickerCommon: {
+		clearAll: "Ryd alle",
+		clearAllConfirm: "Ryd alle %0% valgte elementer?"
+	},
 	speedwarePickerSettings: {
 		showDebugLabel: "Vis debuginformation",
 		showDebugDescription: "Viser den gemte værdi og de valgte elementer under de valgte tags.",
@@ -67,4 +70,4 @@ var e = {
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=da-CqTEtLfJ.js.map
+//# sourceMappingURL=da-D1D3L5Ja.js.map

@@ -56,7 +56,8 @@ export default {
 		deselectChildren: 'Deselect all children'
 	},
 	speedwarePickerCommon: {
-		clearAll: 'Clear all'
+		clearAll: 'Clear all',
+		clearAllConfirm: 'Clear all %0% selected items?'
 	},
 	speedwarePickerSettings: {
 		showDebugLabel: 'Show debug information',

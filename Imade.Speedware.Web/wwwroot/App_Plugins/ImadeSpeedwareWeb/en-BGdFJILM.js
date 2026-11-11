@@ -54,7 +54,10 @@ var e = {
 		selectChildren: "Select all children",
 		deselectChildren: "Deselect all children"
 	},
-	speedwarePickerCommon: { clearAll: "Clear all" },
+	speedwarePickerCommon: {
+		clearAll: "Clear all",
+		clearAllConfirm: "Clear all %0% selected items?"
+	},
 	speedwarePickerSettings: {
 		showDebugLabel: "Show debug information",
 		showDebugDescription: "Displays the stored value and the selected items below the selected tags.",
@@ -67,4 +70,4 @@ var e = {
 //#endregion
 export { e as default };
 
-//# sourceMappingURL=en-9_AoLdJZ.js.map
+//# sourceMappingURL=en-BGdFJILM.js.map

@@ -3,9 +3,10 @@ import { css as r, html as i, nothing as a, property as o, repeat as s, state as
 import { UmbChangeEvent as l } from "@umbraco-cms/backoffice/event";
 import { UmbLitElement as u } from "@umbraco-cms/backoffice/lit-element";
 import { UmbFormControlMixin as d } from "@umbraco-cms/backoffice/validation";
-import { umbHttpClient as f } from "@umbraco-cms/backoffice/http-client";
+import { umbConfirmModal as f } from "@umbraco-cms/backoffice/modal";
+import { umbHttpClient as p } from "@umbraco-cms/backoffice/http-client";
 //#region \0@oxc-project+runtime@0.127.0/helpers/decorate.js
-function p(e, t, n, r) {
+function m(e, t, n, r) {
 	var i = arguments.length, a = i < 3 ? t : r === null ? r = Object.getOwnPropertyDescriptor(t, n) : r, o;
 	if (typeof Reflect == "object" && typeof Reflect.decorate == "function") a = Reflect.decorate(e, t, n, r);
 	else for (var s = e.length - 1; s >= 0; s--) (o = e[s]) && (a = (i < 3 ? o(a) : i > 3 ? o(t, n, a) : o(t, n)) || a);
@@ -13,7 +14,7 @@ function p(e, t, n, r) {
 }
 //#endregion
 //#region src/property-editors/speedware-picker.element.ts
-var m = class o extends d(u, "") {
+var h = class o extends d(u, "") {
 	#e;
 	#t;
 	#n;
@@ -34,7 +35,25 @@ var m = class o extends d(u, "") {
 		this.#t = i?.min ?? 0, this.#n = i?.max ?? 0, this.requestUpdate();
 	}
 	constructor() {
-		super(), this.#e = "", this.#t = 0, this.#n = 0, this._selectedIds = [], this._showDebug = !1, this._showSelected = !0, this._allItems = [], this._searchTerm = "", this._comboboxValue = "", this._loading = !1, this._error = !1, this.addValidator("rangeUnderflow", () => this.localize.term("validation_entriesShort", this.#t, this.#t - this._selectedIds.length), () => this.#t > 0 && this._selectedIds.length < this.#t), this.addValidator("rangeOverflow", () => this.localize.term("validation_entriesExceed", this.#n, this._selectedIds.length - this.#n), () => this.#n > 0 && this._selectedIds.length > this.#n);
+		super(), this.#e = "", this.#t = 0, this.#n = 0, this._selectedIds = [], this._showDebug = !1, this._showSelected = !0, this._allItems = [], this._searchTerm = "", this._comboboxValue = "", this._loading = !1, this._error = !1, this.#c = async () => {
+			let e = this._selectedIds.length;
+			if (e !== 0) {
+				if (e >= o.CLEAR_ALL_CONFIRM_THRESHOLD) {
+					let t = this.localize.term("speedwarePickerCommon_clearAll");
+					try {
+						await f(this, {
+							headline: t,
+							content: this.localize.term("speedwarePickerCommon_clearAllConfirm", e),
+							color: "warning",
+							confirmLabel: t
+						});
+					} catch {
+						return;
+					}
+				}
+				this.setSelectedIds([]);
+			}
+		}, this.addValidator("rangeUnderflow", () => this.localize.term("validation_entriesShort", this.#t, this.#t - this._selectedIds.length), () => this.#t > 0 && this._selectedIds.length < this.#t), this.addValidator("rangeOverflow", () => this.localize.term("validation_entriesExceed", this.#n, this._selectedIds.length - this.#n), () => this.#n > 0 && this._selectedIds.length > this.#n);
 	}
 	get _limitReached() {
 		return this.#n > 0 && this._selectedIds.length >= this.#n;
@@ -90,9 +109,13 @@ var m = class o extends d(u, "") {
 	}
 	renderSelector() {
 		return i`
-			<div class="selector-row">${this.#c()} ${this.renderClearAll()}</div>
+			<div class="selector-row">${this.#l()} ${this.renderClearAll()}</div>
 		`;
 	}
+	static {
+		this.CLEAR_ALL_CONFIRM_THRESHOLD = 4;
+	}
+	#c;
 	renderClearAll() {
 		let e = this.localize.term("speedwarePickerCommon_clearAll");
 		return i`
@@ -103,12 +126,12 @@ var m = class o extends d(u, "") {
 				compact
 				label="${e}"
 				?disabled=${this._loading || this._selectedIds.length === 0}
-				@click=${() => this.setSelectedIds([])}>
+				@click=${this.#c}>
 				${e}
 			</uui-button>
 		`;
 	}
-	#c() {
+	#l() {
 		return i`
 			<uui-combobox
 				.value=${this._comboboxValue}
@@ -148,10 +171,10 @@ var m = class o extends d(u, "") {
 								`)}
 						</div>
 					` : a}
-			${this._showDebug ? this.#l() : a}
+			${this._showDebug ? this.#u() : a}
 		`;
 	}
-	#l() {
+	#u() {
 		let e = {
 			storedValue: this.#e,
 			selectedIds: this._selectedIds,
@@ -237,10 +260,10 @@ var m = class o extends d(u, "") {
 	`;
 	}
 };
-p([c()], m.prototype, "_selectedIds", void 0), p([o({ attribute: !1 })], m.prototype, "value", null), p([c()], m.prototype, "_showDebug", void 0), p([c()], m.prototype, "_showSelected", void 0), p([o({ attribute: !1 })], m.prototype, "config", null), p([c()], m.prototype, "_allItems", void 0), p([c()], m.prototype, "_searchTerm", void 0), p([c()], m.prototype, "_comboboxValue", void 0), p([c()], m.prototype, "_loading", void 0), p([c()], m.prototype, "_error", void 0);
+m([c()], h.prototype, "_selectedIds", void 0), m([o({ attribute: !1 })], h.prototype, "value", null), m([c()], h.prototype, "_showDebug", void 0), m([c()], h.prototype, "_showSelected", void 0), m([o({ attribute: !1 })], h.prototype, "config", null), m([c()], h.prototype, "_allItems", void 0), m([c()], h.prototype, "_searchTerm", void 0), m([c()], h.prototype, "_comboboxValue", void 0), m([c()], h.prototype, "_loading", void 0), m([c()], h.prototype, "_error", void 0);
 //#endregion
 //#region src/api/core/bodySerializer.gen.ts
-var h = { bodySerializer: (e) => JSON.stringify(e, (e, t) => typeof t == "bigint" ? t.toString() : t) };
+var g = { bodySerializer: (e) => JSON.stringify(e, (e, t) => typeof t == "bigint" ? t.toString() : t) };
 Object.entries({
 	$body_: "body",
 	$headers_: "headers",
@@ -249,7 +272,7 @@ Object.entries({
 });
 //#endregion
 //#region src/api/core/serverSentEvents.gen.ts
-var g = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, responseValidator: i, sseDefaultRetryDelay: a, sseMaxRetryAttempts: o, sseMaxRetryDelay: s, sseSleepFn: c, url: l, ...u }) => {
+var _ = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, responseValidator: i, sseDefaultRetryDelay: a, sseMaxRetryAttempts: o, sseMaxRetryDelay: s, sseSleepFn: c, url: l, ...u }) => {
 	let d, f = c ?? ((e) => new Promise((t) => setTimeout(t, e)));
 	return { stream: async function* () {
 		let c = a ?? 3e3, p = 0, m = u.signal ?? new AbortController().signal;
@@ -318,30 +341,30 @@ var g = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, r
 			}
 		}
 	}() };
-}, _ = (e) => {
+}, v = (e) => {
 	switch (e) {
 		case "label": return ".";
 		case "matrix": return ";";
 		case "simple": return ",";
 		default: return "&";
 	}
-}, v = (e) => {
+}, y = (e) => {
 	switch (e) {
 		case "form": return ",";
 		case "pipeDelimited": return "|";
 		case "spaceDelimited": return "%20";
 		default: return ",";
 	}
-}, y = (e) => {
+}, b = (e) => {
 	switch (e) {
 		case "label": return ".";
 		case "matrix": return ";";
 		case "simple": return ",";
 		default: return "&";
 	}
-}, b = ({ allowReserved: e, explode: t, name: n, style: r, value: i }) => {
+}, x = ({ allowReserved: e, explode: t, name: n, style: r, value: i }) => {
 	if (!t) {
-		let t = (e ? i : i.map((e) => encodeURIComponent(e))).join(v(r));
+		let t = (e ? i : i.map((e) => encodeURIComponent(e))).join(y(r));
 		switch (r) {
 			case "label": return `.${t}`;
 			case "matrix": return `;${n}=${t}`;
@@ -349,17 +372,17 @@ var g = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, r
 			default: return `${n}=${t}`;
 		}
 	}
-	let a = _(r), o = i.map((t) => r === "label" || r === "simple" ? e ? t : encodeURIComponent(t) : x({
+	let a = v(r), o = i.map((t) => r === "label" || r === "simple" ? e ? t : encodeURIComponent(t) : S({
 		allowReserved: e,
 		name: n,
 		value: t
 	})).join(a);
 	return r === "label" || r === "matrix" ? a + o : o;
-}, x = ({ allowReserved: e, name: t, value: n }) => {
+}, S = ({ allowReserved: e, name: t, value: n }) => {
 	if (n == null) return "";
 	if (typeof n == "object") throw Error("Deeply-nested arrays/objects aren’t supported. Provide your own `querySerializer()` to handle these.");
 	return `${t}=${e ? n : encodeURIComponent(n)}`;
-}, S = ({ allowReserved: e, explode: t, name: n, style: r, value: i, valueOnly: a }) => {
+}, C = ({ allowReserved: e, explode: t, name: n, style: r, value: i, valueOnly: a }) => {
 	if (i instanceof Date) return a ? i.toISOString() : `${n}=${i.toISOString()}`;
 	if (r !== "deepObject" && !t) {
 		let t = [];
@@ -378,21 +401,21 @@ var g = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, r
 			default: return a;
 		}
 	}
-	let o = y(r), s = Object.entries(i).map(([t, i]) => x({
+	let o = b(r), s = Object.entries(i).map(([t, i]) => S({
 		allowReserved: e,
 		name: r === "deepObject" ? `${n}[${t}]` : t,
 		value: i
 	})).join(o);
 	return r === "label" || r === "matrix" ? o + s : s;
-}, C = /\{[^{}]+\}/g, w = ({ path: e, url: t }) => {
-	let n = t, r = t.match(C);
+}, w = /\{[^{}]+\}/g, T = ({ path: e, url: t }) => {
+	let n = t, r = t.match(w);
 	if (r) for (let t of r) {
 		let r = !1, i = t.substring(1, t.length - 1), a = "simple";
 		i.endsWith("*") && (r = !0, i = i.substring(0, i.length - 1)), i.startsWith(".") ? (i = i.substring(1), a = "label") : i.startsWith(";") && (i = i.substring(1), a = "matrix");
 		let o = e[i];
 		if (o == null) continue;
 		if (Array.isArray(o)) {
-			n = n.replace(t, b({
+			n = n.replace(t, x({
 				explode: r,
 				name: i,
 				style: a,
@@ -401,7 +424,7 @@ var g = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, r
 			continue;
 		}
 		if (typeof o == "object") {
-			n = n.replace(t, S({
+			n = n.replace(t, C({
 				explode: r,
 				name: i,
 				style: a,
@@ -411,7 +434,7 @@ var g = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, r
 			continue;
 		}
 		if (a === "matrix") {
-			n = n.replace(t, `;${x({
+			n = n.replace(t, `;${S({
 				name: i,
 				value: o
 			})}`);
@@ -421,31 +444,31 @@ var g = ({ onRequest: e, onSseError: t, onSseEvent: n, responseTransformer: r, r
 		n = n.replace(t, s);
 	}
 	return n;
-}, T = ({ baseUrl: e, path: t, query: n, querySerializer: r, url: i }) => {
+}, E = ({ baseUrl: e, path: t, query: n, querySerializer: r, url: i }) => {
 	let a = i.startsWith("/") ? i : `/${i}`, o = (e ?? "") + a;
-	t && (o = w({
+	t && (o = T({
 		path: t,
 		url: o
 	}));
 	let s = n ? r(n) : "";
 	return s.startsWith("?") && (s = s.substring(1)), s && (o += `?${s}`), o;
 };
-function E(e) {
+function D(e) {
 	let t = e.body !== void 0;
 	if (t && e.bodySerializer) return "serializedBody" in e ? e.serializedBody !== void 0 && e.serializedBody !== "" ? e.serializedBody : null : e.body === "" ? null : e.body;
 	if (t) return e.body;
 }
 //#endregion
 //#region src/api/core/auth.gen.ts
-var D = async (e, t) => {
+var O = async (e, t) => {
 	let n = typeof t == "function" ? await t(e) : t;
 	if (n) return e.scheme === "bearer" ? `Bearer ${n}` : e.scheme === "basic" ? `Basic ${btoa(n)}` : n;
-}, O = ({ allowReserved: e, array: t, object: n } = {}) => (r) => {
+}, k = ({ allowReserved: e, array: t, object: n } = {}) => (r) => {
 	let i = [];
 	if (r && typeof r == "object") for (let a in r) {
 		let o = r[a];
 		if (o != null) if (Array.isArray(o)) {
-			let n = b({
+			let n = x({
 				allowReserved: e,
 				explode: !0,
 				name: a,
@@ -455,7 +478,7 @@ var D = async (e, t) => {
 			});
 			n && i.push(n);
 		} else if (typeof o == "object") {
-			let t = S({
+			let t = C({
 				allowReserved: e,
 				explode: !0,
 				name: a,
@@ -465,7 +488,7 @@ var D = async (e, t) => {
 			});
 			t && i.push(t);
 		} else {
-			let t = x({
+			let t = S({
 				allowReserved: e,
 				name: a,
 				value: o
@@ -474,7 +497,7 @@ var D = async (e, t) => {
 		}
 	}
 	return i.join("&");
-}, k = (e) => {
+}, A = (e) => {
 	if (!e) return "stream";
 	let t = e.split(";")[0]?.trim();
 	if (t) {
@@ -488,10 +511,10 @@ var D = async (e, t) => {
 		].some((e) => t.startsWith(e))) return "blob";
 		if (t.startsWith("text/")) return "text";
 	}
-}, A = (e, t) => t ? !!(e.headers.has(t) || e.query?.[t] || e.headers.get("Cookie")?.includes(`${t}=`)) : !1, j = async ({ security: e, ...t }) => {
+}, j = (e, t) => t ? !!(e.headers.has(t) || e.query?.[t] || e.headers.get("Cookie")?.includes(`${t}=`)) : !1, M = async ({ security: e, ...t }) => {
 	for (let n of e) {
-		if (A(t, n.name)) continue;
-		let e = await D(n, t.auth);
+		if (j(t, n.name)) continue;
+		let e = await O(n, t.auth);
 		if (!e) continue;
 		let r = n.name ?? "Authorization";
 		switch (n.in) {
@@ -506,34 +529,34 @@ var D = async (e, t) => {
 				break;
 		}
 	}
-}, M = (e) => T({
+}, N = (e) => E({
 	baseUrl: e.baseUrl,
 	path: e.path,
 	query: e.query,
-	querySerializer: typeof e.querySerializer == "function" ? e.querySerializer : O(e.querySerializer),
+	querySerializer: typeof e.querySerializer == "function" ? e.querySerializer : k(e.querySerializer),
 	url: e.url
-}), N = (e, t) => {
+}), P = (e, t) => {
 	let n = {
 		...e,
 		...t
 	};
-	return n.baseUrl?.endsWith("/") && (n.baseUrl = n.baseUrl.substring(0, n.baseUrl.length - 1)), n.headers = F(e.headers, t.headers), n;
-}, P = (e) => {
+	return n.baseUrl?.endsWith("/") && (n.baseUrl = n.baseUrl.substring(0, n.baseUrl.length - 1)), n.headers = I(e.headers, t.headers), n;
+}, F = (e) => {
 	let t = [];
 	return e.forEach((e, n) => {
 		t.push([n, e]);
 	}), t;
-}, F = (...e) => {
+}, I = (...e) => {
 	let t = new Headers();
 	for (let n of e) {
 		if (!n) continue;
-		let e = n instanceof Headers ? P(n) : Object.entries(n);
+		let e = n instanceof Headers ? F(n) : Object.entries(n);
 		for (let [n, r] of e) if (r === null) t.delete(n);
 		else if (Array.isArray(r)) for (let e of r) t.append(n, e);
 		else r !== void 0 && t.set(n, typeof r == "object" ? JSON.stringify(r) : r);
 	}
 	return t;
-}, I = class {
+}, L = class {
 	constructor() {
 		this.fns = [];
 	}
@@ -558,11 +581,11 @@ var D = async (e, t) => {
 	use(e) {
 		return this.fns.push(e), this.fns.length - 1;
 	}
-}, L = () => ({
-	error: new I(),
-	request: new I(),
-	response: new I()
-}), R = O({
+}, R = () => ({
+	error: new L(),
+	request: new L(),
+	response: new L()
+}), z = k({
 	allowReserved: !1,
 	array: {
 		explode: !0,
@@ -572,33 +595,33 @@ var D = async (e, t) => {
 		explode: !0,
 		style: "deepObject"
 	}
-}), z = { "Content-Type": "application/json" }, B = (e = {}) => ({
-	...h,
-	headers: z,
+}), B = { "Content-Type": "application/json" }, V = (e = {}) => ({
+	...g,
+	headers: B,
 	parseAs: "auto",
-	querySerializer: R,
+	querySerializer: z,
 	...e
-}), V = ((e = {}) => {
-	let t = N(B(), e), n = () => ({ ...t }), r = (e) => (t = N(t, e), n()), i = L(), a = async (e) => {
+}), H = ((e = {}) => {
+	let t = P(V(), e), n = () => ({ ...t }), r = (e) => (t = P(t, e), n()), i = R(), a = async (e) => {
 		let n = {
 			...t,
 			...e,
 			fetch: e.fetch ?? t.fetch ?? globalThis.fetch,
-			headers: F(t.headers, e.headers),
+			headers: I(t.headers, e.headers),
 			serializedBody: void 0
 		};
-		return n.security && await j({
+		return n.security && await M({
 			...n,
 			security: n.security
 		}), n.requestValidator && await n.requestValidator(n), n.body !== void 0 && n.bodySerializer && (n.serializedBody = n.bodySerializer(n.body)), (n.body === void 0 || n.serializedBody === "") && n.headers.delete("Content-Type"), {
 			opts: n,
-			url: M(n)
+			url: N(n)
 		};
 	}, o = async (e) => {
 		let { opts: t, url: n } = await a(e), r = {
 			redirect: "follow",
 			...t,
-			body: E(t)
+			body: D(t)
 		}, o = new Request(n, r);
 		for (let e of i.request.fns) e && (o = await e(o, t));
 		let s = t.fetch, c = await s(o);
@@ -608,7 +631,7 @@ var D = async (e, t) => {
 			response: c
 		};
 		if (c.ok) {
-			let e = (t.parseAs === "auto" ? k(c.headers.get("Content-Type")) : t.parseAs) ?? "json";
+			let e = (t.parseAs === "auto" ? A(c.headers.get("Content-Type")) : t.parseAs) ?? "json";
 			if (c.status === 204 || c.headers.get("Content-Length") === "0") {
 				let n;
 				switch (e) {
@@ -667,7 +690,7 @@ var D = async (e, t) => {
 		method: e
 	}), c = (e) => async (t) => {
 		let { opts: n, url: r } = await a(t);
-		return g({
+		return _({
 			...n,
 			body: n.body,
 			headers: n.headers,
@@ -681,7 +704,7 @@ var D = async (e, t) => {
 		});
 	};
 	return {
-		buildUrl: M,
+		buildUrl: N,
 		connect: s("CONNECT"),
 		delete: s("DELETE"),
 		get: s("GET"),
@@ -709,10 +732,10 @@ var D = async (e, t) => {
 	};
 })(((e) => ({
 	...e,
-	...f.getConfig()
-}))(B({ baseUrl: "https://localhost:5000" }))), H = class {
+	...p.getConfig()
+}))(V({ baseUrl: "https://localhost:5000" }))), U = class {
 	static ping(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -722,7 +745,7 @@ var D = async (e, t) => {
 		});
 	}
 	static whatsMyName(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -732,7 +755,7 @@ var D = async (e, t) => {
 		});
 	}
 	static whatsTheTimeMrWolf(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -742,7 +765,7 @@ var D = async (e, t) => {
 		});
 	}
 	static whoAmI(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -752,7 +775,7 @@ var D = async (e, t) => {
 		});
 	}
 	static getTeachers(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -762,7 +785,7 @@ var D = async (e, t) => {
 		});
 	}
 	static getPlayTeachers(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -772,7 +795,7 @@ var D = async (e, t) => {
 		});
 	}
 	static getCoursesTree(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -782,7 +805,7 @@ var D = async (e, t) => {
 		});
 	}
 	static getCourses(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -792,7 +815,7 @@ var D = async (e, t) => {
 		});
 	}
 	static getOfferingBases(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -802,7 +825,7 @@ var D = async (e, t) => {
 		});
 	}
 	static getPlayBookingTypes(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -812,7 +835,7 @@ var D = async (e, t) => {
 		});
 	}
 	static getBookingTypes(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -822,7 +845,7 @@ var D = async (e, t) => {
 		});
 	}
 	static getPublishingTypes(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -832,7 +855,7 @@ var D = async (e, t) => {
 		});
 	}
 	static getSchools(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -842,7 +865,7 @@ var D = async (e, t) => {
 		});
 	}
 	static getRooms(e) {
-		return (e?.client ?? V).get({
+		return (e?.client ?? H).get({
 			security: [{
 				scheme: "bearer",
 				type: "http"
@@ -853,6 +876,6 @@ var D = async (e, t) => {
 	}
 };
 //#endregion
-export { m as n, p as r, H as t };
+export { h as n, m as r, U as t };
 
-//# sourceMappingURL=api-BfM7j7ti.js.map
+//# sourceMappingURL=api-CAMr9zkn.js.map

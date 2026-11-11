@@ -11,27 +11,27 @@ var r = [{
 		alias: "Imade.Speedware.Web.En",
 		name: "English",
 		meta: { culture: "en" },
-		js: () => import("./en-9_AoLdJZ.js")
+		js: () => import("./en-BGdFJILM.js")
 	},
 	{
 		type: "localization",
 		alias: "Imade.Speedware.Web.Da",
 		name: "Dansk",
 		meta: { culture: "da" },
-		js: () => import("./da-CqTEtLfJ.js")
+		js: () => import("./da-D1D3L5Ja.js")
 	},
 	{
 		type: "localization",
 		alias: "Imade.Speedware.Web.Nb",
 		name: "Norsk",
 		meta: { culture: "nb" },
-		js: () => import("./nb-DWV5CKym.js")
+		js: () => import("./nb-DvrAGaFt.js")
 	}
 ], a = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.TeacherPicker",
 	name: "Speedware Teacher Picker",
-	element: () => import("./teachers-picker.element-DuPOA5zd.js"),
+	element: () => import("./teachers-picker.element-fHbJgC6X.js"),
 	meta: {
 		label: "Speedware Teacher Picker",
 		icon: "icon-user",
@@ -43,7 +43,7 @@ var r = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.PlayTeacherPicker",
 	name: "Speedware Play Teacher Picker",
-	element: () => import("./play-teachers-picker.element-BHggxmbQ.js"),
+	element: () => import("./play-teachers-picker.element-CS7rIrYy.js"),
 	meta: {
 		label: "Speedware Play Teacher Picker",
 		icon: "icon-user",
@@ -55,7 +55,7 @@ var r = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.RoomPicker",
 	name: "Speedware Room Picker",
-	element: () => import("./rooms-picker.element-DCGxzz6-.js"),
+	element: () => import("./rooms-picker.element-CZ4WHZej.js"),
 	meta: {
 		label: "Speedware Room Picker",
 		icon: "icon-door-open-alt",
@@ -67,7 +67,7 @@ var r = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.SchoolPicker",
 	name: "Speedware School Picker",
-	element: () => import("./schools-picker.element-BdT9gYYj.js"),
+	element: () => import("./schools-picker.element-C-OmCqL_.js"),
 	meta: {
 		label: "Speedware School Picker",
 		icon: "icon-school",
@@ -79,7 +79,7 @@ var r = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.PublishingTypePicker",
 	name: "Speedware Publishing Type Picker",
-	element: () => import("./publishing-types-picker.element-BgLyCBZ5.js"),
+	element: () => import("./publishing-types-picker.element-CZ-RhD6B.js"),
 	meta: {
 		label: "Speedware Publishing Type Picker",
 		icon: "icon-globe",
@@ -91,7 +91,7 @@ var r = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.BookingTypePicker",
 	name: "Speedware Booking Type Picker",
-	element: () => import("./booking-types-picker.element-DFRMFvnG.js"),
+	element: () => import("./booking-types-picker.element-BwA1FCid.js"),
 	meta: {
 		label: "Speedware Booking Type Picker",
 		icon: "icon-calendar",
@@ -103,7 +103,7 @@ var r = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.PlayBookingTypePicker",
 	name: "Speedware Play Booking Type Picker",
-	element: () => import("./play-booking-types-picker.element-B4CTc0Fx.js"),
+	element: () => import("./play-booking-types-picker.element-C8FnToDr.js"),
 	meta: {
 		label: "Speedware Play Booking Type Picker",
 		icon: "icon-calendar",
@@ -115,7 +115,7 @@ var r = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.OfferingBasePicker",
 	name: "Speedware Offering Base Picker",
-	element: () => import("./offering-base-picker.element-CnNm_EEM.js"),
+	element: () => import("./offering-base-picker.element-BjUi0bwt.js"),
 	meta: {
 		label: "Speedware Offering Base Picker",
 		icon: "icon-books",
@@ -127,7 +127,7 @@ var r = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.CoursePicker",
 	name: "Speedware Course Picker",
-	element: () => import("./courses-picker.element-Oy5arSRZ.js"),
+	element: () => import("./courses-picker.element-BkY8k__1.js"),
 	meta: {
 		label: "Speedware Course Picker",
 		icon: "icon-certificate",
@@ -139,7 +139,7 @@ var r = [{
 	type: "propertyEditorUi",
 	alias: "Imade.Speedware.Web.CoursesTreePicker",
 	name: "Speedware Courses Tree Picker",
-	element: () => import("./courses-tree-picker.element-DScpatRj.js"),
+	element: () => import("./courses-tree-picker.element-Bcsk_Y2J.js"),
 	meta: {
 		label: "Speedware Courses Tree Picker",
 		icon: "icon-tree",

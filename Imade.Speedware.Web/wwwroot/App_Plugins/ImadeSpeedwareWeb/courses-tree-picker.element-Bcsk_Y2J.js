@@ -1,4 +1,4 @@
-import { n as e, r as t, t as n } from "./api-BfM7j7ti.js";
+import { n as e, r as t, t as n } from "./api-CAMr9zkn.js";
 import { css as r, customElement as i, html as a, nothing as o, repeat as s, state as c } from "@umbraco-cms/backoffice/external/lit";
 //#region src/property-editors/courses-tree-picker/courses-tree-picker.element.ts
 var l = 0, u = class extends e {
@@ -199,4 +199,4 @@ var d = u;
 //#endregion
 export { u as CoursesTreePickerElement, d as default };
 
-//# sourceMappingURL=courses-tree-picker.element-DScpatRj.js.map
+//# sourceMappingURL=courses-tree-picker.element-Bcsk_Y2J.js.map
